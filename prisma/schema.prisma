@@ -17,12 +17,12 @@ enum MemberRole {
 }
 
 model Profile {
-  id       String @id @default(uuid())
-  userId   String @unique
-  name     String
-  imageUrl String @db.Text
-  email    String @db.Text
-
+  id        String     @id @default(uuid())
+  userId    String     @unique
+  name      String
+  imageUrl  String     @db.Text
+  email     String     @db.Text
+  role      MemberRole @default(STUDENT)
   favorites Favorite[]
   basket    Basket[]
   course    Course[]
@@ -60,6 +60,7 @@ model Favorite {
   id        String  @id @default(uuid())
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
+  
   course    Course  @relation(fields: [courseId], references: [id])
   courseId  String
 

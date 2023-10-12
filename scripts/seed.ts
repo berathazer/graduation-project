@@ -51,7 +51,7 @@ async function seedDatabase() {
       data: [
         {
           courseId: course.id,
-          profileId: user.id,
+          profileId: user.id
         },
         {
           courseId: course2.id,
