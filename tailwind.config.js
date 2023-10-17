@@ -17,10 +17,10 @@ module.exports = {
 		},
 		extend: {
 			height: {
-				without_navbar: "calc(100vh - 72px)",
+				without_navbar: "calc(100vh - 146px)",
 			},
 			minHeight: {
-				without_navbar: "calc(100vh - 72px)",
+				without_navbar: "calc(100vh - 146px)",
 			},
 			colors: {
 				border: "hsl(var(--border))",

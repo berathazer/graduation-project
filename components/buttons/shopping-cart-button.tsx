@@ -5,28 +5,32 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { strokeWidth } from "@/lib/constant";
 
 const ShoppingCartButton = () => {
 	return (
 		<TooltipProvider delayDuration={50}>
-			<Tooltip >
+			<Tooltip>
 				<TooltipTrigger asChild>
 					<Link
 						href={"/cart"}
-						className="relative mr-2"
+						className="relative"
 					>
-						<ShoppingCart className="w-5 h-5  font-bold cursor-pointer hover:opacity-75 transition" />
+						<ShoppingCart
+							strokeWidth={strokeWidth}
+							className="w-5 h-5  font-bold cursor-pointer hover:opacity-75 transition"
+						/>
 
 						{/* Sepetteki ürün sayısı alınarak gösterilcek!*/}
-						<Badge
+						{/* <Badge
 							variant={"circle"}
 							className="absolute text-[10px] -top-3 -right-2"
 						>
 							2
-						</Badge>
+						</Badge> */}
 					</Link>
 				</TooltipTrigger>
-				<TooltipContent>
+				<TooltipContent className="mt-[22px]">
 					{/* Sepette Ürün Yoksa Bu Kısım Gösterilecek */}
 					<div className="flex flex-col py-4 px-6 gap-y-4 text-center ">
 						<Badge

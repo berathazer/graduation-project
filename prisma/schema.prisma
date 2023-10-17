@@ -60,9 +60,9 @@ model Favorite {
   id        String  @id @default(uuid())
   profile   Profile @relation(fields: [profileId], references: [id])
   profileId String
-  
-  course    Course  @relation(fields: [courseId], references: [id])
-  courseId  String
+
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -87,9 +87,11 @@ model Basket {
 }
 
 model Category {
-  id      String   @id @default(uuid())
-  name    String   @unique
-  courses Course[]
+  id       String   @id @default(uuid())
+  name     String   @unique
+  url      String   @unique
+  imageUrl String?
+  courses  Course[]
 }
 
 // derslere eklenecek dosyaların modeli

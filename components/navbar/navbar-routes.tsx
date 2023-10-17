@@ -1,10 +1,16 @@
 import React from "react";
 import ModeToggle from "../mode-toggle";
 import { UserButton } from "@clerk/nextjs";
-import { BellIcon, HeartIcon, Search, ShoppingCart } from "lucide-react";
+import { HeartIcon } from "lucide-react";
 
 import Link from "next/link";
 import ShoppingCartButton from "../buttons/shopping-cart-button";
+import { currentProfile } from "@/lib/auth";
+import MobileSearchButton from "../buttons/mobile-search-button";
+
+import LoginButton from "../buttons/login-button";
+import RegisterButton from "../buttons/register-button";
+import CategoriesTooltip from "../tooltips/categories-tooltip";
 
 const user_routes = [
 	{
@@ -22,31 +28,68 @@ const user_routes = [
 	},
 ];
 
-const NavbarRoutes = () => {
-	return (
-		<div className="flex items-center gap-x-2">
+const public_routes = [
+	{
+		url: "/courses",
+		name: "Kurslar",
+	},
+	{
+		url: "/categories",
+		name: "Kategoriler",
+		tooltip: true,
+		component: <CategoriesTooltip />,
+	},
+];
 
+const NavbarRoutes = async () => {
+	const user = await currentProfile();
+
+	return (
+		<div className="flex items-center gap-x-2 ml-auto">
 			<div
 				id="navbarRoutes"
-				className="flex items-center gap-x-2"
+				className=" hidden lg:flex items-center gap-x-6 mr-6 text-sm "
 			>
-				{user_routes.map((route, index) => (
-					<Link
-						href={route.url}
-						key={index}
-					>
-						{route.name}
-					</Link>
-				))}
+				{user
+					? user_routes.map((route, index) => (
+							<Link
+								href={route.url}
+								key={index}
+							>
+								{route.name}
+							</Link>
+					  ))
+					: public_routes.map((route, index) => {
+							if (!route.tooltip) {
+								return (
+									<Link
+										href={route.url}
+										key={index}
+									>
+										{route.name}
+									</Link>
+								);
+							}
+
+							return <div key={index}>{route.component}</div>;
+					  })}
 			</div>
 
-			<div className="flex items-center gap-x-2">
+			<div className="flex items-center gap-x-3">
 				{/* Sepet Butonu */}
 				<ShoppingCartButton />
-
-				<Search className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />
-				<ModeToggle />
-				<UserButton afterSignOutUrl="/" />
+				{/* Mobil Arama Butonu */}
+				<MobileSearchButton />
+				{/* Tema değiştirme butonu */}
+				{/* <ModeToggle /> */}
+				{/* Aktif kullanıcı bilgilerini gösteren buton */}
+				{user && <UserButton afterSignOutUrl="/" />}
+				{!user && (
+					<>
+						<LoginButton />
+						<RegisterButton />
+					</>
+				)}
 			</div>
 		</div>
 	);

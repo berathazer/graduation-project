@@ -22,8 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 				<body className={inter.className}>
 					<ThemeProvider
 						attribute="class"
-						defaultTheme="dark"
-						storageKey="discord-theme"
+						defaultTheme="light"
+						storageKey="lms-theme"
+						forcedTheme="light"
 						enableSystem={false}
 					>
 						<Navbar />

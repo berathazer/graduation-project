@@ -16,13 +16,13 @@ async function seedDatabase() {
 
     await db.category.createMany({
       data: [
-        { name: "Computer Science" },
-        { name: "Music" },
-        { name: "Fitness" },
-        { name: "Photography" },
-        { name: "Accounting" },
-        { name: "Engineering" },
-        { name: "Filming" }
+        { name: "Yazılım Geliştirme", url: "yazilim-gelistirme" },
+        { name: "Müzik", url: "muzik" },
+        { name: "Fitness", url: "fitness" },
+        { name: "Finans ve Muhasebe", url: "finans-ve-muhasebe" },
+        { name: "Tasarım", url: "tasarim" },
+        { name: "Mühendislik", url: "muhendislik" },
+        { name: "Web Geliştirme", url: "web-gelistirme" }
       ]
     })
 
@@ -31,7 +31,7 @@ async function seedDatabase() {
     // Kurs oluşturma
     const course = await db.course.create({
       data: {
-        title: "New Course",
+        title: "Yeni Kurs",
         profileId: user.id,
         categoryId: category.id
       }

@@ -11,13 +11,14 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { strokeWidth } from "@/lib/constant";
 import { Menu } from "lucide-react";
 
 export default function MobileSidebar() {
 	return (
 		<Sheet>
 			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
-				<Menu />
+				<Menu strokeWidth={strokeWidth} />
 			</SheetTrigger>
 			<SheetContent side={"left"}>
 				<SheetHeader>
