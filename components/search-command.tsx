@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from "lucide-react";
+import { Grip } from "lucide-react";
 
 import {
 	CommandDialog,
@@ -11,11 +11,16 @@ import {
 	CommandItem,
 	CommandList,
 	CommandSeparator,
-	CommandShortcut,
 } from "@/components/ui/command";
 import { useSearchStore } from "@/hooks/use-search-command";
+import { Category } from "@prisma/client";
+import { strokeWidth } from "@/lib/constant";
 
-export default function SearchCommand() {
+interface SearchCommandProps {
+	categories: Category[];
+}
+
+export default function SearchCommand({ categories }: SearchCommandProps) {
 	const { open, setOpen } = useSearchStore();
 
 	React.useEffect(() => {
@@ -28,7 +33,7 @@ export default function SearchCommand() {
 
 		document.addEventListener("keydown", down);
 		return () => document.removeEventListener("keydown", down);
-	}, []);
+	}, [open, setOpen]);
 
 	return (
 		<>
@@ -47,22 +52,19 @@ export default function SearchCommand() {
 				<CommandInput placeholder="Type a command or search..." />
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading="Suggestions">
-						<CommandItem>
-							<Calendar className="mr-2 h-4 w-4" />
-							<span>Calendar</span>
-						</CommandItem>
-						<CommandItem>
-							<Smile className="mr-2 h-4 w-4" />
-							<span>Search Emoji</span>
-						</CommandItem>
-						<CommandItem>
-							<Calculator className="mr-2 h-4 w-4" />
-							<span>Calculator</span>
-						</CommandItem>
+					<CommandGroup heading="Kategoriler">
+						{categories.map((category) => (
+							<CommandItem key={category.id}>
+								<Grip
+									strokeWidth={"1.1px"}
+									className="mr-2 h-4 w-4"
+								/>
+								<span>{category.name}</span>
+							</CommandItem>
+						))}
 					</CommandGroup>
 					<CommandSeparator />
-					<CommandGroup heading="Settings">
+					{/* 	<CommandGroup heading="Settings">
 						<CommandItem>
 							<User className="mr-2 h-4 w-4" />
 							<span>Profile</span>
@@ -78,7 +80,7 @@ export default function SearchCommand() {
 							<span>Settings</span>
 							<CommandShortcut>⌘S</CommandShortcut>
 						</CommandItem>
-					</CommandGroup>
+					</CommandGroup> */}
 				</CommandList>
 			</CommandDialog>
 		</>
