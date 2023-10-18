@@ -9,16 +9,13 @@ export default async function Home() {
 		<main className="w-full min-h-without_navbar flex flex-col gap-y-4 ">
 			<section
 				id="mainBrand"
-				className="w-full lg:px-16  bg-slate-50 h-[308px] md:h-[380px] lg:h-[408px] flex flex-col"
+				className="w-full md:h-[480px] lg:[540px] xl:h-without_navbar lg:px-16  bg-slate-50  flex gap-x-4 lg:py-16"
 			>
-				<div className="w-full h-full relative  ">
-					{/*  */}
-					<BrandAnimation />
-
-					<div className="md:w-[300px] lg:w-[350px] xl:w-[480px] border-none md:flex bg-white relative md:absolute md:top-14 lg:top-14 xl:top-16 md:left-8 lg:left-12 xl:left-20 transition">
-						<MainBrandCard className=" md:w-[300px] lg:w-[350px] xl:w-[480px] shadow-md border rounded-none relative bottom-5 md:bottom-0" />
-					</div>
+				<div className="flex-1 flex items-center justify-center px-4 lg:px-0">
+					<MainBrandCard className="bg-slate-50 border-none shadow-none" />
 				</div>
+
+				<BrandAnimation />
 			</section>
 			{/* Popüler Kategoriler */}
 			<section id="popularCategories">
@@ -27,7 +24,7 @@ export default async function Home() {
 
 			{/* Öne Çıkan Özellikler */}
 			<section className="w-full py-12 md:py-24 lg:py-32 xl:py-24">
-				<div className="container px-4 md:px-6 pt-60 md:pt-0">
+				<div className="container px-4 md:px-6  md:pt-0">
 					<div className="grid gap-2 md:gap-6 items-center">
 						<div className="flex flex-col justify-center space-y-8 text-center">
 							<div className="">
