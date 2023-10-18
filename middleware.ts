@@ -10,7 +10,6 @@ export default authMiddleware({
         "/categories/:path*",
         "/courses/:path*"
     ],
-
 });
 
 
