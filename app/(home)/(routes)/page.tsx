@@ -3,8 +3,113 @@ import MainBrandCard from "@/components/main-brand-card";
 import BrandAnimation from "@/components/brand-animation";
 import { CardContent, CardTitle, CardDescription, CardHeader, Card } from "@/components/ui/card";
 import Image from "next/image";
+import NodeJs from "public/courses/node-js-course.png";
+import CategoryImage from "public/categories/category-software.jpg";
 
+import db from "@/lib/db";
+
+const mockCourseData = [
+	{
+		title: "Node.js Web Geliştirme Kursu",
+		instructors: ["Ahmet Yılmaz", "Elif Demir"],
+		price: "₺389.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "React ile Modern Web Uygulamaları",
+		instructors: ["Mehmet Ak", "Zeynep Can"],
+		price: "₺299.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Python ile Veri Bilimi Temelleri",
+		instructors: ["Ayşe Kaya", "Emre Korkmaz"],
+		price: "₺429.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Figma ile UI/UX Tasarım Masterclass",
+		instructors: ["Lara Smith", "David White"],
+		price: "₺249.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "JavaScript Başlangıç Kursu",
+		instructors: ["Eren Çetin", "Aslı Yılmaz"],
+		price: "₺149.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Veritabanı Yönetimi ve SQL",
+		instructors: ["Mert Kaymak", "Selin Duran"],
+		price: "₺299.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Mobil Uygulama Geliştirme (React Native)",
+		instructors: ["Emre Yıldırım", "Seda Doğan"],
+		price: "₺349.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Yapay Zeka ve Makine Öğrenmesi",
+		instructors: ["Deniz Arıkan", "Kerem Eren"],
+		price: "₺499.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Web Güvenliği ve Ethical Hacking",
+		instructors: ["Elif Güven", "Kaan Yıldız"],
+		price: "₺399.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Mobil Oyun Geliştirme (Unity)",
+		instructors: ["Ege Taşkın", "Melis Çelik"],
+		price: "₺299.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Django ile Web Uygulama Geliştirme",
+		instructors: ["Ali Cemal", "Sena Demir"],
+		price: "₺389.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Veri Madenciliği ve Büyük Veri Analitiği",
+		instructors: ["Yasin Kaya", "Selin Aslan"],
+		price: "₺449.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "UI/UX Tasarım ve Prototipleme",
+		instructors: ["Beril Akçay", "Ahmet Yılmaz"],
+		price: "₺249.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Frontend Web Geliştirme (Vue.js)",
+		instructors: ["Mehmet Can", "Ayşe Yılmaz"],
+		price: "₺329.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Veritabanı Yönetimi (MongoDB)",
+		instructors: ["Sena Çelik", "Ali Demir"],
+		price: "₺299.99",
+		imageUrl: NodeJs,
+	},
+	{
+		title: "Java Programlama Temelleri",
+		instructors: ["Zeynep Yıldız", "Emir Kaya"],
+		price: "₺199.99",
+		imageUrl: NodeJs,
+	},
+];
+
+const maxTitleLength = 50;
 export default async function Home() {
+	const categories = await db.category.findMany();
 	return (
 		<main className="w-full min-h-without_navbar flex flex-col gap-y-4 ">
 			<section
@@ -17,9 +122,64 @@ export default async function Home() {
 
 				<BrandAnimation />
 			</section>
+
 			{/* Popüler Kategoriler */}
-			<section id="popularCategories">
-				<div className="grid grid-cols-2 md:grid-cols-3  lg:grid-cols-4"></div>
+			<section
+				id="popularCategories"
+				className="px-8 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-24"
+			>
+				<p className="text-3xl font-bold text-muted-foreground">Popüler Kategoriler</p>
+				<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-8">
+					{categories.splice(0, 6).map((category) => (
+						<div
+							key={category.id}
+							className="flex flex-col gap-y-2"
+						>
+							<div className="w-full h-[300px] relative">
+								<Image
+									alt={category.name}
+									src={CategoryImage}
+									fill
+									className="object-fill"
+								/>
+							</div>
+							<span className="font-medium text-xl">{category.name}</span>
+						</div>
+					))}
+				</div>
+			</section>
+			{/* Popüler Kurslar */}
+			<section
+				id="popularCourses"
+				className="px-8 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-24"
+			>
+				<p className="text-3xl font-bold text-muted-foreground">Size Özel Kurslar</p>
+				<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center gap-y-8 gap-x-5">
+					{mockCourseData.map((course, i) => (
+						<div
+							key={i}
+							className="w-full flex flex-col gap-y-2 h-[288px]"
+						>
+							{/* Resim */}
+							<div className="w-full flex-1 max-h-44 bg-slate-200 relative object-fill">
+								<Image
+									alt={course.title}
+									src={course.imageUrl}
+									fill
+								/>
+							</div>
+							{/* Kurs ismi */}
+							<p className="font-bold">
+								{course.title.length > maxTitleLength
+									? course.title.slice(0, maxTitleLength) + "..."
+									: course.title}
+							</p>
+
+							<p className="text-[12px] text-black/70">{course.instructors.join(",")}</p>
+							<p className="font-bold text-black/80">{course.price}</p>
+						</div>
+					))}
+				</div>
 			</section>
 
 			{/* Öne Çıkan Özellikler */}
@@ -199,12 +359,12 @@ export default async function Home() {
 			</section>
 
 			{/* Yorumlar */}
-			<section className="w-full py-16 flex flex-col gap-y-6 px-4 md:px-6">
+			<section className="w-full py-16 flex flex-col gap-y-6 px-4 md:px-60">
 				<p className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none bg-clip-text text-transparent bg-gradient-to-r from-gray-500 to-gray-900 py-6 text-center">
 					Topluluktan Güncel Yorumlar
 				</p>
 
-				<div className="grid w-full  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8">
+				<div className="grid w-full  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 					<div className="max-w-lg mx-auto  rounded-sm shadow-offset-black ">
 						<Card className="p-6 font-poppins ">
 							<CardContent className="text-lg relative text-black/80 pt-4">

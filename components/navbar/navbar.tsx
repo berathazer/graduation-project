@@ -8,7 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 const Navbar = () => {
 	return (
 		<>
-			<Alert
+			{/* <Alert
 				variant={"info"}
 				className="text-center"
 			>
@@ -17,6 +17,18 @@ const Navbar = () => {
 					Kurslar şimdi yalnızca <span className="font-bold">₺69,99</span>
 					{"'"}den başlayan fiyatlarla! İndirimleri görmek için düğmeye tıklayın. Kalan süre:
 					<span className="font-bold"> 4 sa 11 dak 49 sn.</span>
+				</AlertDescription>
+			</Alert> */}
+			<Alert
+				variant={"info"}
+				className="text-center"
+			>
+				<AlertTitle className="font-bold">
+					Adminlerin eklediği özel teklifler burda gözükecek
+				</AlertTitle>
+				<AlertDescription>
+					Kurslar şimdi yalnızca <span className="font-bold">₺69,99</span>
+					{"'"}den başlayan fiyatlarla! İndirimleri görmek için düğmeye tıklayın.
 				</AlertDescription>
 			</Alert>
 			<nav className="w-full h-[72px] dark:bg-slate-950 flex items-center shadow-sm border-b px-4 md:px-8 transition-colors">

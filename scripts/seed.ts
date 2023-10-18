@@ -1,5 +1,5 @@
-//import { PrismaClient } from '@prisma/client';
-const { PrismaClient } = require("@prisma/client");
+import { PrismaClient } from '@prisma/client';
+//const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
 
 async function seedDatabase() {
@@ -34,6 +34,7 @@ async function seedDatabase() {
         title: "Yeni Kurs",
         profileId: user.id,
         categoryId: category.id
+
       }
     });
 

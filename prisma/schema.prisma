@@ -12,6 +12,7 @@ datasource db {
 }
 
 enum MemberRole {
+  ADMIN
   TEACHER
   STUDENT
 }
@@ -26,34 +27,9 @@ model Profile {
   favorites Favorite[]
   basket    Basket[]
   course    Course[]
+  reviews   Review[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-}
-
-model Course {
-  id          String  @id @default(uuid())
-  title       String  @db.Text
-  description String? @db.Text
-  imageUrl    String? @db.Text
-  price       Float?
-  isPublished Boolean @default(false)
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-
-  profileId String
-  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
-
-  attachments Attachment[]
-  chapters    Chapter[]
-  purchase    Purchase[]
-  favorite    Favorite[]
-  basket      Basket[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@index([categoryId])
-  @@index([profileId])
 }
 
 model Favorite {
@@ -86,12 +62,69 @@ model Basket {
   @@index([courseId])
 }
 
+model Course {
+  id          String  @id @default(uuid())
+  title       String  @db.Text
+  description String? @db.Text
+  imageUrl    String? @db.Text
+  price       Float?
+  isPublished Boolean @default(false)
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  courseFeature CourseFeature?
+  attachments   Attachment[]
+  chapters      Chapter[]
+  purchase      Purchase[]
+  favorite      Favorite[]
+  basket        Basket[]
+  reviews       Review[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([categoryId])
+  @@index([profileId])
+}
+
+model CourseFeature {
+  id       String @id @default(uuid())
+  courseId String @unique
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  totalDuration      String?  @db.Text
+  resourceCount  Int // İndirilebilir kaynak sayısı
+  lifetimeAccess Boolean  @default(true) // Ömür boyu erişim özelliği
+  shareLink      String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
 model Category {
   id       String   @id @default(uuid())
   name     String   @unique
   url      String   @unique
   imageUrl String?
   courses  Course[]
+}
+
+// kurslara eklenecek yorum ve oylama kısmı
+model Review {
+  id        String   @id @default(uuid())
+  rating    Float
+  comment   String?
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId    String
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@index([userId])
 }
 
 // derslere eklenecek dosyaların modeli

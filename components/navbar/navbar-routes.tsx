@@ -11,8 +11,15 @@ import MobileSearchButton from "../buttons/mobile-search-button";
 import LoginButton from "../buttons/login-button";
 import RegisterButton from "../buttons/register-button";
 import CategoriesTooltip from "../tooltips/categories-tooltip";
+import { cn } from "@/lib/utils";
 
 const user_routes = [
+	{
+		url: "/categories",
+		name: "Kategoriler",
+		tooltip: true,
+		component: <CategoriesTooltip />,
+	},
 	{
 		url: "/my-courses",
 		name: "Kurslarım",
@@ -48,17 +55,22 @@ const NavbarRoutes = async () => {
 		<div className="flex items-center gap-x-2 ml-auto">
 			<div
 				id="navbarRoutes"
-				className=" hidden lg:flex items-center gap-x-6 mr-6 text-sm "
+				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", user && "mr-0")}
 			>
 				{user
-					? user_routes.map((route, index) => (
-							<Link
-								href={route.url}
-								key={index}
-							>
-								{route.name}
-							</Link>
-					  ))
+					? user_routes.map((route, index) => {
+							if (!route.tooltip) {
+								return (
+									<Link
+										href={route.url}
+										key={index}
+									>
+										{route.name}
+									</Link>
+								);
+							}
+							return <div key={index}>{route.component}</div>;
+					  })
 					: public_routes.map((route, index) => {
 							if (!route.tooltip) {
 								return (
