@@ -4,8 +4,11 @@ import NavbarRoutes from "./navbar-routes";
 import NavbarLogo from "./navbar-logo";
 import NavbarSearch from "./navbar-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import CategoriesTooltip from "../tooltips/categories-tooltip";
+import db from "@/lib/db";
 
-const Navbar = () => {
+const Navbar = async () => {
+	const categories = await db.category.findMany();
 	return (
 		<>
 			{/* <Alert
@@ -31,10 +34,12 @@ const Navbar = () => {
 					{"'"}den başlayan fiyatlarla! İndirimleri görmek için düğmeye tıklayın.
 				</AlertDescription>
 			</Alert>
+
 			<nav className="w-full h-[72px] dark:bg-slate-950 flex items-center shadow-sm border-b px-4 md:px-8 transition-colors">
 				<NavbarLogo />
-				<MobileSidebar />
-				<NavbarSearch />
+				<CategoriesTooltip categories={categories} />
+				<MobileSidebar categories={categories} />
+				<NavbarSearch categories={categories} />
 				<NavbarRoutes />
 			</nav>
 		</>

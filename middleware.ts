@@ -8,7 +8,8 @@ export default authMiddleware({
         "/",
         "/cart",
         "/categories/:path*",
-        "/courses/:path*"
+        "/courses/:path*",
+        "/setup-profile"
     ],
 });
 

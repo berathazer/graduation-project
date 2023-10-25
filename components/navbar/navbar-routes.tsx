@@ -14,38 +14,42 @@ import CategoriesTooltip from "../tooltips/categories-tooltip";
 import { cn } from "@/lib/utils";
 
 const user_routes = [
-	{
+	/* {
 		url: "/categories",
 		name: "Kategoriler",
 		tooltip: true,
 		component: <CategoriesTooltip />,
-	},
+	}, */
 	{
 		url: "/my-courses",
 		name: "Kurslarım",
+		tooltip: false,
+		component: false,
 	},
 
 	/* {
 		url: "/notifications",
 		name: <BellIcon className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />,
 	}, */
-	{
+	/* {
 		url: "/favorites",
 		name: <HeartIcon className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />,
-	},
+	}, */
 ];
 
 const public_routes = [
 	{
 		url: "/courses",
 		name: "Kurslar",
+		tooltip: false,
+		component: false,
 	},
-	{
+	/* {
 		url: "/categories",
 		name: "Kategoriler",
 		tooltip: true,
 		component: <CategoriesTooltip />,
-	},
+	}, */
 ];
 
 const NavbarRoutes = async () => {
@@ -55,7 +59,7 @@ const NavbarRoutes = async () => {
 		<div className="flex items-center gap-x-2 ml-auto">
 			<div
 				id="navbarRoutes"
-				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", user && "mr-0")}
+				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", user && "mr-8")}
 			>
 				{user
 					? user_routes.map((route, index) => {
@@ -88,6 +92,11 @@ const NavbarRoutes = async () => {
 			</div>
 
 			<div className="flex items-center gap-x-3">
+				{user && (
+					<Link href={"/favorites"}>
+						<HeartIcon className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />
+					</Link>
+				)}
 				{/* Sepet Butonu */}
 				<ShoppingCartButton />
 				{/* Mobil Arama Butonu */}

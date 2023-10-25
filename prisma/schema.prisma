@@ -17,6 +17,12 @@ enum MemberRole {
   STUDENT
 }
 
+enum Difficulty {
+  Beginner
+  Intermediate
+  Advanced
+}
+
 model Profile {
   id        String     @id @default(uuid())
   userId    String     @unique
@@ -69,22 +75,25 @@ model Course {
   imageUrl    String? @db.Text
   price       Float?
   isPublished Boolean @default(false)
+  instructor  String // Kurs eğitmeni veya yapımcısı
 
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
-  courseFeature CourseFeature?
-  attachments   Attachment[]
-  chapters      Chapter[]
-  purchase      Purchase[]
-  favorite      Favorite[]
-  basket        Basket[]
-  reviews       Review[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+  courseFeature         CourseFeature?
+  courseLearningOutcome CourseLearningOutcome[]
+  attachments           Attachment[]
+  chapters              Chapter[]
+  purchase              Purchase[]
+  favorite              Favorite[]
+  basket                Basket[]
+  reviews               Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
   @@index([profileId])
@@ -95,20 +104,46 @@ model CourseFeature {
   courseId String @unique
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  totalDuration      String?  @db.Text
-  resourceCount  Int // İndirilebilir kaynak sayısı
-  lifetimeAccess Boolean  @default(true) // Ömür boyu erişim özelliği
+  difficulty  Difficulty?
+  description String?     @db.Text
+
+  totalDuration  String?  @db.Text
+  resourceCount  Int      @default(0) // İndirilebilir kaynak sayısı
+  lifetimeAccess Boolean? @default(true) // Ömür boyu erişim özelliği
   shareLink      String?  @db.Text
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CourseLearningOutcome {
+  id String @id @default(uuid())
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  outcomeText String // "Bu kursu tamamladığınızda neler öğreneceksiniz?" için metin alanı
+  order       Int // Maddelerin sıralaması için kullanılabilir
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
 }
 
 model Category {
-  id       String   @id @default(uuid())
-  name     String   @unique
-  url      String   @unique
-  imageUrl String?
-  courses  Course[]
+  id            String     @id @default(uuid())
+  name          String     @unique
+  url           String     @unique
+  imageUrl      String?
+  parentId      String?
+  parent        Category?  @relation("Subcategories", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subcategories Category[] @relation("Subcategories")
+  courses       Course[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([parentId])
 }
 
 // kurslara eklenecek yorum ve oylama kısmı

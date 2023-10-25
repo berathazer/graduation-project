@@ -148,6 +148,7 @@ export default async function Home() {
 					))}
 				</div>
 			</section>
+
 			{/* Popüler Kurslar */}
 			<section
 				id="popularCourses"

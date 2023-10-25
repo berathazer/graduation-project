@@ -2,13 +2,15 @@ import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/
 import { strokeWidth } from "@/lib/constant";
 import db from "@/lib/db";
 import { formatCategoryNameToUrl } from "@/lib/helpers";
+import { Category } from "@prisma/client";
 import { ChevronRight, Menu } from "lucide-react";
 
 import Link from "next/link";
 
-export default async function MobileSidebar() {
-	const categories = await db.category.findMany();
-
+interface MobileSidebarProps {
+	categories: Category[];
+}
+export default async function MobileSidebar({ categories }: MobileSidebarProps) {
 	return (
 		<Sheet>
 			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
