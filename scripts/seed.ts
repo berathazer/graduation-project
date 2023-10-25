@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
 
 
+//@ts-ignore
 function generateRandomString(length) {
   const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';

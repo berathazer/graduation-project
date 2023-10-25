@@ -6,6 +6,7 @@ import { BookOpen } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import { CourseProgress } from "@/components/course-progress"; */
 import CourseImage from "public/courses/node-js-course.png";
+import { formatProductPrice } from "@/lib/helpers";
 
 interface CourseCardProps {
 	id: string;
@@ -36,7 +37,7 @@ export const CourseCard = ({
 						fill
 						className="object-cover"
 						alt={title}
-						src={CourseImage}
+						src={imageUrl || CourseImage}
 					/>
 				</div>
 				<div className="flex flex-col pt-2">
@@ -67,7 +68,9 @@ export const CourseCard = ({
 							{formatPrice(price)}
 						</p>
 					)} */}
-					<p className="text-md md:text-sm font-medium text-slate-700">{price}</p>
+					<p className="text-md md:text-sm font-medium text-slate-700">
+						{formatProductPrice(price || 0)}
+					</p>
 				</div>
 			</div>
 		</Link>

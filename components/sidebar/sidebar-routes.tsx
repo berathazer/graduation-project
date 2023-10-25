@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
 
-const guestRoutes = [
+const adminRoutes = [
 	{
 		icon: Layout,
 		label: "Dashboard",
@@ -21,17 +21,17 @@ const guestRoutes = [
 const teacherRoutes = [
 	{
 		icon: List,
-		label: "Courses",
+		label: "Kurslarım",
 		href: "/teacher/courses",
 	},
 	{
 		icon: BadgePlus,
-		label: "Create Course",
+		label: "Kurs Oluştur",
 		href: "/teacher/create",
 	},
 	{
 		icon: BarChart,
-		label: "Analytics",
+		label: "Analitikler",
 		href: "/teacher/analytics",
 	},
 ];
@@ -41,7 +41,7 @@ export const SidebarRoutes = () => {
 
 	const isTeacherPage = pathname?.includes("/teacher");
 
-	const routes = isTeacherPage ? teacherRoutes : guestRoutes;
+	const routes = isTeacherPage ? teacherRoutes : adminRoutes;
 
 	return (
 		<div className="flex flex-col w-full">

@@ -6,6 +6,7 @@ import NodeJs from "public/courses/node-js-course.png";
 import CourseCategories from "@/components/course-categories";
 import { formatProductPrice } from "@/lib/helpers";
 import { CourseWithCategory } from "@/types/global.types";
+import Link from "next/link";
 
 const maxTitleLength = 50;
 
@@ -27,12 +28,14 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 
 	let courses: CourseWithCategory[];
 	if (!categoryId) {
+		//@ts-ignore
 		courses = await db.course.findMany({
 			include: {
 				category: true,
 			},
 		});
 	} else {
+		//@ts-ignore
 		courses = await db.course.findMany({
 			where: {
 				categoryId: searchParams.categoryId,
@@ -62,7 +65,8 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 					<div className="px-4 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-12">
 						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center gap-y-8 gap-x-5">
 							{courses.map((course, i) => (
-								<div
+								<Link
+									href={`/courses/${course.url}`}
 									key={i}
 									className="w-full flex flex-col gap-y-2 h-[288px]"
 								>
@@ -70,7 +74,7 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 									<div className="w-full flex-1 max-h-44 bg-slate-200 relative object-fill">
 										<Image
 											alt={course.title}
-											src={NodeJs}
+											src={course.imageUrl || NodeJs}
 											fill
 										/>
 									</div>
@@ -86,7 +90,7 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 									<p className="font-bold text-black/80">
 										{formatProductPrice(course.price || 59)}
 									</p>
-								</div>
+								</Link>
 							))}
 						</div>
 					</div>
