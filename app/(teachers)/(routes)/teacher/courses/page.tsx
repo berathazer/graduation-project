@@ -20,8 +20,6 @@ const CoursesPage = async () => {
 		},
 	});
 
-	console.log(courses);
-
 	return (
 		<div className="p-4 flex flex-col justify-center">
 			{/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
@@ -40,6 +38,7 @@ const CoursesPage = async () => {
 						imageUrl={course.imageUrl || ""}
 						price={course.price || 0}
 						title={course.title}
+						url={course.url}
 						progress={5}
 					/>
 				))}

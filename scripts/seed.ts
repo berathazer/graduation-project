@@ -85,7 +85,7 @@ async function seedDatabase() {
     }); 
     */
 
-    const category = await db.category.findFirst()
+    const category = await db.category.findFirst();
     if (!category) {
       return console.log("Seed: Category not found!");
     }
@@ -95,7 +95,9 @@ async function seedDatabase() {
         title: "Yeni Kurs",
         profileId: user.id,
         categoryId: category.id,
-        instructor: user.name
+        instructor: user.name,
+        url: "yeni-kurs"
+
       }
     });
 
@@ -105,7 +107,8 @@ async function seedDatabase() {
         title: "Brand New Course",
         profileId: user.id,
         categoryId: category.id,
-        instructor: "Burcu Gül"
+        instructor: "Burcu Gül",
+        url: "brand-new-course"
       }
     });
 

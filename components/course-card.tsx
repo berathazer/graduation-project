@@ -15,6 +15,7 @@ interface CourseCardProps {
 	price: number;
 	progress?: number | null;
 	category?: string;
+	url: string;
 }
 
 export const CourseCard = ({
@@ -25,9 +26,10 @@ export const CourseCard = ({
 	price,
 	progress,
 	category,
+	url,
 }: CourseCardProps) => {
 	return (
-		<Link href={`/courses/${id}`}>
+		<Link href={`/teacher/courses/${id}`}>
 			<div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
 				<div className="relative w-full aspect-video rounded-md overflow-hidden">
 					<Image
@@ -41,7 +43,7 @@ export const CourseCard = ({
 					<div className="text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">
 						{title}
 					</div>
-					
+
 					<p className="text-xs text-muted-foreground">{category}</p>
 					<div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
 						<div className="flex items-center gap-x-1 text-slate-500">

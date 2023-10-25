@@ -19,3 +19,22 @@ export const formatCategoryNameToUrl = (name: String) => {
     const formattedName = turkishToEnglish(name).toLowerCase();
     return formattedName;
 };
+
+
+export const formatProductPrice = (price: number) => {
+    if (Number.isInteger(price)) {
+
+        const formattedPrice = `${price}.00 TL`;
+        return `${formattedPrice}`;
+    } else if (typeof price === 'number') {
+
+        const formattedPrice = price.toFixed(2);
+        return `${formattedPrice} TL`;
+    } else {
+
+        return 'Geçersiz Fiyat';
+    }
+};
+
+
+

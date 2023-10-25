@@ -1,5 +1,6 @@
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
+import { formatCategoryNameToUrl } from "@/lib/helpers";
 import { checkIsTeacher } from "@/lib/teacher";
 
 import { NextRequest, NextResponse } from "next/server";
@@ -30,7 +31,8 @@ export const POST = async (req: NextRequest) => {
             data: {
                 title: title,
                 profileId: profile.id,
-                instructor: profile.name
+                instructor: profile.name,
+                url: formatCategoryNameToUrl(title)
             }
         });
 
