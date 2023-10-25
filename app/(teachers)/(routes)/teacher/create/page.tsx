@@ -41,9 +41,14 @@ const CourseCreatePage = () => {
 		try {
 			const response = await axios.post("/api/courses", values);
 
+			if (!response.data.success) {
+				return toast.error(response.data.error);
+			}
+
 			if (response.data.success) {
-				//router.push(`/teacher/courses/${response.data.id}`);
-				toast.success("Kurs Oluşturuldu.");
+				form.reset();
+				router.push(`/teacher/courses/${response.data.course.id}`);
+				return toast.success("Kurs Oluşturuldu.");
 			}
 		} catch {
 			toast.error("Beklenmeyen Bir Hata Oluştu.");

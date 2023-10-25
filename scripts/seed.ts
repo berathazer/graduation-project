@@ -93,7 +93,7 @@ async function seedDatabase() {
     const course = await db.course.create({
       data: {
         title: "Yeni Kurs",
-        profileId: user.userId,
+        profileId: user.id,
         categoryId: category.id,
         instructor: user.name
       }
@@ -103,7 +103,7 @@ async function seedDatabase() {
     const course2 = await db.course.create({
       data: {
         title: "Brand New Course",
-        profileId: user.userId,
+        profileId: user.id,
         categoryId: category.id,
         instructor: "Burcu Gül"
       }
@@ -114,11 +114,11 @@ async function seedDatabase() {
       data: [
         {
           courseId: course.id,
-          profileId: user.userId
+          profileId: user.id
         },
         {
           courseId: course2.id,
-          profileId: user.userId,
+          profileId: user.id,
         }
       ]
     });
@@ -128,11 +128,11 @@ async function seedDatabase() {
       data: [
         {
           courseId: course.id,
-          profileId: user.userId,
+          profileId: user.id,
           totalPrice: 100,
         }, {
           courseId: course2.id,
-          profileId: user.userId,
+          profileId: user.id,
           totalPrice: 120,
         }
       ]

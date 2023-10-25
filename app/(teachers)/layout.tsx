@@ -5,10 +5,10 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const TeacherLayout = ({ children }: { children: React.ReactNode }) => {
+const TeacherLayout = async ({ children }: { children: React.ReactNode }) => {
 	const { userId } = auth();
-
-	if (!checkIsTeacher(userId)) {
+	const isTeacher = await checkIsTeacher(userId);
+	if (!isTeacher) {
 		return redirect("/");
 	}
 
