@@ -45,6 +45,8 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
 			position: items.findIndex((item) => item.id === chapter.id),
 		}));
 
+		console.log("order:", bulkUpdateData);
+
 		onReorder(bulkUpdateData);
 	};
 

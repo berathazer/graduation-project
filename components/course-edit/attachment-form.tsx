@@ -12,6 +12,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { FileUpload } from "@/components/file-upload";
 import { CourseWithCategoryWithChaptersWithAttachments } from "@/types/global.types";
+import Link from "next/link";
 
 interface AttachmentFormProps {
 	initialData: CourseWithCategoryWithChaptersWithAttachments | null;
@@ -79,26 +80,31 @@ export const AttachmentForm = ({ initialData, courseId }: AttachmentFormProps) =
 					{initialData?.attachments && initialData.attachments.length > 0 && (
 						<div className="space-y-2">
 							{initialData?.attachments.map((attachment) => (
-								<div
+								<Link
+									href={attachment.url}
 									key={attachment.id}
+									target="_blank"
 									className="flex items-center p-3 w-full bg-sky-100 border-sky-200 border text-sky-700 rounded-md"
 								>
 									<File className="h-4 w-4 mr-2 flex-shrink-0" />
 									<p className="text-xs line-clamp-1">{attachment.name}</p>
 									{deletingId === attachment.id && (
-										<div>
+										<div className="ml-auto p-1">
 											<Loader2 className="h-4 w-4 animate-spin" />
 										</div>
 									)}
 									{deletingId !== attachment.id && (
 										<button
-											onClick={() => onDelete(attachment.id)}
-											className="ml-auto hover:opacity-75 transition"
+											onClick={(e) => {
+												e.preventDefault();
+												onDelete(attachment.id);
+											}}
+											className="ml-auto hover:opacity-75 hover:bg-white text-red-400 rounded-full p-1 transition"
 										>
 											<X className="h-4 w-4" />
 										</button>
 									)}
-								</div>
+								</Link>
 							))}
 						</div>
 					)}

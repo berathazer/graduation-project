@@ -8,12 +8,26 @@ export const PATCH = async (req: NextRequest, { params }: { params: { courseId: 
     try {
 
         const profile = await currentProfile();
-        const isTeacher = await checkIsTeacher(profile?.userId);
-
         const values = await req.json();
 
-        if (!profile || !isTeacher) {
-            return new NextResponse("Unauthorized", { status: 401 });
+
+
+
+        if (!profile) {
+            return NextResponse.json({ success: false, message: "Unauthorized." }, { status: 401 });
+        }
+
+
+        const courseOwner = db.course.findUnique({
+            where: {
+                id: params.courseId,
+                profileId: profile?.id
+            }
+        })
+
+
+        if (!courseOwner) {
+            return NextResponse.json({ success: false, message: "Unauthorized." }, { status: 401 });
         }
 
         const course = await db.course.update({

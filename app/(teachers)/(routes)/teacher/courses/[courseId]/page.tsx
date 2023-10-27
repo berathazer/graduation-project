@@ -31,7 +31,11 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 		},
 		include: {
 			category: true,
-			chapters: true,
+			chapters: {
+				orderBy: {
+					position: "asc",
+				},
+			},
 			attachments: true,
 		},
 	});
@@ -62,6 +66,7 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 			</div>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+				{/* Başlık,Açıklama,Resim,Kategori */}
 				<div className="pb-60">
 					<div className="flex items-center gap-x-2">
 						<IconBadge icon={LayoutDashboard} />
@@ -90,7 +95,9 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 					/>
 				</div>
 
+				{/* Bölüm,Ücret,Belgeler */}
 				<div className="space-y-6">
+					{/* Bölümler */}
 					<div>
 						<div className="flex items-center gap-x-2">
 							<IconBadge icon={ListChecks} />
@@ -101,6 +108,8 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 							courseId={params.courseId}
 						/>
 					</div>
+
+					{/* Ücret */}
 					<div>
 						<div className="flex items-center gap-x-2">
 							<IconBadge icon={CircleDollarSign} />
@@ -112,6 +121,7 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 						/>
 					</div>
 
+					{/* Belgeler */}
 					<div>
 						<div className="flex items-center gap-x-2">
 							<IconBadge icon={File} />
