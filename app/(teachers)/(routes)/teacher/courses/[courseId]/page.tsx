@@ -36,7 +36,11 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 					position: "asc",
 				},
 			},
-			attachments: true,
+			attachments: {
+				orderBy: {
+					createdAt: "desc",
+				},
+			},
 		},
 	});
 
