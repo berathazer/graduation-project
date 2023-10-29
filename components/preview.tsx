@@ -15,7 +15,7 @@ const Preview = ({ value, onDoubleClick }: PreviewProps) => {
 
 	return (
 		<div
-			className="bg-white"
+			className="border"
 			onDoubleClick={onDoubleClick}
 		>
 			<ReactQuill

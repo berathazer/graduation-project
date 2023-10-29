@@ -44,9 +44,6 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
 			id: chapter.id,
 			position: items.findIndex((item) => item.id === chapter.id),
 		}));
-
-		console.log("order:", bulkUpdateData);
-
 		onReorder(bulkUpdateData);
 	};
 
@@ -90,14 +87,14 @@ export const ChaptersList = ({ items, onReorder, onEdit }: ChaptersListProps) =>
 										</div>
 										{chapter.title}
 										<div className="ml-auto pr-2 flex items-center gap-x-2">
-											{chapter.isFree && <Badge>Free</Badge>}
+											{chapter.isFree && <Badge>Ücretsiz</Badge>}
 											<Badge
 												className={cn(
 													"bg-slate-500",
 													chapter.isPublished && "bg-sky-700"
 												)}
 											>
-												{chapter.isPublished ? "Published" : "Draft"}
+												{chapter.isPublished ? "Yayınlandı" : "Taslak"}
 											</Badge>
 											<Pencil
 												onClick={() => onEdit(chapter.id)}
