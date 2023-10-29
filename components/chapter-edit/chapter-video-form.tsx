@@ -33,7 +33,7 @@ export const ChapterVideoForm = ({ initialData, courseId, chapterId }: ChapterVi
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			await axios.patch(`/api/courses/${courseId}`, values);
+			await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
 			toast.success("Bölüm Güncellendi");
 			toggleEdit();
 			router.refresh();

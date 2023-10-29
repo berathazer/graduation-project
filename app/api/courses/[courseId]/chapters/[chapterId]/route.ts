@@ -1,6 +1,14 @@
 import { currentProfile } from "@/lib/auth"
 import db from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
+import Mux from "@mux/mux-node"
+
+
+const { Video } = new Mux(
+    process.env.MUX_TOKEN_ID!, // sondaki ! sayesinde bu değerlerin hiçbir zaman null olmayacağını belirmiş oluyoruz.
+    process.env.MUX_TOKEN_SECRET!,
+);
+
 
 export const PATCH = async (
     req: NextRequest
@@ -43,6 +51,45 @@ export const PATCH = async (
                 ...values
             }
         })
+
+
+        if (chapter.videoUrl) {
+
+            const existingMux = await db.muxData.findFirst({
+                where: {
+                    chapterId: chapter.id
+                }
+            })
+
+            if (existingMux) {
+                await Video.Assets.del(existingMux.assetId);
+                await db.muxData.delete({
+                    where: {
+                        id: existingMux.id
+                    }
+                })
+            }
+
+            const asset = await Video.Assets.create({
+                input: chapter.videoUrl!,
+                playback_policy: "public",
+                test: false
+            });
+
+
+            await db.muxData.create({
+                data: {
+                    assetId: asset.id,
+                    chapterId: chapter.id,
+                    playbackId: asset.playback_ids?.[0]?.id
+                }
+            })
+
+            
+        }
+
+
+
 
 
         return NextResponse.json({ success: true, chapter }, { status: 200 })

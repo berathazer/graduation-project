@@ -1,0 +1,16 @@
+{
+    "test": true,
+    "status": "preparing",
+    "playback_ids": [
+        {
+            "policy": "public",
+            "id": "mjIIizzdrNJaV7WI02uAfhoTplZumpvevqdUZ8zZVOdg" 
+        }
+    ],
+    "mp4_support": "none",
+    "max_resolution_tier": "1080p",
+    "master_access": "none",
+    "id": "EBMd3QVUKiTDNurw02epvVI006FfI4QOwqzU02lY7NDosM",
+    "encoding_tier": "smart",
+    "created_at": "1698576302"
+}
