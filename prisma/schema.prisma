@@ -124,7 +124,7 @@ model CourseLearningOutcome {
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   outcomeText String // "Bu kursu tamamladığınızda neler öğreneceksiniz?" için metin alanı
-  order       Int // Maddelerin sıralaması için kullanılabilir
+  order       Int    @default(0) // Maddelerin sıralaması için kullanılabilir
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

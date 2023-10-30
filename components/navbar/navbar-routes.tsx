@@ -29,7 +29,7 @@ const teacher_routes = [
 		name: "Öğretmen Modu",
 		tooltip: true,
 		component: (
-			<Link href={"/teacher"}>
+			<Link href={"/teacher/courses"}>
 				<Button size={"sm"}>Öğretmen Modu</Button>
 			</Link>
 		),

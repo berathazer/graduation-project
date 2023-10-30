@@ -15,6 +15,7 @@ import {
 import { useSearchStore } from "@/hooks/use-search-command";
 import { Category } from "@prisma/client";
 import { strokeWidth } from "@/lib/constant";
+import { useRouter } from "next/navigation";
 
 interface SearchCommandProps {
 	categories: Category[];
@@ -22,18 +23,29 @@ interface SearchCommandProps {
 
 export default function SearchCommand({ categories }: SearchCommandProps) {
 	const { open, setOpen } = useSearchStore();
-
+	const router = useRouter();
+	const inputRef = React.useRef<HTMLInputElement | null>(null);
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
 				e.preventDefault();
 				setOpen(!open);
 			}
+
+			if (e.key === "Enter") {
+				e.preventDefault();
+				const search = inputRef?.current?.value;
+
+				router.push(`/search?q=${search}`);
+				setOpen(false);
+			}
 		};
 
 		document.addEventListener("keydown", down);
-		return () => document.removeEventListener("keydown", down);
-	}, [open, setOpen]);
+		return () => {
+			document.removeEventListener("keydown", down);
+		};
+	}, [open, setOpen, router]);
 
 	return (
 		<>
@@ -49,7 +61,10 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 				open={open}
 				onOpenChange={setOpen}
 			>
-				<CommandInput placeholder="Type a command or search..." />
+				<CommandInput
+					placeholder="Type a command or search..."
+					ref={inputRef}
+				/>
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup heading="Kategoriler">

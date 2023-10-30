@@ -46,7 +46,6 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 
 	const { isSubmitting, isValid } = form.formState;
 
-
 	/* Form Submit olduğunda rotaya post isteğiyle bölüm başlığını gönderiyorum */
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
