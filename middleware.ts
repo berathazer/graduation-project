@@ -10,7 +10,8 @@ export default authMiddleware({
         "/categories/:path*",
         "/courses/:path*",
         "/setup-profile",
-        "/search:path*"
+        "/search:path*",
+        "/api/uploadthing:path*"
     ],
 });
 

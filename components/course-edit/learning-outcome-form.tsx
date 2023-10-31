@@ -75,8 +75,9 @@ export const LearningOutcomeForm = ({ initialData, courseId }: LearningOutcomeFo
 	const onDelete = async (id: string) => {
 		try {
 			setDeletingId(id);
-			await axios.delete(`/teacher/courses/${courseId}/outcome/${id}`);
+			await axios.delete(`/api/courses/${courseId}/outcome/${id}`);
 			toast.success("Outcome başarıyla silindi.");
+			router.refresh();
 		} catch (error) {
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		} finally {

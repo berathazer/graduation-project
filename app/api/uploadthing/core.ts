@@ -8,9 +8,10 @@ const f = createUploadthing();
 const handleAuth = async () => {
     const { userId } = auth();
     const isAuthorized = await checkIsTeacher(userId);
-    console.log("geçemedi");
+
 
     if (!userId || !isAuthorized) throw new Error("Unauthorized");
+    console.log("geçemedi");
     return { userId };
 }
 

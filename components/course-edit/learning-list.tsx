@@ -43,7 +43,6 @@ export const LearningList = ({ items, onReorder, onDelete, deletingId }: Learnin
 
 		setOutcomeList(items);
 
-		
 		const bulkUpdateData = updatedChapters.map((chapter) => ({
 			id: chapter.id,
 			position: items.findIndex((item) => item.id === chapter.id),
@@ -88,9 +87,8 @@ export const LearningList = ({ items, onReorder, onDelete, deletingId }: Learnin
 												strokeWidth={strokeWidth}
 											/>
 										</div>
-										{outcome.outcomeText}
+										<div className="flex-1">{outcome.outcomeText}</div>
 										<div className="ml-auto pr-2 flex items-center gap-x-2">
-											<Badge className={cn("bg-slate-500")}>{outcome.order+1}</Badge>
 											{outcome.id === deletingId ? (
 												<RotateCw className="w-6 h-6 animate-spin" />
 											) : (

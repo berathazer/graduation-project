@@ -89,7 +89,7 @@ export const ChapterDescriptionForm = ({
 					{!initialData?.description && "Açıklama Yok"}
 					{initialData.description && (
 						<Preview
-							value={initialData.description}
+							value={initialData.description.slice(0, 300)+" ..."}
 							onDoubleClick={onDoubleClick}
 						/>
 					)}

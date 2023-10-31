@@ -1,5 +1,6 @@
 import { Banner } from "@/components/banner";
 import { ChapterAccessForm } from "@/components/chapter-edit/chapter-access-form";
+import { ChapterActions } from "@/components/chapter-edit/chapter-actions";
 import { ChapterDescriptionForm } from "@/components/chapter-edit/chapter-description-form";
 import { ChapterTitleForm } from "@/components/chapter-edit/chapter-title-form";
 import { ChapterVideoForm } from "@/components/chapter-edit/chapter-video-form";
@@ -43,7 +44,12 @@ const ChapterIdPage = async ({ params }: { params: { courseId: string; chapterId
 
 	return (
 		<>
-			<Banner label="Bu kurs henüz yayınlanmadı." />
+			{chapter.isPublished ? (
+				<Banner label="Bölüm Yayında" variant={"success"} />
+			) : (
+				<Banner label="Bu bölüm henüz yayınlanmadı." />
+			)}
+
 			<div className="pt-6 pb-16 px-6">
 				<div className="flex items-center justify-between">
 					<div className="w-full">
@@ -62,12 +68,12 @@ const ChapterIdPage = async ({ params }: { params: { courseId: string; chapterId
 									Tüm Gerekli Alanları Doldurun {completionText}
 								</span>
 							</div>
-							{/* <ChapterActions
-							disabled={!isComplete}
-							courseId={params.courseId}
-							chapterId={params.chapterId}
-							isPublished={chapter.isPublished}
-						/> */}
+							<ChapterActions
+								disabled={!isComplete}
+								courseId={params.courseId}
+								chapterId={params.chapterId}
+								isPublished={chapter.isPublished}
+							/>
 						</div>
 					</div>
 				</div>
