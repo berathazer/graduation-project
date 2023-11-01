@@ -56,14 +56,26 @@ export const ChapterActions = ({ chapterId, courseId, disabled, isPublished }: C
 			<Button
 				onClick={onClick}
 				disabled={disabled || isLoading}
-				variant={"outline"}
 				size={"sm"}
+				variant={"outline"}
 			>
 				{!isPublished ? "Yayınla" : "Yayından Kaldır"}
 			</Button>
 
-			<ConfirmModal onConfirm={onDelete}>
-				<Button size={"sm"}>
+			<ConfirmModal
+				onConfirm={onDelete}
+				title="Bölümü Silmek İstediğinize Emin misiniz?"
+				description={
+					<p>
+						Bu işlem, <strong>bölümü</strong> kursunuzdan kalıcı olarak silecektir ve işlem
+						geri alınamaz.
+					</p>
+				}
+			>
+				<Button
+					size={"sm"}
+					variant={"destructive"}
+				>
 					<Trash className="w-4 h-4" />
 				</Button>
 			</ConfirmModal>

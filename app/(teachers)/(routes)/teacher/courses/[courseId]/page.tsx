@@ -1,6 +1,8 @@
+import { Banner } from "@/components/banner";
 import { AttachmentForm } from "@/components/course-edit/attachment-form";
 import { CategoryForm } from "@/components/course-edit/category-form";
 import { ChaptersForm } from "@/components/course-edit/chapters-form";
+import { CourseActions } from "@/components/course-edit/course-actions";
 import { DescriptionForm } from "@/components/course-edit/description-form";
 import { ImageForm } from "@/components/course-edit/image-form";
 
@@ -12,7 +14,8 @@ import { Separator } from "@/components/ui/separator";
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
 
-import { CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import { ArrowLeft, CircleDollarSign, File, LayoutDashboard, ListChecks } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 const SingleCoursePage = async ({ params }: { params: { courseId: string } }) => {
@@ -65,116 +68,147 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 	const totalFields = requiredFields.length;
 	const completedFields = requiredFields.filter(Boolean).length;
 	const completionText = `(${completedFields} / ${totalFields})`;
+	const isCompleted = requiredFields.every(Boolean);
 	return (
-		<div className="p-6 flex flex-col gap-y-16">
-			<div className="flex items-center justify-between">
-				{" "}
-				<div className="flex flex-col gap-y-2">
-					<h1 className="text-2xl font-medium">Kurs Oluşturun</h1>
-					<span className="text-sm text-slate-700">
-						Tüm Alanları Doldurun {completionText}
-					</span>
-				</div>
-			</div>
+		<>
+			{!course?.isPublished ? (
+				<Banner
+					variant={"warning"}
+					label="Kurs Yayında Değil"
+				/>
+			) : (
+				<Banner
+					variant={"success"}
+					label="Kurs Yayında"
+				/>
+			)}
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
-				{/* Başlık,Açıklama,Resim,Kategori */}
-				<div className="">
-					<div className="flex items-center gap-x-2">
-						<IconBadge icon={LayoutDashboard} />
-						<h2 className="text-xl">Kursunuzu Özelleştirin</h2>
-					</div>
-					<TitleForm
-						courseId={params.courseId}
-						initialData={course}
-					/>
-					<DescriptionForm
-						courseId={params.courseId}
-						initialData={course}
-					/>
-					<ImageForm
-						initialData={course}
-						courseId={params.courseId}
-					/>
-
-					<CategoryForm
-						initialData={course}
-						courseId={params.courseId}
-						options={categories.map((category) => ({
-							label: category.name,
-							value: category.id,
-						}))}
-					/>
-				</div>
-
-				{/* Bölüm,Ücret,Belgeler */}
-				<div className="space-y-6">
-					{/* Bölümler */}
-					<div>
-						<div className="flex items-center gap-x-2">
-							<IconBadge icon={ListChecks} />
-							<h2 className="text-xl">Kurs Bölümlerini Özelleştirin</h2>
+			<div className="p-6 flex flex-col gap-y-10">
+				<div className="flex flex-col">
+					<Link
+						href={`/teacher/courses`}
+						className="flex w-max  items-center text-sm hover:opacity-75 transition mb-6"
+					>
+						<ArrowLeft className="h-4 w-4 mr-2" />
+						Geri Dön
+					</Link>
+					<div className="flex items-center justify-between">
+						<div className="flex flex-col gap-y-2">
+							<h1 className="text-2xl font-medium">Kurs Oluşturun</h1>
+							<span className="text-sm text-slate-700">
+								Tüm Alanları Doldurun {completionText}
+							</span>
 						</div>
-						<ChaptersForm
+						<CourseActions
+							disabled={!isCompleted}
+							courseId={params.courseId}
+							isPublished={course?.isPublished}
+						/>
+					</div>
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
+					{/* Başlık,Açıklama,Resim,Kategori */}
+					<div className="">
+						<div className="flex items-center gap-x-2">
+							<IconBadge icon={LayoutDashboard} />
+							<h2 className="text-xl">Kursunuzu Özelleştirin</h2>
+						</div>
+						<TitleForm
+							courseId={params.courseId}
+							initialData={course}
+						/>
+						<DescriptionForm
+							courseId={params.courseId}
+							initialData={course}
+						/>
+						<ImageForm
 							initialData={course}
 							courseId={params.courseId}
 						/>
-					</div>
 
-					{/* Ücret */}
-					<div>
-						<div className="flex items-center gap-x-2">
-							<IconBadge icon={CircleDollarSign} />
-							<h2 className="text-xl">Kursunuzun Fiyatını Belirleyin</h2>
-						</div>
-						<PriceForm
+						<CategoryForm
 							initialData={course}
 							courseId={params.courseId}
+							options={categories.map((category) => ({
+								label: category.name,
+								value: category.id,
+							}))}
 						/>
 					</div>
 
-					{/* Belgeler */}
-					<div>
-						<div className="flex items-center gap-x-2">
-							<IconBadge icon={File} />
-							<h2 className="text-xl">Kaynaklar & Belgeler </h2>
+					{/* Bölüm,Ücret,Belgeler */}
+					<div className="space-y-6">
+						{/* Bölümler */}
+						<div>
+							<div className="flex items-center gap-x-2">
+								<IconBadge icon={ListChecks} />
+								<h2 className="text-xl">Kurs Bölümlerini Özelleştirin</h2>
+							</div>
+							<ChaptersForm
+								initialData={course}
+								courseId={params.courseId}
+							/>
 						</div>
-						<AttachmentForm
-							initialData={course}
-							courseId={params.courseId}
-						/>
+
+						{/* Ücret */}
+						<div>
+							<div className="flex items-center gap-x-2">
+								<IconBadge icon={CircleDollarSign} />
+								<h2 className="text-xl">Kursunuzun Fiyatını Belirleyin</h2>
+							</div>
+							<PriceForm
+								initialData={course}
+								courseId={params.courseId}
+							/>
+						</div>
+
+						{/* Belgeler */}
+						<div>
+							<div className="flex items-center gap-x-2">
+								<IconBadge icon={File} />
+								<h2 className="text-xl">Kaynaklar & Belgeler </h2>
+							</div>
+							<AttachmentForm
+								initialData={course}
+								courseId={params.courseId}
+							/>
+						</div>
+					</div>
+				</div>
+				<Separator />
+				<div
+					className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8"
+					id="secondPart"
+				>
+					<div className="pb-60">
+						<div className="flex items-center gap-x-2">
+							<IconBadge icon={LayoutDashboard} />
+							<h2 className="text-xl">Kursta Neler Öğretilecek</h2>
+						</div>
+						<div className="flex flex-col mt-4 ">
+							<p className="text-sm font-light">
+								Bu kısımda öğrencilere neler öğretileceğini ekleyiniz.
+							</p>
+							<LearningOutcomeForm
+								initialData={course?.courseLearningOutcome}
+								courseId={course?.id}
+							/>
+						</div>
+					</div>
+
+					<div className="space-y-6">
+						<div>
+							<div className="flex items-center gap-x-2">
+								<IconBadge icon={ListChecks} />
+								<h2 className="text-xl">Kursun Genel Bilgileri</h2>
+							</div>
+							<div>Bu kısımdada kursun genel bilgileri eklenecek.</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<Separator />
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8">
-				<div className="pb-60">
-					<div className="flex items-center gap-x-2">
-						<IconBadge icon={LayoutDashboard} />
-						<h2 className="text-xl">Kursta Neler Öğretilecek</h2>
-					</div>
-					<div className="flex flex-col mt-4 ">
-						<p className="text-sm font-light">
-							Bu kısımda öğrencilere neler öğretileceğini ekleyiniz.
-						</p>
-						<LearningOutcomeForm
-							initialData={course?.courseLearningOutcome}
-							courseId={course?.id}
-						/>
-					</div>
-				</div>
-
-				<div className="space-y-6">
-					<div>
-						<div className="flex items-center gap-x-2">
-							<IconBadge icon={ListChecks} />
-							<h2 className="text-xl">Kursun Genel Bilgileri</h2>
-						</div>
-						<div>Bu kısımdada kursun genel bilgileri eklenecek.</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		</>
 	);
 };
 

@@ -28,17 +28,19 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 
 	let courses: CourseWithCategory[];
 	if (!categoryId) {
-		//@ts-ignore
 		courses = await db.course.findMany({
+			where: {
+				isPublished: true,
+			},
 			include: {
 				category: true,
 			},
 		});
 	} else {
-		//@ts-ignore
 		courses = await db.course.findMany({
 			where: {
 				categoryId: searchParams.categoryId,
+				isPublished: true,
 			},
 			include: {
 				category: true,

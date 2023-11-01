@@ -43,3 +43,37 @@ export const PATCH = async (req: NextRequest, { params }: { params: { courseId: 
         return NextResponse.json({ success: false, error: error, message: "COURSEID_PATCH_ERROR" }, { status: 500 })
     }
 }
+
+export const DELETE = async (req: NextRequest, { params }: { params: { courseId: string } }) => {
+    try {
+
+        const profile = await currentProfile();
+
+        if (!profile) {
+            return NextResponse.json({ success: false, message: "Unauthorized." }, { status: 401 });
+        }
+
+        const courseOwner = db.course.findUnique({
+            where: {
+                id: params.courseId,
+                profileId: profile?.id
+            }
+        })
+
+        if (!courseOwner) {
+            return NextResponse.json({ success: false, message: "Unauthorized." }, { status: 401 });
+        }
+
+        const deletedCourse = await db.course.delete({
+            where: {
+                id: params.courseId,
+                profileId: profile.id
+            }
+        })
+
+        return NextResponse.json({ success: true, course: deletedCourse, message: "Kurs Başarıyla Silindi" }, { status: 200 })
+
+    } catch (error) {
+        return NextResponse.json({ success: false, error: error, message: "COURSEID_PATCH_ERROR" }, { status: 500 })
+    }
+}

@@ -122,8 +122,6 @@ export const DELETE = async (
         const profile = await currentProfile();
 
         if (!profile) {
-            console.log("----profile unauthorized----");
-
             return NextResponse.json({ success: false, message: "Profile Unauthorized" });
         }
 
@@ -135,7 +133,6 @@ export const DELETE = async (
         })
 
         if (!courseOwner) {
-            console.log("----owner unauthorized----");
             return NextResponse.json({ success: false, message: "Owner Unauthorized" });
         }
 
@@ -168,7 +165,6 @@ export const DELETE = async (
                         id: existingMux.id
                     }
                 })
-                console.log("----existing mux----");
             }
 
             const asset = await Video.Assets.create({

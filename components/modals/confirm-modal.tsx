@@ -14,19 +14,18 @@ import { Button } from "../ui/button";
 interface ConfirmModalProps {
 	children: React.ReactNode;
 	onConfirm: () => void;
+	title?: string;
+	description?: React.ReactNode;
 }
 
-export function ConfirmModal({ children, onConfirm }: ConfirmModalProps) {
+export function ConfirmModal({ children, onConfirm, description, title }: ConfirmModalProps) {
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
-					<AlertDialogTitle>Bölümü Silmek İstediğinize Emin misiniz?</AlertDialogTitle>
-					<AlertDialogDescription>
-						Bu işlem, <strong>bölümü</strong> kursunuzdan kalıcı olarak silecektir ve işlem
-						geri alınamaz.
-					</AlertDialogDescription>
+					<AlertDialogTitle>{title}</AlertDialogTitle>
+					<AlertDialogDescription>{description}</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
 					<AlertDialogCancel>İptal</AlertDialogCancel>

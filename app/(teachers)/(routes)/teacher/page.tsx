@@ -1,7 +1,8 @@
+import { redirect } from "next/navigation";
 import React from "react";
 
 const TeachersPage = () => {
-	return <div>TeachersPage </div>;
+	return redirect("/teacher/courses");
 };
 
 export default TeachersPage;

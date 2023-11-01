@@ -8,6 +8,7 @@ import Footer from "@/components/footer/footer";
 import { checkIsTeacher } from "@/lib/teacher";
 import ControlNavbar from "@/components/navbar/control-navbar";
 import { Toaster } from "react-hot-toast";
+import { ConfettiProvider } from "@/components/providers/confetti-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,23 +29,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			>
 				<body className={inter.className}>
 					<Toaster />
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="light"
-						storageKey="lms-theme"
-						forcedTheme="light"
-						enableSystem={false}
-					>
-						{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
-						<ControlNavbar isTeacher={isTeacher}>
-							<Navbar />
-						</ControlNavbar>
+					<ConfettiProvider />
+					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
+					<ControlNavbar isTeacher={isTeacher}>
+						<Navbar />
+					</ControlNavbar>
 
-						{children}
-						<ControlNavbar isTeacher={isTeacher}>
-							<Footer />
-						</ControlNavbar>
-					</ThemeProvider>
+					{children}
+					<ControlNavbar isTeacher={isTeacher}>
+						<Footer />
+					</ControlNavbar>
 				</body>
 			</html>
 		</ClerkProvider>

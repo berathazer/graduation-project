@@ -17,12 +17,12 @@ const CoursesPage = async () => {
 		},
 		include: {
 			category: true,
+			chapters: true,
 		},
 	});
 
 	return (
 		<div className="p-4 flex flex-col justify-center">
-			{/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
 			<div className="pb-4">
 				<Link href={"/teacher/create"}>
 					<Button className="">Yeni Kurs Ekle</Button>
@@ -33,13 +33,14 @@ const CoursesPage = async () => {
 					<CourseCard
 						key={course.id}
 						category={course.category?.name || ""}
-						chaptersLength={5}
+						chaptersLength={course.chapters.length}
 						id={course.id}
 						imageUrl={course.imageUrl || ""}
 						price={course.price || 0}
 						title={course.title}
 						url={course.url}
 						progress={5}
+						isPublished={course.isPublished}
 					/>
 				))}
 			</div>

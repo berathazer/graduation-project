@@ -27,14 +27,26 @@ export const POST = async (req: NextRequest) => {
             return NextResponse.json({ success: false, error: "Böyle bir kurs zaten mevcut başka isim deneyin." })
         }
 
+        const formattedUrl = formatCategoryNameToUrl(title);
+
         const course = await db.course.create({
             data: {
                 title: title,
                 profileId: profile.id,
                 instructor: profile.name,
-                url: formatCategoryNameToUrl(title)
+                url: formattedUrl
             }
         });
+
+
+        const shareLink = `${process.env.BASE_URL}/courses/${formattedUrl}`
+        const courseFeature = await db.courseFeature.create({
+            data: {
+                courseId: course.id,
+                shareLink: shareLink,
+            }
+        })
+
 
         return NextResponse.json({ success: true, course, message: "Kurs Başarıyla Oluşturuldu" })
 
