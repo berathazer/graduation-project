@@ -4,13 +4,15 @@ import { CategoryForm } from "@/components/course-edit/category-form";
 import { ChaptersForm } from "@/components/course-edit/chapters-form";
 import { CourseActions } from "@/components/course-edit/course-actions";
 import { DescriptionForm } from "@/components/course-edit/description-form";
+import { DifficultyForm } from "@/components/course-edit/difficulty-form";
+import { FeatureDescriptionForm } from "@/components/course-edit/feature-description-form";
 import { ImageForm } from "@/components/course-edit/image-form";
-
 import { LearningOutcomeForm } from "@/components/course-edit/learning-outcome-form";
 import { PriceForm } from "@/components/course-edit/price-form";
 import { TitleForm } from "@/components/course-edit/title-form";
 import { IconBadge } from "@/components/icon-badge";
 import { Separator } from "@/components/ui/separator";
+
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
 
@@ -63,6 +65,7 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 		course?.price,
 		course?.categoryId,
 		course?.chapters.some((chapter) => chapter.isPublished),
+		course?.courseFeature?.description,
 	];
 
 	const totalFields = requiredFields.length;
@@ -176,18 +179,21 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 						</div>
 					</div>
 				</div>
+
 				<Separator />
+
 				<div
 					className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8"
 					id="secondPart"
 				>
+					{/* CourseLearningOutcome Alanı */}
 					<div className="pb-60">
 						<div className="flex items-center gap-x-2">
 							<IconBadge icon={LayoutDashboard} />
 							<h2 className="text-xl">Kursta Neler Öğretilecek</h2>
 						</div>
 						<div className="flex flex-col mt-4 ">
-							<p className="text-sm font-light">
+							<p className="text-sm font-normal text-muted-foreground">
 								Bu kısımda öğrencilere neler öğretileceğini ekleyiniz.
 							</p>
 							<LearningOutcomeForm
@@ -197,13 +203,29 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 						</div>
 					</div>
 
+					{/* CourseFeature Alanı */}
 					<div className="space-y-6">
 						<div>
 							<div className="flex items-center gap-x-2">
 								<IconBadge icon={ListChecks} />
 								<h2 className="text-xl">Kursun Genel Bilgileri</h2>
 							</div>
-							<div>Bu kısımdada kursun genel bilgileri eklenecek.</div>
+							<div className="flex flex-col mt-4 ">
+								<p className="text-sm font-normal text-muted-foreground">
+									Bu kısımda öğrencilere neler öğretileceğini ekleyiniz.
+								</p>
+
+								<DifficultyForm
+									initialData={course?.courseFeature}
+									courseId={course?.id}
+									featureId={course?.courseFeature?.id}
+								/>
+								<FeatureDescriptionForm
+									initialData={course?.courseFeature}
+									courseId={course?.id}
+									featureId={course?.courseFeature?.id}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -11,12 +11,26 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 		where: {
 			url: params.courseUrl,
 		},
+		include: {
+			category: true,
+			chapters: {
+				include: {
+					muxData: true,
+				},
+			},
+			courseFeature: true,
+			courseLearningOutcome: true,
+		},
 	});
 
 	return (
-		<div className="p-8">
+		<div className="p-8 text-sm">
 			{!course && <div>Aradığınız Kurs Bulunamadı.</div>}
-			{course && <pre>{JSON.stringify(course, null, 4)}</pre>}
+			{course && (
+				<>
+					<pre>{JSON.stringify(course, null, 4)}</pre>
+				</>
+			)}
 		</div>
 	);
 };
