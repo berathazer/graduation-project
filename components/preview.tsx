@@ -7,21 +7,23 @@ import "react-quill/dist/quill.bubble.css";
 
 interface PreviewProps {
 	value: string;
-	onDoubleClick: () => void;
+	onDoubleClick?: () => void;
+	className?: string;
 }
 
-const Preview = ({ value, onDoubleClick }: PreviewProps) => {
+const Preview = ({ value, onDoubleClick, className }: PreviewProps) => {
 	const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false }), []);
 
 	return (
 		<div
-			className="border"
+			className={className}
 			onDoubleClick={onDoubleClick}
 		>
 			<ReactQuill
 				theme="bubble"
 				value={value}
 				readOnly={true}
+				className="!text-xl"
 			/>
 		</div>
 	);
