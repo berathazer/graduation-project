@@ -1,14 +1,12 @@
 import db from "@/lib/db";
-import Image from "next/image";
+
 import React from "react";
-import NodeJs from "public/courses/node-js-course.png";
 
 import CourseCategories from "@/components/course-categories";
-import { formatProductPrice } from "@/lib/helpers";
-import { CourseWithCategory } from "@/types/global.types";
-import Link from "next/link";
 
-const maxTitleLength = 50;
+import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
+import SingleCourseCard from "@/components/courses/single-course-card";
+import { currentProfile } from "@/lib/auth";
 
 interface CoursesPageProps {
 	searchParams: {
@@ -26,7 +24,9 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 		},
 	});
 
-	let courses: CourseWithCategory[];
+	const profile = await currentProfile();
+
+	let courses: CourseWithCategoryWithOutcomeWithFeature[];
 	if (!categoryId) {
 		courses = await db.course.findMany({
 			where: {
@@ -34,6 +34,14 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 			},
 			include: {
 				category: true,
+				courseLearningOutcome: {
+					orderBy: {
+						order: "asc",
+					},
+				},
+				courseFeature: true,
+				favorite: true,
+				basket: true,
 			},
 		});
 	} else {
@@ -44,6 +52,14 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 			},
 			include: {
 				category: true,
+				courseLearningOutcome: {
+					orderBy: {
+						order: "asc",
+					},
+				},
+				courseFeature: true,
+				favorite: true,
+				basket: true,
 			},
 		});
 	}
@@ -67,32 +83,11 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 					<div className="px-4 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-12">
 						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center gap-y-8 gap-x-5">
 							{courses.map((course, i) => (
-								<Link
-									href={`/courses/${course.url}`}
+								<SingleCourseCard
+									profileId={profile?.id as string}
 									key={i}
-									className="w-full flex flex-col gap-y-2 h-[288px]"
-								>
-									{/* Resim */}
-									<div className="w-full flex-1 max-h-44 bg-slate-200 relative object-fill">
-										<Image
-											alt={course.title}
-											src={course.imageUrl || NodeJs}
-											fill
-										/>
-									</div>
-									{/* Kurs ismi */}
-									<p className="font-bold flex flex-col">
-										{course.title.length > maxTitleLength
-											? course.title.slice(0, maxTitleLength) + "..."
-											: course.title}
-										<span className="text-muted-foreground text-xs">{`(${course.category?.name})`}</span>
-									</p>
-
-									<p className="text-[12px] text-black/70">{course.instructor}</p>
-									<p className="font-bold text-black/80">
-										{formatProductPrice(course.price || 59)}
-									</p>
-								</Link>
+									course={course}
+								/>
 							))}
 						</div>
 					</div>

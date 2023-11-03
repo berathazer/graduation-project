@@ -11,6 +11,7 @@ interface MobileSidebarProps {
 	categories: Category[];
 }
 export default async function MobileSidebar({ categories }: MobileSidebarProps) {
+	const parentCategories = categories.filter((c) => c.parentId === null);
 	return (
 		<Sheet>
 			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
@@ -35,7 +36,7 @@ export default async function MobileSidebar({ categories }: MobileSidebarProps) 
 						Kategoriler
 					</Link>
 
-					{categories.map((category) => (
+					{parentCategories.map((category) => (
 						<div
 							key={category.id}
 							className="flex items-center hover:bg-slate-50 transition px-6 py-2"

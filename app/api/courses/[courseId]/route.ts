@@ -74,6 +74,8 @@ export const DELETE = async (req: NextRequest, { params }: { params: { courseId:
         return NextResponse.json({ success: true, course: deletedCourse, message: "Kurs Başarıyla Silindi" }, { status: 200 })
 
     } catch (error) {
-        return NextResponse.json({ success: false, error: error, message: "COURSEID_PATCH_ERROR" }, { status: 500 })
+        console.log("COURSEID_DELETE_ERROR: ", error);
+
+        return NextResponse.json({ success: false, error: error, message: "COURSEID_DELETE_ERROR" }, { status: 500 })
     }
 }

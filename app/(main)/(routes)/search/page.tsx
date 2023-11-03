@@ -1,13 +1,19 @@
+import { searchCourses } from "@/actions/search-course";
 import React from "react";
 
 interface SearchPageProps {
-	searchParams: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string };
 }
-const SearchPage = ({ searchParams }: SearchPageProps) => {
+const SearchPage = async ({ searchParams }: SearchPageProps) => {
 	const { q } = searchParams;
-	console.log("searchParams: ", searchParams);
 
-	return <div>SearchPage: {q}</div>;
+	const courses = await searchCourses(q);
+	return (
+		<div>
+			SearchParams: {q}
+			<pre>{JSON.stringify(courses, null, 4)}</pre>
+		</div>
+	);
 };
 
 export default SearchPage;

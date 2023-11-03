@@ -21,6 +21,7 @@ enum Difficulty {
   Beginner
   Intermediate
   Advanced
+  All
 }
 
 model Profile {

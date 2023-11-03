@@ -6,9 +6,16 @@ import NavbarSearch from "./navbar-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import CategoriesTooltip from "../tooltips/categories-tooltip";
 import db from "@/lib/db";
+import { currentProfile } from "@/lib/auth";
 
-const Navbar = async () => {
-	const categories = await db.category.findMany();
+interface NavbarProps {}
+const Navbar = async ({}: NavbarProps) => {
+	/* const profile = await currentProfile();
+	const categories = await db.category.findMany(); */
+	const getProfile = currentProfile();
+	const getCategories = db.category.findMany();
+	const [profile, categories] = await Promise.all([getProfile, getCategories]);
+
 	return (
 		<>
 			{/* <Alert
@@ -40,7 +47,7 @@ const Navbar = async () => {
 				<CategoriesTooltip categories={categories} />
 				<MobileSidebar categories={categories} />
 				<NavbarSearch categories={categories} />
-				<NavbarRoutes />
+				<NavbarRoutes profileId={profile?.id as string} />
 			</nav>
 		</>
 	);

@@ -1,7 +1,6 @@
 import React from "react";
 
-import { UserButton } from "@clerk/nextjs";
-import { HeartIcon } from "lucide-react";
+import { UserButton, auth } from "@clerk/nextjs";
 
 import Link from "next/link";
 import ShoppingCartButton from "../buttons/shopping-cart-button";
@@ -16,6 +15,8 @@ import { cn } from "@/lib/utils";
 import NotificationButton from "../buttons/notification-button";
 import { Button } from "../ui/button";
 import { checkIsTeacher } from "@/lib/teacher";
+import FavoritesButton from "../buttons/favorites-button";
+import db from "@/lib/db";
 
 const teacher_routes = [
 	{
@@ -38,14 +39,20 @@ const teacher_routes = [
 
 const student_routes = [
 	{
-		url: "/courses",
-		name: "Kurslar",
+		url: "/instructor",
+		name: "Eğitmen Ol",
 		tooltip: false,
 		component: false,
 	},
 	{
 		url: "/courses",
-		name: "student",
+		name: "Tüm Kurslar",
+		tooltip: false,
+		component: false,
+	},
+	{
+		url: "/my-courses",
+		name: "Kurslarım",
 		tooltip: false,
 		component: false,
 	},
@@ -53,23 +60,31 @@ const student_routes = [
 
 const public_routes = [
 	{
-		url: "/courses",
-		name: "Kurslar",
+		url: "/instructor",
+		name: "Eğitmen Ol",
 		tooltip: false,
 		component: false,
 	},
 	{
 		url: "/courses",
-		name: "public",
+		name: "Kurslar",
 		tooltip: false,
 		component: false,
 	},
 ];
 
-const NavbarRoutes = async () => {
-	const profile = await currentProfile();
+interface NavbarRoutesProps {
+	profileId: string;
+}
+const NavbarRoutes = async ({ profileId }: NavbarRoutesProps) => {
+	const { userId } = auth();
+	const isTeacher = await checkIsTeacher(userId);
 
-	const isTeacher = await checkIsTeacher(profile?.userId);
+	const favorites = await db.favorite.findMany({
+		where: {
+			profileId: profileId,
+		},
+	});
 
 	let routes;
 
@@ -79,17 +94,15 @@ const NavbarRoutes = async () => {
 		routes = teacher_routes;
 	}
 
-	if (!profile) {
+	if (!userId) {
 		routes = public_routes;
 	}
-
-
 
 	return (
 		<div className="flex items-center gap-x-2 ml-auto">
 			<div
 				id="navbarRoutes"
-				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", profile && "mr-8")}
+				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", userId && "mr-8")}
 			>
 				{routes.map((route, index) => {
 					if (!route.tooltip) {
@@ -137,11 +150,7 @@ const NavbarRoutes = async () => {
 			</div>
 
 			<div className="flex items-center gap-x-3">
-				{profile && (
-					<Link href={"/favorites"}>
-						<HeartIcon className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />
-					</Link>
-				)}
+				{userId && <FavoritesButton favorites={favorites} />}
 				{/* Sepet Butonu */}
 				<ShoppingCartButton />
 				{/* Mobil Arama Butonu */}
@@ -149,10 +158,10 @@ const NavbarRoutes = async () => {
 				{/* Tema değiştirme butonu */}
 				{/* <ModeToggle /> */}
 
-				{profile && <NotificationButton />}
+				{userId && <NotificationButton />}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}
-				{profile && <UserButton afterSignOutUrl="/" />}
-				{!profile && (
+				{userId && <UserButton afterSignOutUrl="/" />}
+				{!userId && (
 					<>
 						<LoginButton />
 						<RegisterButton />

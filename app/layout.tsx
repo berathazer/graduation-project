@@ -9,6 +9,7 @@ import { checkIsTeacher } from "@/lib/teacher";
 import ControlNavbar from "@/components/navbar/control-navbar";
 import { Toaster } from "react-hot-toast";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
+import { currentProfile } from "@/lib/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-	const { userId } = auth();
-	const isTeacher = await checkIsTeacher(userId);
+	const profile = await currentProfile();
+	const isTeacher = await checkIsTeacher(profile?.userId);
 
 	return (
 		<ClerkProvider>
