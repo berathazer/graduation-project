@@ -16,7 +16,7 @@ const CourseDescription = ({ courseFeature }: CourseDescriptionProps) => {
 	};
 
 	return (
-		<div className="col-span-2">
+		<div className="col-span-1">
 			{/* <h2 className="font-bold text-2xl">Course Description</h2>
 			 */}
 			<Preview

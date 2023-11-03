@@ -1,6 +1,7 @@
 import CourseComment from "@/components/courses/course-comment";
 import CourseDescription from "@/components/courses/course-description";
 import CourseRating from "@/components/courses/course-rating";
+import CourseSections from "@/components/courses/course-sections";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { Button } from "@/components/ui/button";
@@ -124,6 +125,7 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 								</div>
 							</div>
 						</div>
+						<CourseSections />
 						<CourseDescription courseFeature={course?.courseFeature} />
 						<div className="col-span-2 mt-6">
 							<h2 className="font-bold text-2xl">Course Reviews</h2>

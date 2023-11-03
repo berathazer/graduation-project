@@ -5,6 +5,7 @@ interface SearchPageProps {
 }
 const SearchPage = ({ searchParams }: SearchPageProps) => {
 	const { q } = searchParams;
+	console.log("searchParams: ", searchParams);
 
 	return <div>SearchPage: {q}</div>;
 };

@@ -31,22 +31,22 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 				e.preventDefault();
 				setOpen(!open);
 			}
-
-			if (e.key === "Enter") {
-				e.preventDefault();
-				const search = inputRef?.current?.value;
-
-				router.push(`/search?q=${search}`);
-				setOpen(false);
-			}
 		};
 
 		document.addEventListener("keydown", down);
 		return () => {
 			document.removeEventListener("keydown", down);
 		};
-	}, [open, setOpen, router]);
+	}, [open, setOpen]);
 
+	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		const search = inputRef.current?.value;
+		if (e.key === "Enter" && search !== "") {
+			router.push(`/search?q=${search}`);
+			inputRef.current!.value = "";
+			setOpen(false);
+		}
+	};
 	return (
 		<>
 			<p
@@ -64,6 +64,7 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 				<CommandInput
 					placeholder="Type a command or search..."
 					ref={inputRef}
+					onKeyDown={handleKeyDown}
 				/>
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>

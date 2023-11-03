@@ -109,7 +109,9 @@ const mockCourseData = [
 
 const maxTitleLength = 50;
 export default async function Home() {
-	const categories = await db.category.findMany();
+	const categories = await db.category.findMany({
+		where: { parentId: { equals: null } },
+	});
 	return (
 		<main className="w-full min-h-without_navbar flex flex-col gap-y-4 ">
 			<section
