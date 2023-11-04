@@ -47,7 +47,6 @@ const AddFavoriteButton = ({
 
 	const removeFromFavorites = async () => {
 		try {
-			return console.log(`/api/profile/favorites/${favoriteId}`);
 			if (!favoriteId) {
 				throw new Error();
 			}

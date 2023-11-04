@@ -5,7 +5,9 @@ import { Check } from "lucide-react";
 import { Badge } from "../ui/badge";
 import AddBasketButton from "../buttons/add-basket-button";
 import AddFavoriteButton from "../buttons/add-favorite-button";
-import db from "@/lib/db";
+
+import { getFavorites } from "@/actions/favorites-action";
+import { findFavoriteId, isFavorite } from "@/lib/favorites";
 
 interface SingleCourseTooltipProps {
 	children: React.ReactNode;
@@ -13,12 +15,7 @@ interface SingleCourseTooltipProps {
 	profileId: string;
 }
 export const SingleCourseTooltip = async ({ children, course, profileId }: SingleCourseTooltipProps) => {
-	const favorites = await db.favorite.findMany({
-		where: {
-			profileId: profileId,
-		},
-	});
-	console.log("Favorites", favorites);
+	const favorites = await getFavorites(profileId);
 
 	return (
 		<TooltipProvider delayDuration={50}>
@@ -52,14 +49,11 @@ export const SingleCourseTooltip = async ({ children, course, profileId }: Singl
 						<div className="flex items-center gap-x-2">
 							<AddBasketButton className="rounded-sm flex-1" />
 							<AddFavoriteButton
-								isFavorite={favorites.some((fav) => fav.courseId === course.id)}
+								isFavorite={isFavorite(favorites!, course.id)}
 								courseId={course.id}
 								className="px-3"
 								variant={"outline"}
-								favoriteId={
-									favorites.find((fav) => fav.courseId === course.id) &&
-									favorites.find((fav) => fav.courseId === course.id)?.id
-								}
+								favoriteId={findFavoriteId(favorites!, course.id)?.id}
 							/>
 						</div>
 					</div>

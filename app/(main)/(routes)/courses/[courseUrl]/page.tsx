@@ -1,15 +1,16 @@
+import { getFavorites } from "@/actions/favorites-action";
 import AddBasketButton from "@/components/buttons/add-basket-button";
 import AddFavoriteButton from "@/components/buttons/add-favorite-button";
 import CourseComment from "@/components/courses/course-comment";
 import CourseDescription from "@/components/courses/course-description";
 import CourseRating from "@/components/courses/course-rating";
 import CourseSections from "@/components/courses/course-sections";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { currentProfile } from "@/lib/auth";
 
 import db from "@/lib/db";
+import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
 
 import Image from "next/image";
@@ -21,6 +22,7 @@ interface CourseIdPageProps {
 	};
 }
 const CourseIdPage = async ({ params }: CourseIdPageProps) => {
+	const profile = await currentProfile();
 	const course = await db.course.findUnique({
 		where: {
 			url: params.courseUrl,
@@ -35,8 +37,17 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 			courseFeature: true,
 			courseLearningOutcome: true,
 			profile: true,
+			favorite: {
+				where: {
+					profileId: profile?.id,
+				},
+			},
 		},
 	});
+
+	if (!course) {
+		return <div>Kurs Bulunamadı</div>;
+	}
 
 	return (
 		<div className="">
@@ -68,6 +79,9 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 							<div className="flex gap-x-2">
 								<AddBasketButton className="rounded-sm flex-1" />
 								<AddFavoriteButton
+									courseId={course?.id as string}
+									isFavorite={course!.favorite.length > 0}
+									favoriteId={findFavoriteId(course!.favorite, course.id)?.id}
 									className="px-3"
 									variant={"outline"}
 								/>

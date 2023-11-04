@@ -12,7 +12,6 @@ const CourseRating = ({ rating, size, color }: CourseRatingProps) => {
 	const onChange = (nextValue: number) => {
 		setStar(nextValue);
 	};
-	console.log("rating:", star);
 
 	return (
 		<ReactStars

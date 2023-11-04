@@ -14,12 +14,14 @@ const FavoritesButton = ({ favorites }: FavoritesButtonProps) => {
 			className="relative"
 		>
 			<HeartIcon className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition" />
-			<Badge
-				variant={"circle"}
-				className="absolute text-[9px] -top-3 -right-2 hover:bg-black"
-			>
-				{favorites.length}
-			</Badge>
+			{favorites.length > 0 && (
+				<Badge
+					variant={"circle"}
+					className="absolute text-[9px] -top-3 -right-2 hover:bg-black"
+				>
+					{favorites.length}
+				</Badge>
+			)}
 		</Link>
 	);
 };
