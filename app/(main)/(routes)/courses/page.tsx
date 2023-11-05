@@ -16,15 +16,17 @@ interface CoursesPageProps {
 
 const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 	const categoryId = searchParams.categoryId;
-	const categories = await db.category.findMany({
+
+	const getCategories = db.category.findMany({
 		where: {
 			parentId: {
 				equals: null,
 			},
 		},
 	});
+	const getProfile = currentProfile();
 
-	const profile = await currentProfile();
+	const [categories, profile] = await Promise.all([getCategories, getProfile]);
 
 	let courses: CourseWithCategoryWithOutcomeWithFeature[];
 	if (!categoryId) {
@@ -64,6 +66,7 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 		});
 	}
 
+	
 	//search parametresindeki categoryiyi alan kod
 	const category = categories.filter((c) => c.id === categoryId);
 
@@ -81,7 +84,7 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 						{category.length > 0 ? category[0].name : "Tüm Kategoriler"}
 					</p>
 					<div className="px-4 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-12">
-						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center gap-y-8 gap-x-5">
+						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
 							{courses.map((course, i) => (
 								<SingleCourseCard
 									profileId={profile?.id as string}

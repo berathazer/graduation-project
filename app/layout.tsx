@@ -10,6 +10,7 @@ import ControlNavbar from "@/components/navbar/control-navbar";
 import { Toaster } from "react-hot-toast";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
 import { currentProfile } from "@/lib/auth";
+import { trTR } from "@clerk/localizations";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +20,8 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-	const profile = await currentProfile();
-	const isTeacher = await checkIsTeacher(profile?.userId);
-
 	return (
-		<ClerkProvider>
+		<ClerkProvider localization={trTR}>
 			<html
 				lang="en"
 				suppressHydrationWarning
@@ -32,12 +30,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<Toaster />
 					<ConfettiProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
-					<ControlNavbar isTeacher={isTeacher}>
+					<ControlNavbar>
 						<Navbar />
 					</ControlNavbar>
 
 					{children}
-					<ControlNavbar isTeacher={isTeacher}>
+					<ControlNavbar>
 						<Footer />
 					</ControlNavbar>
 				</body>

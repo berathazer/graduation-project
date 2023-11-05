@@ -1,6 +1,6 @@
 import React from "react";
 
-import { UserButton, auth } from "@clerk/nextjs";
+import { SignedIn, UserButton, auth } from "@clerk/nextjs";
 
 import Link from "next/link";
 import ShoppingCartButton from "../buttons/shopping-cart-button";
@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { checkIsTeacher } from "@/lib/teacher";
 import FavoritesButton from "../buttons/favorites-button";
 import db from "@/lib/db";
+import { Profile } from "@prisma/client";
 
 const teacher_routes = [
 	{
@@ -74,15 +75,14 @@ const public_routes = [
 ];
 
 interface NavbarRoutesProps {
-	profileId: string;
+	profile: Profile | null;
 }
-const NavbarRoutes = async ({ profileId }: NavbarRoutesProps) => {
+const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	const { userId } = auth();
-	const isTeacher = await checkIsTeacher(userId);
-
+	const isTeacher = profile?.role === "TEACHER";
 	const favorites = await db.favorite.findMany({
 		where: {
-			profileId: profileId,
+			profileId: profile?.id,
 		},
 	});
 
@@ -117,36 +117,6 @@ const NavbarRoutes = async ({ profileId }: NavbarRoutesProps) => {
 					}
 					return <div key={index}>{route.component}</div>;
 				})}
-				{/* {isTeacher &&
-					teacher_routes.map((route, index) => {
-						if (!route.tooltip) {
-							return (
-								<Link
-									href={route.url}
-									key={index}
-								>
-									{route.name}
-								</Link>
-							);
-						}
-						return <div key={index}>{route.component}</div>;
-					})}
-
-				{!isTeacher &&
-					student_routes.map((route, index) => {
-						if (!route.tooltip) {
-							return (
-								<Link
-									href={route.url}
-									key={index}
-								>
-									{route.name}
-								</Link>
-							);
-						}
-
-						return <div key={index}>{route.component}</div>;
-					})} */}
 			</div>
 
 			<div className="flex items-center gap-x-3">
@@ -160,7 +130,10 @@ const NavbarRoutes = async ({ profileId }: NavbarRoutesProps) => {
 
 				{userId && <NotificationButton />}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}
-				{userId && <UserButton afterSignOutUrl="/" />}
+				<SignedIn>
+					<UserButton afterSignOutUrl="/" />
+				</SignedIn>
+
 				{!userId && (
 					<>
 						<LoginButton />

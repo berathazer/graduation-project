@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import NodeJs from "public/courses/node-js-course.png";
-import { CourseWithCategory, CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
+import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
 import { formatProductPrice } from "@/lib/helpers";
 import { SingleCourseTooltip } from "./single-course-tooltip";
 
@@ -24,7 +24,7 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 				className="w-full flex flex-col gap-y-2 h-[288px]"
 			>
 				{/* Resim */}
-				<div className="w-full flex-1 max-h-44 bg-slate-200 relative object-fill">
+				<div className="w-full flex-1 h-44 min-h-[176px] bg-slate-200 relative object-fill">
 					<Image
 						alt={course.title}
 						src={course.imageUrl || NodeJs}

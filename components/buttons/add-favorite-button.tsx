@@ -6,6 +6,7 @@ import { strokeWidth } from "@/lib/constant";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 interface AddFavoriteButtonProps {
 	className?: string;
@@ -31,10 +32,16 @@ const AddFavoriteButton = ({
 	favoriteId,
 }: AddFavoriteButtonProps) => {
 	const router = useRouter();
+	const { isLoaded, isSignedIn } = useAuth();
+
 	const addCourseToFavorites = async () => {
 		try {
 			if (!courseId) {
 				throw new Error();
+			}
+
+			if (!isLoaded || !isSignedIn) {
+				return router.push("/sign-in");
 			}
 
 			const res = await axios.post("/api/profile/favorites", { courseId });
@@ -45,12 +52,12 @@ const AddFavoriteButton = ({
 		}
 	};
 
-	const removeFromFavorites = async () => {
+	const removeFromFavorites = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 		try {
 			if (!favoriteId) {
 				throw new Error();
 			}
-
+			e.preventDefault();
 			const res = await axios.delete(`/api/profile/favorites/${favoriteId}`);
 			toast.success(res.data.message);
 			router.refresh();
@@ -65,10 +72,10 @@ const AddFavoriteButton = ({
 				<Button
 					variant={"favorite"}
 					className={className}
-					onClick={() => removeFromFavorites()}
+					onClick={(e) => removeFromFavorites(e)}
 				>
 					<Heart
-						className="w-5 h-5 "
+						className="w-4 h-4"
 						strokeWidth={strokeWidth}
 					/>
 				</Button>
@@ -79,7 +86,7 @@ const AddFavoriteButton = ({
 					onClick={() => addCourseToFavorites()}
 				>
 					<Heart
-						className="w-5 h-5"
+						className="w-4 h-4"
 						strokeWidth={strokeWidth}
 					/>
 				</Button>

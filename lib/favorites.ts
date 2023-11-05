@@ -14,3 +14,5 @@ export const findFavoriteId = (favorites: Favorite[], courseId: string) => {
 
     return favorite
 }
+
+

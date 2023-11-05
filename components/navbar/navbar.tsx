@@ -47,7 +47,7 @@ const Navbar = async ({}: NavbarProps) => {
 				<CategoriesTooltip categories={categories} />
 				<MobileSidebar categories={categories} />
 				<NavbarSearch categories={categories} />
-				<NavbarRoutes profileId={profile?.id as string} />
+				<NavbarRoutes profile={profile} />
 			</nav>
 		</>
 	);

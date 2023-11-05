@@ -4,9 +4,8 @@ import React from "react";
 
 interface ControlNavbarProps {
 	children: React.ReactNode;
-	isTeacher: boolean;
 }
-const ControlNavbar = ({ children, isTeacher }: ControlNavbarProps) => {
+const ControlNavbar = ({ children }: ControlNavbarProps) => {
 	const pathname = usePathname();
 	if (pathname.startsWith("/teacher")) return null;
 

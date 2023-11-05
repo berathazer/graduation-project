@@ -8,14 +8,17 @@ import AddFavoriteButton from "../buttons/add-favorite-button";
 
 import { getFavorites } from "@/actions/favorites-action";
 import { findFavoriteId, isFavorite } from "@/lib/favorites";
+import { getBasket } from "@/actions/basket-action";
 
 interface SingleCourseTooltipProps {
 	children: React.ReactNode;
 	course: CourseWithCategoryWithOutcomeWithFeatureWithFavorite;
 	profileId: string;
 }
+
 export const SingleCourseTooltip = async ({ children, course, profileId }: SingleCourseTooltipProps) => {
 	const favorites = await getFavorites(profileId);
+	const basket = await getBasket(profileId);
 
 	return (
 		<TooltipProvider delayDuration={50}>
@@ -47,7 +50,11 @@ export const SingleCourseTooltip = async ({ children, course, profileId }: Singl
 							))}
 						</ul>
 						<div className="flex items-center gap-x-2">
-							<AddBasketButton className="rounded-sm flex-1" />
+							<AddBasketButton
+								className="rounded-sm flex-1"
+								courseId={course.id}
+								basket={basket!}
+							/>
 							<AddFavoriteButton
 								isFavorite={isFavorite(favorites!, course.id)}
 								courseId={course.id}
