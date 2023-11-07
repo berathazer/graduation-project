@@ -16,11 +16,17 @@ import NotificationButton from "../buttons/notification-button";
 import { Button } from "../ui/button";
 import FavoritesButton from "../buttons/favorites-button";
 import db from "@/lib/db";
-import { Basket, Course, Favorite, Profile } from "@prisma/client";
-import { getBasketFromCookies } from "@/lib/basket";
+import { Profile } from "@prisma/client";
+
 import { cookies } from "next/headers";
 
 const teacher_routes = [
+	{
+		url: "/courses",
+		name: "Tüm Kurslar",
+		tooltip: false,
+		component: false,
+	},
 	{
 		url: "/my-courses",
 		name: "Kurslarım",

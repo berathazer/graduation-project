@@ -40,6 +40,7 @@ export const POST = async (req: NextRequest) => {
 
 
         const shareLink = `${process.env.BASE_URL}/courses/${formattedUrl}`
+        
         const courseFeature = await db.courseFeature.create({
             data: {
                 courseId: course.id,

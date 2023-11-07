@@ -52,8 +52,11 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 			await axios.post(`/api/courses/${courseId}/chapters`, values);
 			toast.success("Bölüm Oluşturuldu");
 			toggleCreating();
+			form.reset();
 			router.refresh();
-		} catch {
+		} catch (error) {
+			console.error("Error:", error);
+
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		}
 	};

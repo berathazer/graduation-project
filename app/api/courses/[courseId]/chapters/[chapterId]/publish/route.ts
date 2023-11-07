@@ -1,7 +1,13 @@
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
-import { Chapter } from "@prisma/client";
+import Mux from "@mux/mux-node";
 import { NextRequest, NextResponse } from "next/server";
+
+
+const { Video } = new Mux(
+    process.env.MUX_TOKEN_ID!, // sondaki ! sayesinde bu değerlerin hiçbir zaman null olmayacağını belirmiş oluyoruz.
+    process.env.MUX_TOKEN_SECRET!,
+);
 
 export const PATCH = async (req: NextRequest, { params }: {
     params: {
@@ -45,13 +51,20 @@ export const PATCH = async (req: NextRequest, { params }: {
         if (!chapter || !muxData || !chapter.title || !chapter.description || !chapter.videoUrl) {
             return NextResponse.json({ success: false, message: "Eksik veriler mevcut." }, { status: 404 })
         }
+        //asset yeni oluştuğu için statusu preparing oluyor o yüzden kursu yayınla butonuna basıldığında bu işlemi yapmak daha doğru olucak
+
+        const asset = await Video.Assets.get(muxData.assetId);
+        console.log("----asset-info/get----");
+
+
 
         const updatedChapter = await db.chapter.update({
             where: {
                 id: params.chapterId,
                 courseId: params.courseId
             }, data: {
-                isPublished: true
+                isPublished: true,
+                duration: asset.duration
             }
         })
 

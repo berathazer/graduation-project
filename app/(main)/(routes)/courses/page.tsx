@@ -7,6 +7,9 @@ import CourseCategories from "@/components/course-categories";
 import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
 import SingleCourseCard from "@/components/courses/single-course-card";
 import { currentProfile } from "@/lib/auth";
+import PageWrapper from "@/containers/PageWrapper";
+import NavigationBreadcrumb from "@/components/navigation-breadcrumb";
+import { coursesNavigation } from "@/lib/navigations";
 
 interface CoursesPageProps {
 	searchParams: {
@@ -66,12 +69,11 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 		});
 	}
 
-	
 	//search parametresindeki categoryiyi alan kod
 	const category = categories.filter((c) => c.id === categoryId);
 
 	return (
-		<div className="p-6 flex flex-col gap-y-16">
+		<PageWrapper>
 			<CourseCategories categories={categories} />
 			{courses.length === 0 && (
 				<div className="w-full text-center font-medium text-2xl text-muted-foreground">
@@ -79,24 +81,23 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 				</div>
 			)}
 			{courses.length > 0 && (
-				<div className="flex flex-col gap-y-4">
+				<div className="flex flex-col gap-y-8">
 					<p className="flex items-center justify-center font-medium text-3xl text-muted-foreground">
 						{category.length > 0 ? category[0].name : "Tüm Kategoriler"}
 					</p>
-					<div className="px-4 md:px-12 lg:px-24 xl:px-40 2xl:px-60 flex flex-col gap-y-8 py-12">
-						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
-							{courses.map((course, i) => (
-								<SingleCourseCard
-									profileId={profile?.id as string}
-									key={i}
-									course={course}
-								/>
-							))}
-						</div>
+
+					<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
+						{courses.map((course, i) => (
+							<SingleCourseCard
+								profileId={profile?.id as string}
+								key={i}
+								course={course}
+							/>
+						))}
 					</div>
 				</div>
 			)}
-		</div>
+		</PageWrapper>
 	);
 };
 

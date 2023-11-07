@@ -71,13 +71,15 @@ export const PATCH = async (
                         id: existingMux.id
                     }
                 })
-                console.log("----existing mux----");
+                console.log("----existing mux deleted updated----");
+
             }
 
             const asset = await Video.Assets.create({
                 input: chapter.videoUrl!,
                 playback_policy: "public",
-                test: false
+                test: false,
+                max_resolution_tier: "1080p",
             });
 
             console.log("----asset created----");
@@ -167,12 +169,6 @@ export const DELETE = async (
                 })
             }
 
-            const asset = await Video.Assets.create({
-                input: chapter.videoUrl!,
-                playback_policy: "public",
-                test: false
-            });
-
         }
 
         const deletedChapter = await db.chapter.delete({
@@ -206,8 +202,8 @@ export const DELETE = async (
         return NextResponse.json({ success: true, deletedChapter }, { status: 200 })
 
     } catch (error) {
-        console.log("COURSEID_CHAPTERID_PATCH_ERROR");
+        console.log("COURSEID_CHAPTERID_DELETE_ERROR", error);
 
-        return NextResponse.json({ success: false, error: error, message: "COURSEID_CHAPTERID_PATCH_ERROR" }, { status: 500 })
+        return NextResponse.json({ success: false, error: error, message: "COURSEID_CHAPTERID_DELETE_ERROR" }, { status: 500 })
     }
 }

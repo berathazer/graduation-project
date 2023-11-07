@@ -23,13 +23,19 @@ const CategoriesTooltip = ({ categories }: CategoriesTooltipProps) => {
 		<TooltipProvider delayDuration={50}>
 			<Tooltip open={isMenuOpen}>
 				<TooltipTrigger>
-					<Link
+					{/* <Link
 						href={"/categories"}
 						className="relative mr-2 font-medium hidden md:flex"
 						onMouseEnter={() => setIsMenuOpen(true)}
 					>
 						Kategoriler
-					</Link>
+					</Link> */}
+					<div
+						className="relative mr-2 font-medium hidden md:flex"
+						onMouseEnter={() => setIsMenuOpen(true)}
+					>
+						Kategoriler
+					</div>
 				</TooltipTrigger>
 				<TooltipContent
 					className="mt-[22px] rounded-none"
