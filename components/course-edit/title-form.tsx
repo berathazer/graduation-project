@@ -13,6 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { CourseWithCategory } from "@/types/global.types";
+import { formatCategoryNameToUrl } from "@/lib/helpers";
 
 interface TitleFormProps {
 	initialData: CourseWithCategory | null;
@@ -42,7 +43,12 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			await axios.patch(`/api/courses/${courseId}`, values);
+			const formattedValues = {
+				...values,
+				url: formatCategoryNameToUrl(values.title),
+			};
+
+			await axios.patch(`/api/courses/${courseId}`, formattedValues);
 			toast.success("Kurs Güncellendi");
 			toggleEdit();
 			router.refresh();

@@ -4,7 +4,7 @@ import { SignedIn, UserButton, auth } from "@clerk/nextjs";
 
 import Link from "next/link";
 import ShoppingCartButton from "../buttons/shopping-cart-button";
-import { currentProfile } from "@/lib/auth";
+
 import MobileSearchButton from "../buttons/mobile-search-button";
 
 import LoginButton from "../buttons/login-button";
@@ -14,10 +14,11 @@ import { cn } from "@/lib/utils";
 
 import NotificationButton from "../buttons/notification-button";
 import { Button } from "../ui/button";
-import { checkIsTeacher } from "@/lib/teacher";
 import FavoritesButton from "../buttons/favorites-button";
 import db from "@/lib/db";
-import { Profile } from "@prisma/client";
+import { Basket, Course, Favorite, Profile } from "@prisma/client";
+import { getBasketFromCookies } from "@/lib/basket";
+import { cookies } from "next/headers";
 
 const teacher_routes = [
 	{
@@ -77,15 +78,42 @@ const public_routes = [
 interface NavbarRoutesProps {
 	profile: Profile | null;
 }
+
 const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	const { userId } = auth();
 	const isTeacher = profile?.role === "TEACHER";
-	const favorites = await db.favorite.findMany({
+	const isAuthenticated = profile != null && userId != null;
+
+	const basketCookie = cookies().get("basket")?.value;
+	const basketIds = basketCookie ? JSON.parse(basketCookie) : null;
+
+	const getFavorites = db.favorite.findMany({
 		where: {
 			profileId: profile?.id,
 		},
 	});
 
+	const getBasketFromDB = db.basket.findMany({
+		where: {
+			profileId: profile?.id || "",
+		},
+		include: {
+			course: true,
+		},
+	});
+	const getBasketFromIds = db.course.findMany({
+		where: {
+			id: {
+				in: basketIds,
+			},
+		},
+	});
+
+	const [favorites, basket] = await Promise.all([
+		getFavorites,
+		isAuthenticated ? getBasketFromDB : getBasketFromIds,
+	]);
+	//console.log("isAuthenticated:", isAuthenticated, "basket:", basket);
 	let routes;
 
 	if (!isTeacher) {
@@ -97,7 +125,6 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	if (!userId) {
 		routes = public_routes;
 	}
-
 	return (
 		<div className="flex items-center gap-x-2 ml-auto">
 			<div
@@ -122,11 +149,9 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 			<div className="flex items-center gap-x-3">
 				{userId && <FavoritesButton favorites={favorites} />}
 				{/* Sepet Butonu */}
-				<ShoppingCartButton />
+				<ShoppingCartButton basket={basket} />
 				{/* Mobil Arama Butonu */}
 				<MobileSearchButton />
-				{/* Tema değiştirme butonu */}
-				{/* <ModeToggle /> */}
 
 				{userId && <NotificationButton />}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}

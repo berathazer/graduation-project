@@ -25,6 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			<html
 				lang="en"
 				suppressHydrationWarning
+				
 			>
 				<body className={inter.className}>
 					<Toaster />

@@ -59,6 +59,7 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 				basket.push(courseId);
 				Cookies.set("basket", JSON.stringify(basket));
 				toast.success("Sepete Eklendi.");
+				router.refresh();
 				return;
 			}
 		}

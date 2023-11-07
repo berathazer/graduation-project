@@ -42,6 +42,7 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 					profileId: profile?.id,
 				},
 			},
+			basket: true,
 		},
 	});
 
@@ -77,7 +78,11 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 								{formatProductPrice(course?.price || 0)}
 							</div>
 							<div className="flex gap-x-2">
-								<AddBasketButton className="rounded-sm flex-1" />
+								<AddBasketButton
+									courseId={course.id}
+									basket={course.basket}
+									className="rounded-sm flex-1"
+								/>
 								<AddFavoriteButton
 									courseId={course?.id as string}
 									isFavorite={course!.favorite.length > 0}

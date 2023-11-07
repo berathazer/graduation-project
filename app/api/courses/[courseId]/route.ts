@@ -1,8 +1,6 @@
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
-import { checkIsTeacher } from "@/lib/teacher";
 import { NextRequest, NextResponse } from "next/server";
-
 
 export const PATCH = async (req: NextRequest, { params }: { params: { courseId: string } }) => {
     try {
