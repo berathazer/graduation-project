@@ -11,7 +11,8 @@ export default authMiddleware({
         "/courses/:path*",
         "/setup-profile",
         "/search:path*",
-        "/api/uploadthing:path*"
+        "/api/uploadthing:path*",
+        "/basket:path*"
     ],
 });
 

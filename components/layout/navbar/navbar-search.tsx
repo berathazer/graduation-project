@@ -1,9 +1,9 @@
 "use client";
 import React, { useRef, useState } from "react";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import { without_focus } from "@/lib/constant";
 import { cn } from "@/lib/utils";
-import SearchCommand from "../search-command";
+import SearchCommand from "../../search-command";
 
 import { Category } from "@prisma/client";
 import { useRouter } from "next/navigation";

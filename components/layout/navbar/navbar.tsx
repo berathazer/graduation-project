@@ -4,7 +4,7 @@ import NavbarRoutes from "./navbar-routes";
 import NavbarLogo from "./navbar-logo";
 import NavbarSearch from "./navbar-search";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import CategoriesTooltip from "../tooltips/categories-tooltip";
+import CategoriesTooltip from "../../tooltips/categories-tooltip";
 import db from "@/lib/db";
 import { currentProfile } from "@/lib/auth";
 

@@ -11,31 +11,25 @@ import { useRouter } from "next/navigation";
 
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
+
+import { Chapter } from "@prisma/client";
+import { Checkbox } from "../../ui/checkbox";
+import { Badge } from "../../ui/badge";
+import { without_focus } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 
-import Editor from "../editor";
-import { Chapter } from "@prisma/client";
-import Preview from "../preview";
-
-interface ChapterDescriptionFormProps {
+interface ChapterAccessFormProps {
 	initialData: Chapter;
 	courseId: string;
 	chapterId: string;
 }
 
 const formSchema = z.object({
-	description: z.string().min(1, {
-		message: "Bölüm Açıklaması Zorunludur",
-	}),
+	isFree: z.boolean(),
 });
 
-export const ChapterDescriptionForm = ({
-	initialData,
-	courseId,
-	chapterId,
-}: ChapterDescriptionFormProps) => {
+export const ChapterAccessForm = ({ initialData, courseId, chapterId }: ChapterAccessFormProps) => {
 	const [isEditing, setIsEditing] = useState(false);
-
 	const toggleEdit = () => setIsEditing((current) => !current);
 
 	const router = useRouter();
@@ -43,7 +37,7 @@ export const ChapterDescriptionForm = ({
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			description: initialData?.description || "",
+			isFree: initialData.isFree,
 		},
 	});
 
@@ -60,14 +54,10 @@ export const ChapterDescriptionForm = ({
 		}
 	};
 
-	const onDoubleClick = () => {
-		setIsEditing(true);
-	};
-
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Bölüm Açıklaması
+				Bölüm Erişimi
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"
@@ -77,22 +67,28 @@ export const ChapterDescriptionForm = ({
 					) : (
 						<>
 							<Pencil className="h-4 w-4 mr-2" />
-							Açıklamayı Düzenle
+							Erişimi Düzenle
 						</>
 					)}
 				</Button>
 			</div>
 			{!isEditing && (
-				<div
-					className={cn("text-sm mt-2", !initialData?.description && "text-slate-500 italic")}
-				>
-					{!initialData?.description && "Açıklama Yok"}
-					{initialData.description && (
-						<Preview
-							value={initialData.description.slice(0, 300)+" ..."}
-							onDoubleClick={onDoubleClick}
-						/>
-					)}
+				<div className="text-sm mt-2 flex  items-center ">
+					{initialData.isFree && "Bu bölüm izlemek için ücretsizdir."}
+					{!initialData.isFree && "Bu bölüm izlemek için ücretlidir."}
+
+					<div className="ml-auto">
+						{form.getValues().isFree ? (
+							<Badge
+								className="flex items-center justify-center"
+								variant={"destructive"}
+							>
+								Ücretsiz
+							</Badge>
+						) : (
+							<Badge className="flex items-center justify-center">Ücretli</Badge>
+						)}
+					</div>
 				</div>
 			)}
 			{isEditing && (
@@ -103,11 +99,42 @@ export const ChapterDescriptionForm = ({
 					>
 						<FormField
 							control={form.control}
-							name="description"
+							name="isFree"
 							render={({ field }) => (
 								<FormItem>
 									<FormControl>
-										<Editor {...field} />
+										<div className="flex items-center space-x-2 px-2 py-2">
+											<Checkbox
+												id="isFree"
+												checked={field.value}
+												onCheckedChange={field.onChange}
+												className={cn(without_focus, "w-5 h-5")}
+											/>
+											<div className="grid gap-1.5 leading-none">
+												<label
+													htmlFor="isFree"
+													className="text-sm text-muted-foreground cursor-pointer"
+												>
+													Bölümü ücretsiz olarak göstermek için kutuyu
+													işaretleyiniz. Aksi taktirde işareti kaldırınız.
+												</label>
+											</div>
+											<div className="flex flex-col gap-y-2 min-w-max text-center">
+												<span className="text-sm font-medium">Bölüm Durumu</span>
+												{form.getValues().isFree ? (
+													<Badge
+														className="flex items-center justify-center"
+														variant={"destructive"}
+													>
+														Ücretsiz
+													</Badge>
+												) : (
+													<Badge className="flex items-center justify-center">
+														Ücretli
+													</Badge>
+												)}
+											</div>
+										</div>
 									</FormControl>
 									<FormMessage />
 								</FormItem>

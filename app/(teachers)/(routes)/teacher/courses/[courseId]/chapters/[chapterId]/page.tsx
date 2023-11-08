@@ -1,9 +1,9 @@
 import { Banner } from "@/components/banner";
-import { ChapterAccessForm } from "@/components/chapter-edit/chapter-access-form";
-import { ChapterActions } from "@/components/chapter-edit/chapter-actions";
-import { ChapterDescriptionForm } from "@/components/chapter-edit/chapter-description-form";
-import { ChapterTitleForm } from "@/components/chapter-edit/chapter-title-form";
-import { ChapterVideoForm } from "@/components/chapter-edit/chapter-video-form";
+import { ChapterAccessForm } from "@/components/teachers/chapter-edit/chapter-access-form";
+import { ChapterActions } from "@/components/teachers/chapter-edit/chapter-actions";
+import { ChapterDescriptionForm } from "@/components/teachers/chapter-edit/chapter-description-form";
+import { ChapterTitleForm } from "@/components/teachers/chapter-edit/chapter-title-form";
+import { ChapterVideoForm } from "@/components/teachers/chapter-edit/chapter-video-form";
 import { IconBadge } from "@/components/icon-badge";
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";

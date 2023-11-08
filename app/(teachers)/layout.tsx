@@ -1,5 +1,5 @@
-import TeacherNavbar from "@/components/navbar/teacher-navbar";
-import { Sidebar } from "@/components/sidebar/sidebar";
+import TeacherNavbar from "@/components/layout/navbar/teacher-navbar";
+import { Sidebar } from "@/components/layout/sidebar/sidebar";
 import { checkIsTeacher } from "@/lib/teacher";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";

@@ -24,11 +24,12 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 				className="w-full flex flex-col gap-y-2 h-[288px]"
 			>
 				{/* Resim */}
-				<div className="w-full flex-1 h-44 min-h-[176px] bg-slate-200 relative object-fill">
+				<div className="w-full flex-1 h-44 min-h-[176px] bg-slate-50 border relative">
 					<Image
 						alt={course.title}
 						src={course.imageUrl || NodeJs}
 						fill
+						className="object-fill"
 					/>
 				</div>
 				{/* Kurs ismi */}

@@ -13,7 +13,7 @@ import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import ShoppingCourseCard from "../shopping-course.card";
 import { Separator } from "../ui/separator";
 import { formatProductPrice } from "@/lib/helpers";
-import TotalBasketPrice from "../basket/total-basket-price";
+import TotalBasketPrice from "../students/basket/total-basket-price";
 
 type BasketWithCourse = Basket & {
 	course: Course;
@@ -83,9 +83,7 @@ const ShoppingCartButton = ({ basket }: ShoppingCartButtonProps) => {
 										/>
 									))}
 
-									<div className="flex text-lg font-bold">
-										Toplam: <p>{5456}</p>
-									</div>
+									<TotalBasketPrice />
 								</SignedOut>
 
 								<SignedIn>

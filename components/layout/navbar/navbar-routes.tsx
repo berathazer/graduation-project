@@ -3,18 +3,18 @@ import React from "react";
 import { SignedIn, UserButton, auth } from "@clerk/nextjs";
 
 import Link from "next/link";
-import ShoppingCartButton from "../buttons/shopping-cart-button";
+import ShoppingCartButton from "@/components/buttons/shopping-cart-button";
 
-import MobileSearchButton from "../buttons/mobile-search-button";
+import MobileSearchButton from "@/components/buttons/mobile-search-button";
 
-import LoginButton from "../buttons/login-button";
-import RegisterButton from "../buttons/register-button";
+import LoginButton from "@/components/buttons/login-button";
+import RegisterButton from "@/components/buttons/register-button";
 
 import { cn } from "@/lib/utils";
 
-import NotificationButton from "../buttons/notification-button";
-import { Button } from "../ui/button";
-import FavoritesButton from "../buttons/favorites-button";
+import NotificationButton from "@/components/buttons/notification-button";
+import { Button } from "@/components/ui/button";
+import FavoritesButton from "@/components/buttons/favorites-button";
 import db from "@/lib/db";
 import { Profile } from "@prisma/client";
 
@@ -91,7 +91,7 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	const isAuthenticated = profile != null && userId != null;
 
 	const basketCookie = cookies().get("basket")?.value;
-	const basketIds = basketCookie ? JSON.parse(basketCookie) : null;
+	const basketIds = basketCookie ? JSON.parse(basketCookie) : [];
 
 	const getFavorites = db.favorite.findMany({
 		where: {
@@ -106,6 +106,9 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 		include: {
 			course: true,
 		},
+		orderBy: {
+			createdAt: "asc",
+		},
 	});
 	const getBasketFromIds = db.course.findMany({
 		where: {
@@ -113,12 +116,16 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 				in: basketIds,
 			},
 		},
+		orderBy: {
+			createdAt: "asc",
+		},
 	});
 
 	const [favorites, basket] = await Promise.all([
 		getFavorites,
 		isAuthenticated ? getBasketFromDB : getBasketFromIds,
 	]);
+
 	//console.log("isAuthenticated:", isAuthenticated, "basket:", basket);
 	let routes;
 
@@ -131,6 +138,7 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	if (!userId) {
 		routes = public_routes;
 	}
+
 	return (
 		<div className="flex items-center gap-x-2 ml-auto">
 			<div

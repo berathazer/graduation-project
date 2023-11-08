@@ -1,4 +1,4 @@
-import NavbarLogo from "@/components/navbar/navbar-logo";
+import NavbarLogo from "@/components/layout/navbar/navbar-logo";
 import { SidebarRoutes } from "./sidebar-routes";
 
 export const Sidebar = () => {

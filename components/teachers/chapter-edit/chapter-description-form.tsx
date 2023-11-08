@@ -13,14 +13,14 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import Editor from "../editor";
-import { Chapter, CourseFeature } from "@prisma/client";
-import Preview from "../preview";
+import Editor from "../../editor";
+import { Chapter } from "@prisma/client";
+import Preview from "../../preview";
 
-interface FeatureDescriptionFormProps {
-	initialData?: CourseFeature | null;
-	courseId?: string | null;
-	featureId?: string | null;
+interface ChapterDescriptionFormProps {
+	initialData: Chapter;
+	courseId: string;
+	chapterId: string;
 }
 
 const formSchema = z.object({
@@ -29,11 +29,11 @@ const formSchema = z.object({
 	}),
 });
 
-export const FeatureDescriptionForm = ({
+export const ChapterDescriptionForm = ({
 	initialData,
 	courseId,
-	featureId,
-}: FeatureDescriptionFormProps) => {
+	chapterId,
+}: ChapterDescriptionFormProps) => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const toggleEdit = () => setIsEditing((current) => !current);
@@ -51,8 +51,8 @@ export const FeatureDescriptionForm = ({
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
 		try {
-			await axios.patch(`/api/courses/${courseId}/feature/${featureId}`, values);
-			toast.success("Kurs Güncellendi");
+			await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+			toast.success("Bölüm Güncellendi");
 			toggleEdit();
 			router.refresh();
 		} catch {
@@ -67,7 +67,7 @@ export const FeatureDescriptionForm = ({
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kursun Ayrıntılı Açıklaması
+				Bölüm Açıklaması
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"
@@ -87,9 +87,9 @@ export const FeatureDescriptionForm = ({
 					className={cn("text-sm mt-2", !initialData?.description && "text-slate-500 italic")}
 				>
 					{!initialData?.description && "Açıklama Yok"}
-					{initialData?.description && (
+					{initialData.description && (
 						<Preview
-							value={initialData?.description.slice(0, 300) + " ..."}
+							value={initialData.description.slice(0, 300)+" ..."}
 							onDoubleClick={onDoubleClick}
 						/>
 					)}

@@ -1,8 +1,8 @@
 "use client";
 
 import { Trash } from "lucide-react";
-import { Button } from "../ui/button";
-import { ConfirmModal } from "../modals/confirm-modal";
+import { Button } from "../../ui/button";
+import { ConfirmModal } from "../../modals/confirm-modal";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";

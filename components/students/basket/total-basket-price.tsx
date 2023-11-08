@@ -1,6 +1,6 @@
 import { formatProductPrice } from "@/lib/helpers";
 import React from "react";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import Link from "next/link";
 
 const TotalBasketPrice = () => {

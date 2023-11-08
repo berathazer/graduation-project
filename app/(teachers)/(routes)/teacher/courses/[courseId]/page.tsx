@@ -1,15 +1,15 @@
 import { Banner } from "@/components/banner";
-import { AttachmentForm } from "@/components/course-edit/attachment-form";
-import { CategoryForm } from "@/components/course-edit/category-form";
-import { ChaptersForm } from "@/components/course-edit/chapters-form";
-import { CourseActions } from "@/components/course-edit/course-actions";
-import { DescriptionForm } from "@/components/course-edit/description-form";
-import { DifficultyForm } from "@/components/course-edit/difficulty-form";
-import { FeatureDescriptionForm } from "@/components/course-edit/feature-description-form";
-import { ImageForm } from "@/components/course-edit/image-form";
-import { LearningOutcomeForm } from "@/components/course-edit/learning-outcome-form";
-import { PriceForm } from "@/components/course-edit/price-form";
-import { TitleForm } from "@/components/course-edit/title-form";
+import { AttachmentForm } from "@/components/teachers/course-edit/attachment-form";
+import { CategoryForm } from "@/components/teachers/course-edit/category-form";
+import { ChaptersForm } from "@/components/teachers/course-edit/chapters-form";
+import { CourseActions } from "@/components/teachers/course-edit/course-actions";
+import { DescriptionForm } from "@/components/teachers/course-edit/description-form";
+import { DifficultyForm } from "@/components/teachers/course-edit/difficulty-form";
+import { FeatureDescriptionForm } from "@/components/teachers/course-edit/feature-description-form";
+import { ImageForm } from "@/components/teachers/course-edit/image-form";
+import { LearningOutcomeForm } from "@/components/teachers/course-edit/learning-outcome-form";
+import { PriceForm } from "@/components/teachers/course-edit/price-form";
+import { TitleForm } from "@/components/teachers/course-edit/title-form";
 import { IconBadge } from "@/components/icon-badge";
 import { Separator } from "@/components/ui/separator";
 

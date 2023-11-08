@@ -20,7 +20,7 @@ const CourseRating = ({ rating, size, color }: CourseRatingProps) => {
 			valueShow
 			isHalf
 			size={size || 20}
-			activeColors={["orange"]}
+			activeColor={color || "black"}
 		/>
 	);
 };

@@ -1,7 +1,7 @@
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
-import { MobileSidebar } from "@/components/sidebar/mobile-sidebar";
-import { Button } from "../ui/button";
+import { MobileSidebar } from "@/components/layout/sidebar/mobile-sidebar";
+import { Button } from "../../ui/button";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 
