@@ -56,11 +56,13 @@ export function DifficultyForm({ courseId, featureId, initialData }: DiffcultyFo
 		[Difficulty.Beginner]: "Başlangıç Seviyesi",
 		[Difficulty.Intermediate]: "Orta Seviye",
 		[Difficulty.Advanced]: "İleri Seviye",
+		[Difficulty.All]: "Tüm Seviyeler",
 	};
+
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kursun Zorluğu
+				Kursun Zorluğu*
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"
@@ -80,7 +82,7 @@ export function DifficultyForm({ courseId, featureId, initialData }: DiffcultyFo
 					className={cn("text-sm mt-2", !initialData?.description && "text-slate-500 italic")}
 				>
 					{!initialData?.difficulty && "Zorluk Seçilmedi"}
-					{initialData?.difficulty && <>{turkishDiffs[initialData.difficulty]}</>}
+					{initialData?.difficulty && <>{turkishDiffs[initialData?.difficulty]}</>}
 				</div>
 			)}
 			{isEditing && (

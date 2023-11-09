@@ -89,7 +89,7 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 				</div>
 			)}
 			<div className="font-medium flex items-center justify-between">
-				Kurs Bölümleri
+				Kurs Bölümleri*
 				<Button
 					onClick={toggleCreating}
 					variant="ghost"

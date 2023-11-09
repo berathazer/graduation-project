@@ -1,15 +1,15 @@
-import { ClerkProvider, auth } from "@clerk/nextjs";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/navbar/navbar";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+
 import Footer from "@/components/layout/footer/footer";
-import { checkIsTeacher } from "@/lib/teacher";
+
 import ControlNavbar from "@/components/layout/navbar/control-navbar";
 import { Toaster } from "react-hot-toast";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
-import { currentProfile } from "@/lib/auth";
+
 import { trTR } from "@clerk/localizations";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,7 +25,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 			<html
 				lang="en"
 				suppressHydrationWarning
-				
 			>
 				<body className={inter.className}>
 					<Toaster />
