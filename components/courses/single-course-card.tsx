@@ -4,7 +4,7 @@ import React from "react";
 import NodeJs from "public/courses/node-js-course.png";
 import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
 import { formatProductPrice } from "@/lib/helpers";
-import { SingleCourseTooltip } from "./single-course-tooltip";
+import { SingleCourseTooltip } from "@/components/tooltips/single-course-tooltip";
 
 const maxTitleLength = 50;
 

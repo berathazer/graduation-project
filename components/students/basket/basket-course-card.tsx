@@ -1,28 +1,69 @@
 "use client";
 import CourseRating from "@/components/courses/course-rating";
+import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { strokeWidth } from "@/lib/constant";
 import { formatProductPrice } from "@/lib/helpers";
 import { urls } from "@/lib/urls";
+import { SignedIn } from "@clerk/nextjs";
 import { Chapter, Course, CourseFeature } from "@prisma/client";
 import axios from "axios";
-import { TagIcon, X } from "lucide-react";
+import { Router, TagIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 interface BasketCourseCard {
 	course: Course & {
 		courseFeature: CourseFeature;
 		chapters: Chapter[];
 	};
+	isAuthenticated: boolean;
+	basketId?: string;
 }
 
-const BasketCourseCard = ({ course }: BasketCourseCard) => {
-	const clickHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
+const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCard) => {
+	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
+
+	const clickHandler = async () => {
 		try {
-		} catch (error) {}
+			setIsLoading(true);
+			if (isAuthenticated) {
+				console.log("basketId:", basketId);
+				//kullanıcı giriş yapmıştır basket tablosundan baskedIdyi silip refresh yapmalıyım.
+
+				await axios.delete(`/api/profile/basket/${basketId}`);
+				toast.success("Sepetten Kaldırıldı.");
+				router.refresh();
+			} else {
+				console.log("courseId:", course.id);
+				//kullanıcı giriş yapmamıştır basket cookiesinden courseId'yi silip refresh yapmalıyım.
+			}
+		} catch (error) {
+		} finally {
+			setIsLoading(false);
+		}
 	};
+
+	const moveToFavorite = async () => {
+		setIsLoading(true);
+		try {
+			await axios.post(`/api/profile/favorites`, { courseId: course.id });
+			await axios.delete(`/api/profile/basket/${basketId}`);
+
+			toast.success("Favoriye Taşındı");
+			router.refresh();
+		} catch (error) {
+			toast.error("Kurs Zaten Favorilerde");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
 	return (
 		<div className="flex w-full gap-x-2">
 			<Link
@@ -64,17 +105,42 @@ const BasketCourseCard = ({ course }: BasketCourseCard) => {
 				</div>
 			</Link>
 
-			<div className="flex ml-auto items-start">
-				<button
-					className="p-2 rounded-full bg-slate-50"
-					onClick={clickHandler}
-					type="button"
+			<div className="flex  flex-col ml-auto items-end gap-y-2">
+				<ConfirmModal
+					onConfirm={clickHandler}
+					title="Kursu Sepetten Kaldırmak İstediğinize Emin misiniz?"
+					description={
+						<p>
+							Bu işlem, <strong>kursu</strong> sepetinizden kaldıracaktır.
+						</p>
+					}
+					isLoading={isLoading}
 				>
-					<X
-						className="w-5 h-5"
-						strokeWidth={strokeWidth}
-					/>
-				</button>
+					<div className="flex flex-col items-end justify-center">
+						<Button
+							type="button"
+							variant={"linkDelete"}
+							className="py-0 px-4 h-6 text-rose-600"
+							disabled={isLoading}
+						>
+							Sil
+						</Button>
+					</div>
+				</ConfirmModal>
+
+				<SignedIn>
+					<div className="flex flex-col items-end justify-center">
+						<Button
+							type="button"
+							variant={"showMore"}
+							className="py-0 px-4 h-6 text-purple-600 whitespace-nowrap"
+							disabled={isLoading}
+							onClick={moveToFavorite}
+						>
+							Favoriye Taşı
+						</Button>
+					</div>
+				</SignedIn>
 			</div>
 		</div>
 	);

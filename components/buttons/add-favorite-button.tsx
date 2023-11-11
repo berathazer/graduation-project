@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Heart } from "lucide-react";
 import { strokeWidth } from "@/lib/constant";
@@ -33,8 +33,9 @@ const AddFavoriteButton = ({
 }: AddFavoriteButtonProps) => {
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
-
+	const [isLoading, setIsLoading] = useState(false);
 	const addCourseToFavorites = async () => {
+		setIsLoading(true);
 		try {
 			if (!courseId) {
 				throw new Error();
@@ -45,14 +46,18 @@ const AddFavoriteButton = ({
 			}
 
 			const res = await axios.post("/api/profile/favorites", { courseId });
+			
 			toast.success(res.data.message);
 			router.refresh();
 		} catch (error) {
 			toast.error("Beklenmeyen Bir Hata Oluştu Tekrar Deneyin");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	const removeFromFavorites = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		setIsLoading(true);
 		try {
 			if (!favoriteId) {
 				throw new Error();
@@ -63,6 +68,8 @@ const AddFavoriteButton = ({
 			router.refresh();
 		} catch (error) {
 			toast.error("Beklenmeyen Bir Hata Oluştu Tekrar Deneyin");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -73,6 +80,7 @@ const AddFavoriteButton = ({
 					variant={"favorite"}
 					className={className}
 					onClick={(e) => removeFromFavorites(e)}
+					disabled={isLoading}
 				>
 					<Heart
 						className="w-4 h-4"
@@ -84,6 +92,7 @@ const AddFavoriteButton = ({
 					variant={variant}
 					className={className}
 					onClick={() => addCourseToFavorites()}
+					disabled={isLoading}
 				>
 					<Heart
 						className="w-4 h-4"

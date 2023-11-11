@@ -13,7 +13,7 @@ const maxTitleLength = 40;
 const ShoppingCourseCard = ({ course, isLastItem }: ShoppingCourseCardProps) => {
 	return (
 		<div
-			className={cn("w-[250px] flex  gap-x-2 flex-wrap pb-4 border-b", !isLastItem && "border-b")}
+			className={cn("w-[250px] flex  gap-x-2 flex-wrap py-4", !isLastItem && "border-b")}
 		>
 			<div className="w-20 h-20 relative">
 				<Image

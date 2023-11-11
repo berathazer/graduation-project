@@ -16,9 +16,10 @@ interface ConfirmModalProps {
 	onConfirm: () => void;
 	title?: string;
 	description?: React.ReactNode;
+	isLoading?: boolean;
 }
 
-export function ConfirmModal({ children, onConfirm, description, title }: ConfirmModalProps) {
+export function ConfirmModal({ children, onConfirm, description, title, isLoading }: ConfirmModalProps) {
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
@@ -33,6 +34,7 @@ export function ConfirmModal({ children, onConfirm, description, title }: Confir
 					<Button
 						variant={"destructive"}
 						onClick={onConfirm}
+						disabled={isLoading}
 					>
 						Sil
 					</Button>

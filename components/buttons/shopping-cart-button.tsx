@@ -14,6 +14,7 @@ import ShoppingCourseCard from "../shopping-course.card";
 import { Separator } from "../ui/separator";
 import { formatProductPrice } from "@/lib/helpers";
 import TotalBasketPrice from "../students/basket/total-basket-price";
+import { ScrollArea } from "../ui/scroll-area";
 
 type BasketWithCourse = Basket & {
 	course: Course;
@@ -25,6 +26,15 @@ interface ShoppingCartButtonProps {
 
 const ShoppingCartButton = ({ basket }: ShoppingCartButtonProps) => {
 	const { isLoaded, isSignedIn } = useAuth();
+	let totalBasketPrice = 0;
+
+	if (isLoaded && isSignedIn) {
+		//@ts-ignore
+		totalBasketPrice = basket.reduce((total, item) => total + item.course.price, 0);
+	} else {
+		//@ts-ignore
+		totalBasketPrice = basket.reduce((total, item) => total + item.price, 0);
+	}
 
 	return (
 		<TooltipProvider delayDuration={50}>
@@ -51,13 +61,13 @@ const ShoppingCartButton = ({ basket }: ShoppingCartButtonProps) => {
 					</Link>
 				</TooltipTrigger>
 				<TooltipContent
-					className="mt-[22px] relative right-8   border rounded-none"
+					className="mt-[22px] relative right-8 p-0   border rounded-none"
 					side="bottom"
 				>
 					{/* Sepette Ürün Yoksa Bu Kısım Gösterilecek */}
-					<div className="flex flex-col py-2 gap-y-4 text-center ">
+					<div className="flex flex-col  gap-y-4 text-center  ">
 						{basket.length === 0 ? (
-							<>
+							<div className="p-4 flex flex-col gap-y-4">
 								<Badge
 									variant="secondary"
 									className="flex items-center justify-center py-2"
@@ -70,33 +80,34 @@ const ShoppingCartButton = ({ basket }: ShoppingCartButtonProps) => {
 								>
 									Alışverişe Devam Et
 								</Link>
-							</>
+							</div>
 						) : (
 							<>
-								<SignedOut>
-									{basket.map((item, index) => (
-										<ShoppingCourseCard
-											key={item.id}
-											//@ts-ignore
-											course={item}
-											isLastItem={basket.length - 1 === index}
-										/>
-									))}
+								<ScrollArea className="max-h-72 px-4 flex flex-col ">
+									<SignedOut>
+										{basket.map((item, index) => (
+											<ShoppingCourseCard
+												key={item.id}
+												//@ts-ignore
+												course={item}
+												isLastItem={basket.length - 1 === index}
+											/>
+										))}
+									</SignedOut>
 
-									<TotalBasketPrice />
-								</SignedOut>
-
-								<SignedIn>
-									{basket.map((item, index) => (
-										<ShoppingCourseCard
-											key={item.id}
-											//@ts-ignore
-											course={item.course}
-											isLastItem={basket.length - 1 === index}
-										/>
-									))}
-									<TotalBasketPrice />
-								</SignedIn>
+									<SignedIn>
+										{basket.map((item, index) => (
+											<ShoppingCourseCard
+												key={item.id}
+												//@ts-ignore
+												course={item.course}
+												isLastItem={basket.length - 1 === index}
+											/>
+										))}
+									</SignedIn>
+								</ScrollArea>
+								<Separator />
+								<TotalBasketPrice total={totalBasketPrice} />
 							</>
 						)}
 					</div>

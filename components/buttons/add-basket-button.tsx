@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import { SignedIn, SignedOut, useAuth } from "@clerk/nextjs";
@@ -28,10 +28,11 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
 	const cookieBasket = getBasketFromCookies();
-
+	const [isLoading, setIsLoading] = useState(false);
 	const isAuthenticated = isLoaded && isSignedIn;
 
 	const addCourseToBasket = async () => {
+		setIsLoading(true);
 		try {
 			if (!courseId) {
 				throw new Error();
@@ -46,6 +47,8 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 			}
 		} catch (error) {
 			toast.error("Beklenmeyen Bir Hata Oluştu Tekrar Deneyin");
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -72,26 +75,21 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 		}
 	};
 
-	const addDatabase = () => {};
-
-	const goToCart = () => {
-		router.push("/cart");
+	const goToBasket = () => {
+		router.push("/basket");
 	};
 
-	let courseExistinBasket;
+	let courseExistingBasket;
 	if (!isAuthenticated) {
-		console.log("not-authenticated");
-		courseExistinBasket = isExistFromCookies(cookieBasket, courseId);
+		courseExistingBasket = isExistFromCookies(cookieBasket, courseId);
 	} else {
-		console.log("authenticated");
-
-		courseExistinBasket = isExistFromDb(basket, courseId);
+		courseExistingBasket = isExistFromDb(basket, courseId);
 	}
 
 	return (
 		<>
 			<SignedOut>
-				{!courseExistinBasket ? (
+				{!courseExistingBasket ? (
 					<Button
 						className={className}
 						onClick={() => addCourseToBasket()}
@@ -101,7 +99,7 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 				) : (
 					<Button
 						className={className}
-						onClick={goToCart}
+						onClick={goToBasket}
 					>
 						Sepete Git
 					</Button>
@@ -109,17 +107,18 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 			</SignedOut>
 
 			<SignedIn>
-				{!courseExistinBasket ? (
+				{!courseExistingBasket ? (
 					<Button
 						className={className}
 						onClick={() => addCourseToBasket()}
+						disabled={isLoading}
 					>
 						Sepete Ekle
 					</Button>
 				) : (
 					<Button
 						className={className}
-						onClick={goToCart}
+						onClick={goToBasket}
 					>
 						Sepete Git
 					</Button>

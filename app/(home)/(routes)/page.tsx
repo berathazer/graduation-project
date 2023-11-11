@@ -7,6 +7,7 @@ import NodeJs from "public/courses/node-js-course.png";
 import CategoryImage from "public/categories/category-software.jpg";
 
 import db from "@/lib/db";
+import Link from "next/link";
 
 const mockCourseData = [
 	{
@@ -133,8 +134,9 @@ export default async function Home() {
 				<p className="text-3xl font-bold text-muted-foreground">Popüler Kategoriler</p>
 				<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3  gap-8">
 					{categories.splice(0, 6).map((category) => (
-						<div
+						<Link
 							key={category.id}
+							href={`/courses?categoryId=${category.id}`}
 							className="flex flex-col gap-y-2"
 						>
 							<div className="w-full h-[300px] relative">
@@ -146,7 +148,7 @@ export default async function Home() {
 								/>
 							</div>
 							<span className="font-medium text-xl">{category.name}</span>
-						</div>
+						</Link>
 					))}
 				</div>
 			</section>

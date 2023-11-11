@@ -83,7 +83,7 @@ const BasketPage = async () => {
 				</div>
 			)}
 			{basket.length > 0 && (
-				<div className="flex gap-x-8">
+				<div className="flex flex-col md:flex-row gap-x-8">
 					<div className="flex flex-1 flex-col gap-y-4">
 						{basket.map((item, index) => (
 							<div
@@ -95,6 +95,8 @@ const BasketPage = async () => {
 										key={item.id}
 										//@ts-ignore
 										course={item.course}
+										isAuthenticated={isAuthenticated}
+										basketId={item.id}
 									/>
 								</SignedIn>
 								<SignedOut>
@@ -102,6 +104,7 @@ const BasketPage = async () => {
 										key={item.id}
 										//@ts-ignore
 										course={item}
+										isAuthenticated={isAuthenticated}
 									/>
 								</SignedOut>
 							</div>
