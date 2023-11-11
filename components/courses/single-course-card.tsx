@@ -15,6 +15,7 @@ interface SingleCourseCardProps {
 }
 
 const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
+	
 	return (
 		<SingleCourseTooltip
 			course={course}

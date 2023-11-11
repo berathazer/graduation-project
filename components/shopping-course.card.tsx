@@ -2,6 +2,7 @@ import { formatProductPrice } from "@/lib/helpers";
 import { cn } from "@/lib/utils";
 import { Course } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface ShoppingCourseCardProps {
@@ -12,7 +13,8 @@ interface ShoppingCourseCardProps {
 const maxTitleLength = 40;
 const ShoppingCourseCard = ({ course, isLastItem }: ShoppingCourseCardProps) => {
 	return (
-		<div
+		<Link
+			href={`/courses/${course.url}`}
 			className={cn("w-[250px] flex  gap-x-2 flex-wrap py-4", !isLastItem && "border-b")}
 		>
 			<div className="w-20 h-20 relative">
@@ -32,7 +34,7 @@ const ShoppingCourseCard = ({ course, isLastItem }: ShoppingCourseCardProps) => 
 					<p className="font-bold text-xs">{formatProductPrice(course.price!)}</p>
 				</div>
 			</div>
-		</div>
+		</Link>
 	);
 };
 

@@ -1,7 +1,5 @@
 import db from "@/lib/db";
 
-import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
-
 import { currentProfile } from "@/lib/auth";
 import CoursesContainer from "@/containers/CoursesContainer";
 import { Suspense } from "react";
@@ -33,9 +31,11 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 
 	return (
 		<Suspense fallback={<CoursesSkeleton />}>
-			<PageWrapper>
-				<CourseCategories categories={categories} />
-			</PageWrapper>
+			<div className="px-6 pt-6">
+				<PageWrapper>
+					<CourseCategories categories={categories} />
+				</PageWrapper>
+			</div>
 			<CoursesContainer
 				categoryId={categoryId}
 				category={category}

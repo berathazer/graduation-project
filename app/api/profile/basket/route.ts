@@ -43,7 +43,6 @@ export const POST = async (req: NextRequest) => {
                 }
             })
         }
-        console.log("FavoriteId:", favoriteId);
 
         const basket = await db.basket.create({
             data: {
@@ -52,10 +51,7 @@ export const POST = async (req: NextRequest) => {
             }
         })
 
-
-
         return NextResponse.json({ success: true, message: "Sepete Eklendi" }, { status: 200 })
-
 
     } catch (error) {
         console.log("PROFILE_BASKET_POST_ERROR");

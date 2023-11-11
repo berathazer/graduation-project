@@ -24,15 +24,8 @@ interface AddBasketButtonProps {
 	basketId?: string;
 	basket: Basket[];
 	favoriteId?: string;
-	isFavorite: boolean;
 }
-const AddBasketButton = ({
-	className,
-	courseId,
-	basket,
-	favoriteId,
-	isFavorite,
-}: AddBasketButtonProps) => {
+const AddBasketButton = ({ className, courseId, basket, favoriteId }: AddBasketButtonProps) => {
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
 	const cookieBasket = getBasketFromCookies();
