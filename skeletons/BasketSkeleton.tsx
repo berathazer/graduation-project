@@ -1,9 +1,9 @@
 import PageWrapper from "@/containers/PageWrapper";
 import React from "react";
-import NavigationBreadcrumb from "../navigation-breadcrumb";
+import NavigationBreadcrumb from "../components/navigation-breadcrumb";
 import { basketNavigation } from "@/lib/navigations";
-import { BasketCourseCardSkeleton } from "../students/basket/basket-course-card";
-import { Skeleton } from "../ui/skeleton";
+import { BasketCourseCardSkeleton } from "../components/students/basket/basket-course-card";
+import { Skeleton } from "../components/ui/skeleton";
 
 const BasketSkeleton = () => {
 	return (

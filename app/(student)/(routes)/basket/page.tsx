@@ -1,4 +1,4 @@
-import BasketSkeleton from "@/components/skeletons/BasketSkeleton";
+import BasketSkeleton from "@/skeletons/BasketSkeleton";
 
 import BasketContainer from "@/containers/BasketContainer";
 

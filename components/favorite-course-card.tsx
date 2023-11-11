@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import NodeJs from "public/courses/node-js-course.png";
 import AddFavoriteButton from "./buttons/add-favorite-button";
+import { Skeleton } from "./ui/skeleton";
 
 interface FavoriteCourseCardProps {
 	favorite: Favorite & {
@@ -53,4 +54,31 @@ const FavoriteCourseCard = ({ favorite, isAuthenticated }: FavoriteCourseCardPro
 	);
 };
 
+export const FavoriteCourseCardSkeleton = () => {
+	return (
+		<Link
+			href="#"
+			className="w-full flex flex-col gap-y-2 h-[288px] group relative"
+		>
+			{/* Favorite Button Skeleton */}
+			<div className="absolute top-2 right-2 h-8 w-8 rounded-full p-1 bg-gray-300 animate-pulse"></div>
+
+			{/* Resim Skeleton */}
+			<div className="w-full flex-1 max-h-44 bg-gray-300 relative object-fill">
+				<Skeleton className="group-hover:opacity-75 transition-all duration-300" />
+			</div>
+
+			{/* Kurs ismi Skeleton */}
+			<div className="flex flex-col">
+				<Skeleton className="h-4 w-3/4 mb-1" />
+				<Skeleton className="h-3 w-1/2" />
+			</div>
+
+			{/* Diğer Bilgiler Skeleton */}
+			<Skeleton className="h-2 w-1/3" />
+			<Skeleton className="h-2 w-1/4 mb-1" />
+			<Skeleton className="h-4 w-1/3" />
+		</Link>
+	);
+};
 export default FavoriteCourseCard;
