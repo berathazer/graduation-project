@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
+import { Skeleton } from "./ui/skeleton";
 
 interface CourseCategoriesProps {
 	categories: Category[];
@@ -49,4 +50,18 @@ const CourseCategories = ({ categories }: CourseCategoriesProps) => {
 	);
 };
 
+export const CourseCategoriesSkeleton = () => {
+	return (
+		<div className="flex flex-wrap gap-2 items-center justify-center">
+			{Array.from({ length: 12 }).map((_, index) => (
+				<Skeleton
+					key={index}
+					className={cn(
+						"border px-4 py-2 h-9 w-20 rounded-md text-xs font-medium  cursor-pointer transition"
+					)}
+				/>
+			))}
+		</div>
+	);
+};
 export default CourseCategories;

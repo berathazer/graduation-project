@@ -5,6 +5,7 @@ import NodeJs from "public/courses/node-js-course.png";
 import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
 import { formatProductPrice } from "@/lib/helpers";
 import { SingleCourseTooltip } from "@/components/tooltips/single-course-tooltip";
+import { Skeleton } from "../ui/skeleton";
 
 const maxTitleLength = 50;
 
@@ -44,6 +45,28 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 				<p className="font-bold text-black/80">{formatProductPrice(course.price || 59)}</p>
 			</Link>
 		</SingleCourseTooltip>
+	);
+};
+
+export const SingleCourseCardSkeleton = () => {
+	return (
+		<div className="w-full flex flex-col gap-y-2 h-[288px]">
+			{/* Resim Skeleton */}
+			<div className="w-full flex-1 h-44 min-h-[176px] bg-gray-300 border relative">
+				<Skeleton className="object-fill" />
+			</div>
+
+			{/* Kurs İsmi Skeleton */}
+			<div className="flex flex-col">
+				<Skeleton className="h-4 w-3/4 mb-1" />
+				<Skeleton className="h-3 w-1/2" />
+			</div>
+
+			{/* Diğer Bilgiler Skeleton */}
+			<Skeleton className="h-2 w-1/3" />
+			<Skeleton className="h-2 w-1/4 mb-1" />
+			<Skeleton className="h-4 w-1/3" />
+		</div>
 	);
 };
 

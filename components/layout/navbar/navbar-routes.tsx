@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { SignedIn, UserButton, auth } from "@clerk/nextjs";
 
@@ -19,6 +19,7 @@ import db from "@/lib/db";
 import { Profile } from "@prisma/client";
 
 import { cookies } from "next/headers";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const teacher_routes = [
 	{
@@ -170,7 +171,9 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 				{userId && <NotificationButton />}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}
 				<SignedIn>
-					<UserButton afterSignOutUrl="/" />
+					<Suspense fallback={<Skeleton className="w-8 h-8 rounded-full" />}>
+						<UserButton afterSignOutUrl="/" />
+					</Suspense>
 				</SignedIn>
 
 				{!userId && (

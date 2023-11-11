@@ -17,8 +17,10 @@ interface SingleCourseTooltipProps {
 }
 
 export const SingleCourseTooltip = async ({ children, course, profileId }: SingleCourseTooltipProps) => {
-	const favorites = await getFavorites(profileId);
-	const basket = await getBasket(profileId);
+	const getFav = await getFavorites(profileId);
+	const getBas = await getBasket(profileId);
+
+	const [favorites, basket] = await Promise.all([getFav, getBas]);
 
 	return (
 		<TooltipProvider delayDuration={50}>

@@ -11,6 +11,8 @@ import { Toaster } from "react-hot-toast";
 import { ConfettiProvider } from "@/components/providers/confetti-provider";
 
 import { trTR } from "@clerk/localizations";
+import { Suspense } from "react";
+import NavbarSkeleton from "@/skeletons/NavbarSkeleton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,7 +33,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<ConfettiProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
 					<ControlNavbar>
-						<Navbar />
+						<Suspense fallback={<NavbarSkeleton />}>
+							<Navbar />
+						</Suspense>
 					</ControlNavbar>
 
 					{children}

@@ -4,6 +4,7 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getBasketFromCookies } from "@/lib/basket";
 import { strokeWidth } from "@/lib/constant";
 import { formatProductPrice } from "@/lib/helpers";
 import { urls } from "@/lib/urls";
@@ -16,7 +17,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-
+import Cookies from "js-cookie";
 interface BasketCourseCard {
 	course: Course & {
 		courseFeature: CourseFeature;
@@ -42,9 +43,13 @@ const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCar
 				router.refresh();
 			} else {
 				console.log("courseId:", course.id);
-				//kullanıcı giriş yapmamıştır basket cookiesinden courseId'yi silip refresh yapmalıyım.
+				const basket = getBasketFromCookies();
+				const newBasket = basket.filter((item: string) => item !== course.id);
+				Cookies.set("basket", JSON.stringify(newBasket));
+				router.refresh();
 			}
 		} catch (error) {
+			toast.error("Beklenmeyen Bir Hata Oluştu.");
 		} finally {
 			setIsLoading(false);
 		}

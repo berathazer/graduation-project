@@ -1,15 +1,13 @@
 import db from "@/lib/db";
 
-import React from "react";
-
-import CourseCategories from "@/components/course-categories";
-
 import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
-import SingleCourseCard from "@/components/courses/single-course-card";
+
 import { currentProfile } from "@/lib/auth";
+import CoursesContainer from "@/containers/CoursesContainer";
+import { Suspense } from "react";
+import CoursesSkeleton from "@/skeletons/CoursesSkeleton";
 import PageWrapper from "@/containers/PageWrapper";
-import NavigationBreadcrumb from "@/components/navigation-breadcrumb";
-import { coursesNavigation } from "@/lib/navigations";
+import CourseCategories from "@/components/course-categories";
 
 interface CoursesPageProps {
 	searchParams: {
@@ -31,73 +29,19 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 
 	const [categories, profile] = await Promise.all([getCategories, getProfile]);
 
-	let courses: CourseWithCategoryWithOutcomeWithFeature[];
-	if (!categoryId) {
-		courses = await db.course.findMany({
-			where: {
-				isPublished: true,
-			},
-			include: {
-				category: true,
-				courseLearningOutcome: {
-					orderBy: {
-						order: "asc",
-					},
-				},
-				courseFeature: true,
-				favorite: true,
-				basket: true,
-			},
-		});
-	} else {
-		courses = await db.course.findMany({
-			where: {
-				categoryId: searchParams.categoryId,
-				isPublished: true,
-			},
-			include: {
-				category: true,
-				courseLearningOutcome: {
-					orderBy: {
-						order: "asc",
-					},
-				},
-				courseFeature: true,
-				favorite: true,
-				basket: true,
-			},
-		});
-	}
-
-	//search parametresindeki categoryiyi alan kod
-	const category = categories.filter((c) => c.id === categoryId);
+	const [category] = categories.filter((c) => c.id === categoryId);
 
 	return (
-		<PageWrapper>
-			<CourseCategories categories={categories} />
-			{courses.length === 0 && (
-				<div className="w-full text-center font-medium text-2xl text-muted-foreground">
-					Hiç Kurs Bulunamadı.
-				</div>
-			)}
-			{courses.length > 0 && (
-				<div className="flex flex-col gap-y-8">
-					<p className="flex items-center justify-center font-medium text-3xl text-muted-foreground">
-						{category.length > 0 ? category[0].name : "Tüm Kategoriler"}
-					</p>
-
-					<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
-						{courses.map((course, i) => (
-							<SingleCourseCard
-								profileId={profile?.id as string}
-								key={i}
-								course={course}
-							/>
-						))}
-					</div>
-				</div>
-			)}
-		</PageWrapper>
+		<Suspense fallback={<CoursesSkeleton />}>
+			<PageWrapper>
+				<CourseCategories categories={categories} />
+			</PageWrapper>
+			<CoursesContainer
+				categoryId={categoryId}
+				category={category}
+				profileId={profile?.id}
+			/>
+		</Suspense>
 	);
 };
 
