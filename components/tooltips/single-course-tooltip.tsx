@@ -54,12 +54,15 @@ export const SingleCourseTooltip = async ({ children, course, profileId }: Singl
 								className="rounded-sm flex-1"
 								courseId={course.id}
 								basket={basket!}
+								isFavorite={isFavorite(favorites!, course.id)}
+								favoriteId={findFavoriteId(favorites!, course.id)?.id}
 							/>
 							<AddFavoriteButton
-								isFavorite={isFavorite(favorites!, course.id)}
-								courseId={course.id}
 								className="px-3"
 								variant={"outline"}
+								courseId={course.id}
+								basket={basket!}
+								isFavorite={isFavorite(favorites!, course.id)}
 								favoriteId={findFavoriteId(favorites!, course.id)?.id}
 							/>
 						</div>

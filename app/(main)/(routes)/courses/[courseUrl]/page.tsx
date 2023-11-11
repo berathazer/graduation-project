@@ -1,3 +1,4 @@
+import { getBasket } from "@/actions/basket-action";
 import { getFavorites } from "@/actions/favorites-action";
 import AddBasketButton from "@/components/buttons/add-basket-button";
 import AddFavoriteButton from "@/components/buttons/add-favorite-button";
@@ -8,6 +9,7 @@ import CourseSections from "@/components/courses/course-sections";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { currentProfile } from "@/lib/auth";
+import { getBasketFromCookies } from "@/lib/basket";
 
 import db from "@/lib/db";
 import { findFavoriteId } from "@/lib/favorites";
@@ -23,6 +25,7 @@ interface CourseIdPageProps {
 }
 const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 	const profile = await currentProfile();
+	const isAuthenticated = profile != null;
 	const course = await db.course.findUnique({
 		where: {
 			url: params.courseUrl,
@@ -49,6 +52,14 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 	if (!course) {
 		return <div>Kurs Bulunamadı</div>;
 	}
+	let basket: any[] | undefined = [];
+	if (isAuthenticated) {
+		basket = await getBasket(profile.id);
+	} else {
+		basket = getBasketFromCookies();
+	}
+
+	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
 
 	return (
 		<div className="">
@@ -79,34 +90,20 @@ const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 							</div>
 							<div className="flex gap-x-2">
 								<AddBasketButton
+									favoriteId={currentFavorite?.id!}
+									isFavorite={currentFavorite != null}
 									courseId={course.id}
 									basket={course.basket}
 									className="rounded-sm flex-1"
 								/>
 								<AddFavoriteButton
 									courseId={course?.id as string}
-									isFavorite={course!.favorite.length > 0}
+									basket={basket!}
+									isFavorite={currentFavorite != null}
 									favoriteId={findFavoriteId(course!.favorite, course.id)?.id}
 									className="px-3"
 									variant={"outline"}
 								/>
-								{/* <Button className="flex space-x-4 flex-1">Sepete Ekle</Button>
-								<Button variant="outline">
-									<svg
-										className=" w-4 h-4"
-										fill="none"
-										height="24"
-										stroke="currentColor"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										viewBox="0 0 24 24"
-										width="24"
-										xmlns="http://www.w3.org/2000/svg"
-									>
-										<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-									</svg>
-								</Button> */}
 							</div>
 							<p className="mt-4  text-gray-500">{course?.description}</p>
 							<Card className="border-none bg-transparent px-0 shadow-none">

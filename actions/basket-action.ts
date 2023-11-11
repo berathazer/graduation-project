@@ -10,8 +10,10 @@ export const getBasket = async (profileId: string) => {
                 profileId
             }
         })
-
-        return basket
+        if (basket) {
+            return basket
+        }
+        return []
     } catch (error) {
 
     }

@@ -15,6 +15,8 @@ export const isExistFromCookies = (basket: string[], courseId: string) => {
     return basket.includes(courseId)
 }
 
+
+
 export const isExistFromDb = (basket: Basket[], courseId: string) => {
 
     const isExist = basket.some(item => item.courseId === courseId)
@@ -24,4 +26,15 @@ export const isExistFromDb = (basket: Basket[], courseId: string) => {
     }
 
     return true
+}
+
+export const isIdExistFromDb = (basket: Basket[], courseId: string) => {
+
+    const foundItem = basket.find(item => item.courseId === courseId);
+
+    if (foundItem) {
+        return foundItem.id;
+    }
+
+    return "";
 }

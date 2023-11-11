@@ -52,6 +52,7 @@ const Favorites = async () => {
 					<FavoriteCourseCard
 						key={fav.id}
 						favorite={fav}
+						isAuthenticated={!!profile}
 					/>
 				))}
 			</div>

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
     try {
-        const { courseId } = await req.json();
+        const { courseId, favoriteId } = await req.json();
         const profile = await currentProfile();
 
 
@@ -34,12 +34,24 @@ export const POST = async (req: NextRequest) => {
         }
 
 
+        if (favoriteId) {
+            await db.favorite.delete({
+                where: {
+                    id: favoriteId,
+                    profileId: profile.id,
+                    courseId: courseId
+                }
+            })
+        }
+        console.log("FavoriteId:", favoriteId);
+
         const basket = await db.basket.create({
             data: {
                 courseId: courseId,
                 profileId: profile.id
             }
         })
+
 
 
         return NextResponse.json({ success: true, message: "Sepete Eklendi" }, { status: 200 })

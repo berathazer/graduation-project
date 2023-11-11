@@ -23,8 +23,16 @@ interface AddBasketButtonProps {
 	courseId: string;
 	basketId?: string;
 	basket: Basket[];
+	favoriteId?: string;
+	isFavorite: boolean;
 }
-const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) => {
+const AddBasketButton = ({
+	className,
+	courseId,
+	basket,
+	favoriteId,
+	isFavorite,
+}: AddBasketButtonProps) => {
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
 	const cookieBasket = getBasketFromCookies();
@@ -41,7 +49,7 @@ const AddBasketButton = ({ className, courseId, basket }: AddBasketButtonProps) 
 			if (!isAuthenticated) {
 				addCookies();
 			} else {
-				const res = await axios.post("/api/profile/basket", { courseId });
+				const res = await axios.post("/api/profile/basket", { courseId, favoriteId });
 				toast.success(res.data.message);
 				router.refresh();
 			}

@@ -7,6 +7,8 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@clerk/nextjs";
+import { getBasketFromCookies, isIdExistFromDb } from "@/lib/basket";
+import { Basket } from "@prisma/client";
 
 interface AddFavoriteButtonProps {
 	className?: string;
@@ -23,6 +25,7 @@ interface AddFavoriteButtonProps {
 	courseId: string;
 	isFavorite: boolean;
 	favoriteId?: string;
+	basket: Basket[];
 }
 const AddFavoriteButton = ({
 	className,
@@ -30,10 +33,21 @@ const AddFavoriteButton = ({
 	courseId,
 	isFavorite,
 	favoriteId,
+	basket,
 }: AddFavoriteButtonProps) => {
 	const router = useRouter();
 	const { isLoaded, isSignedIn } = useAuth();
 	const [isLoading, setIsLoading] = useState(false);
+
+	const cookieBasket = getBasketFromCookies();
+
+	const isAuthenticated = isLoaded && isSignedIn;
+
+	let existingBasketId = "";
+	if (isAuthenticated) {
+		existingBasketId = isIdExistFromDb(basket, courseId);
+	}
+
 	const addCourseToFavorites = async () => {
 		setIsLoading(true);
 		try {
@@ -45,8 +59,11 @@ const AddFavoriteButton = ({
 				return router.push("/sign-in");
 			}
 
-			const res = await axios.post("/api/profile/favorites", { courseId });
-			
+			const res = await axios.post("/api/profile/favorites", {
+				courseId,
+				basketId: existingBasketId,
+			});
+
 			toast.success(res.data.message);
 			router.refresh();
 		} catch (error) {

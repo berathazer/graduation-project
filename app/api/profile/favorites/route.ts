@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
     try {
-        const { courseId } = await req.json();
+        const { courseId, basketId } = await req.json();
         const profile = await currentProfile();
 
 
@@ -33,6 +33,15 @@ export const POST = async (req: NextRequest) => {
             return NextResponse.json({ success: false, error: "Kurs Zaten Favorilerde" }, { status: 500 })
         }
 
+        if (basketId) {
+            await db.basket.delete({
+                where: {
+                    id: basketId,
+                    courseId: courseId,
+                    profileId: profile.id
+                }
+            })
+        }
 
         const favorite = await db.favorite.create({
             data: {
@@ -46,7 +55,7 @@ export const POST = async (req: NextRequest) => {
 
 
     } catch (error) {
-        console.log("PROFILE_FAVORITES_POST_ERROR");
+        console.log("PROFILE_FAVORITES_POST_ERROR", error);
 
         return NextResponse.json({ success: false, error: "Beklenmeyen Bir Hata Oluştu" }, { status: 404 })
     }

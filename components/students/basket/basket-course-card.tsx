@@ -3,6 +3,7 @@ import CourseRating from "@/components/courses/course-rating";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { strokeWidth } from "@/lib/constant";
 import { formatProductPrice } from "@/lib/helpers";
 import { urls } from "@/lib/urls";
@@ -141,6 +142,27 @@ const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCar
 						</Button>
 					</div>
 				</SignedIn>
+			</div>
+		</div>
+	);
+};
+
+export const BasketCourseCardSkeleton = () => {
+	return (
+		<div className="flex flex-1 w-full gap-x-4">
+			<Skeleton className="h-20 w-32 rounded" />
+			<div className="flex flex-col flex-1 gap-y-1">
+				<Skeleton className="h-4 w-full" />
+				<Skeleton className="h-4 w-[150px]" />
+				<div className="flex gap-x-3">
+					<Skeleton className="h-4 w-10" />
+					<Skeleton className="h-4 w-16" />
+				</div>
+				<Skeleton className="h-4 mt-2 w-20" />
+			</div>
+			<div className="flex flex-col gap-y-4">
+				<Skeleton className="h-4 w-16" />
+				<Skeleton className="h-4 w-16" />
 			</div>
 		</div>
 	);

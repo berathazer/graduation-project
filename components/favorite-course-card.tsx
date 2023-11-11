@@ -12,10 +12,11 @@ interface FavoriteCourseCardProps {
 			category: Category | null;
 		};
 	};
+	isAuthenticated: boolean;
 }
 
 const maxTitleLength = 50;
-const FavoriteCourseCard = ({ favorite }: FavoriteCourseCardProps) => {
+const FavoriteCourseCard = ({ favorite, isAuthenticated }: FavoriteCourseCardProps) => {
 	return (
 		<Link
 			href={`/courses/${favorite.course.url}`}
@@ -23,6 +24,7 @@ const FavoriteCourseCard = ({ favorite }: FavoriteCourseCardProps) => {
 		>
 			{/* Favorite Button */}
 			<AddFavoriteButton
+				basket={[]}
 				courseId={favorite.course.id}
 				isFavorite={true}
 				favoriteId={favorite.id}
