@@ -29,6 +29,7 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 						order: "asc",
 					},
 				},
+				chapters: true,
 				courseFeature: true,
 				favorite: true,
 				basket: true,
@@ -47,6 +48,7 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 						order: "asc",
 					},
 				},
+				chapters: true,
 				courseFeature: true,
 				favorite: true,
 				basket: true,
@@ -55,32 +57,30 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 	}
 
 	return (
-		<div className="">
-			<PageWrapper>
-				{courses.length === 0 && (
-					<div className="w-full text-center font-medium text-2xl text-muted-foreground">
-						Hiç Kurs Bulunamadı.
-					</div>
-				)}
-				{courses.length > 0 && (
-					<div className="flex flex-col gap-y-8">
-						<p className="flex items-center justify-center font-medium text-3xl text-muted-foreground">
-							{category != null ? category.name : "Tüm Kategoriler"}
-						</p>
+		<PageWrapper>
+			{courses.length === 0 && (
+				<div className="w-full pt-8 text-center font-medium text-2xl text-muted-foreground">
+					Hiç Kurs Bulunamadı.
+				</div>
+			)}
+			{courses.length > 0 && (
+				<div className="flex flex-col gap-y-8 pt-8">
+					<p className="flex items-center justify-center font-medium text-3xl text-muted-foreground">
+						{category != null ? category.name : "Tüm Kategoriler"}
+					</p>
 
-						<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
-							{courses.map((course, i) => (
-								<SingleCourseCard
-									profileId={profileId || ""}
-									key={i}
-									course={course}
-								/>
-							))}
-						</div>
+					<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-4 place-items-center gap-y-8 gap-x-5">
+						{courses.map((course, i) => (
+							<SingleCourseCard
+								profileId={profileId || ""}
+								key={i}
+								course={course}
+							/>
+						))}
 					</div>
-				)}
-			</PageWrapper>
-		</div>
+				</div>
+			)}
+		</PageWrapper>
 	);
 };
 

@@ -1,11 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import NodeJs from "public/courses/node-js-course.png";
 import { CourseWithCategoryWithOutcomeWithFeature } from "@/types/global.types";
 import { formatProductPrice } from "@/lib/helpers";
 import { SingleCourseTooltip } from "@/components/tooltips/single-course-tooltip";
 import { Skeleton } from "../ui/skeleton";
+
+import LoadingImage from "./loading-image";
+import { IconBadge } from "../icon-badge";
+import { BookOpen } from "lucide-react";
 
 const maxTitleLength = 50;
 
@@ -15,6 +17,7 @@ interface SingleCourseCardProps {
 }
 
 const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
+	const chaptersLength = course.chapters.length;
 	return (
 		<SingleCourseTooltip
 			course={course}
@@ -22,33 +25,37 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 		>
 			<Link
 				href={`/courses/${course.url}`}
-				className="w-full flex flex-col gap-y-2 h-[288px]"
+				className="w-full  p-2 rounded-lg border flex flex-col gap-y-2 min-h-[288px]"
 			>
-				{/* Resim */}
-				<div className="w-full flex-1 h-44 min-h-[176px] bg-slate-50 border relative">
-					<Image
-						alt={course.title}
-						src={course.imageUrl || NodeJs}
-						fill
-						priority
-						className="object-fill"
-					/>
-				</div>
-				{/* Kurs ismi */}
-				<p className="font-bold flex flex-col">
-					{course.title.length > maxTitleLength
-						? course.title.slice(0, maxTitleLength) + "..."
-						: course.title}
-					<span className="text-muted-foreground text-xs">{`(${course.category?.name})`}</span>
-				</p>
+				<LoadingImage
+					title={course.title}
+					imageUrl={course.imageUrl || ""}
+				/>
 
-				<p className="text-[12px] text-black/70">{course.instructor}</p>
-				<p className="font-bold text-black/80">{formatProductPrice(course.price || 59)}</p>
+				<div className="flex flex-col gap-y-2 px-1 py1">
+					<p className="font-bold flex flex-col">
+						{course.title.length > maxTitleLength
+							? course.title.slice(0, maxTitleLength) + "..."
+							: course.title}
+						<span className="text-muted-foreground text-xs">{`(${course.category?.name})`}</span>
+					</p>
+
+					<p className="text-[12px] text-black/70">{course.instructor}</p>
+					<div className="flex items-center justify-between font-bold text-black/80">
+						<div className="flex items-center gap-x-1 text-slate-500 text-xs font-light">
+							<IconBadge
+								size="sm"
+								icon={BookOpen}
+							/>
+							<span>Toplam {chaptersLength} Bölüm</span>
+						</div>
+						<span>{formatProductPrice(course.price || 59)}</span>
+					</div>
+				</div>
 			</Link>
 		</SingleCourseTooltip>
 	);
 };
-
 export const SingleCourseCardSkeleton = () => {
 	return (
 		<div className="w-full flex flex-col gap-y-2 h-[288px]">

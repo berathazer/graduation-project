@@ -41,3 +41,14 @@ export const coursesNavigation = [
         url: "/courses",
     },
 ]
+
+export const myCoursesNavigation = [
+    {
+        name: "Anasayfa",
+        url: "/",
+    },
+    {
+        name: "Kurslarım",
+        url: "/my-courses",
+    },
+]

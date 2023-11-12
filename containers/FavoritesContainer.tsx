@@ -20,6 +20,7 @@ const FavoritesContainer = async ({ profileId }: FavoritesContainerProps) => {
 			course: {
 				include: {
 					category: true,
+					chapters: true,
 				},
 			},
 		},
@@ -54,7 +55,6 @@ const FavoritesContainer = async ({ profileId }: FavoritesContainerProps) => {
 						<FavoriteCourseCard
 							key={fav.id}
 							favorite={fav}
-							isAuthenticated={profileId !== null}
 						/>
 					))
 				)}

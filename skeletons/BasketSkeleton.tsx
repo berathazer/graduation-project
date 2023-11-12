@@ -12,7 +12,7 @@ const BasketSkeleton = () => {
 				title="Sepet"
 				navigations={basketNavigation}
 			/>
-			<div className="flex  flex-1 flex-col gap-y-4 py-8">
+			<div className="flex  flex-1 flex-col gap-y-4 ">
 				<div className="flex flex-1 md:flex-row gap-x-8">
 					<div className="flex flex-1  flex-col gap-y-4">
 						{Array.from({ length: 3 }).map((item, index) => (

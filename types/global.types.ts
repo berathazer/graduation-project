@@ -13,6 +13,7 @@ export type CourseWithCategoryWithOutcomeWithFeature = Course & {
     category: Category | null,
     courseLearningOutcome: CourseLearningOutcome[],
     courseFeature: CourseFeature | null,
+    chapters: Chapter[]
     favorite: Favorite[],
     basket: Basket[]
 

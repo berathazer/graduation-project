@@ -12,7 +12,7 @@ const FavoritesSkeleton = () => {
 				navigations={favoritesNavigation}
 			/>
 
-			<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center py-8 gap-x-5">
+			<div className="grid grid-cols-2 md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-5 place-items-center  gap-x-5">
 				{Array.from({ length: 4 }).map((_, index) => (
 					<FavoriteCourseCardSkeleton key={index} />
 				))}

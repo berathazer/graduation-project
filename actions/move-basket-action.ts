@@ -13,6 +13,7 @@ export const moveBasketFromCookies = async (profileId: string) => {
 
         const courses: string[] = JSON.parse(isExist)
 
+        
         const existingBasketCourses = await db.basket.findMany({
             where: {
                 profileId: profileId,

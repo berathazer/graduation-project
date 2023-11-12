@@ -1,23 +1,26 @@
 import { formatProductPrice } from "@/lib/helpers";
-import { Category, Course, Favorite } from "@prisma/client";
+import { Category, Chapter, Course, Favorite } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import NodeJs from "public/courses/node-js-course.png";
 import AddFavoriteButton from "./buttons/add-favorite-button";
 import { Skeleton } from "./ui/skeleton";
+import LoadingImage from "./courses/loading-image";
+import { IconBadge } from "./icon-badge";
+import { BookOpen } from "lucide-react";
 
 interface FavoriteCourseCardProps {
 	favorite: Favorite & {
 		course: Course & {
 			category: Category | null;
+			chapters: Chapter[];
 		};
 	};
-	isAuthenticated: boolean;
 }
 
 const maxTitleLength = 50;
-const FavoriteCourseCard = ({ favorite, isAuthenticated }: FavoriteCourseCardProps) => {
+const FavoriteCourseCard = ({ favorite }: FavoriteCourseCardProps) => {
 	return (
 		<Link
 			href={`/courses/${favorite.course.url}`}
@@ -33,11 +36,10 @@ const FavoriteCourseCard = ({ favorite, isAuthenticated }: FavoriteCourseCardPro
 			/>
 			{/* Resim */}
 			<div className="w-full flex-1 max-h-44 bg-black relative object-fill">
-				<Image
-					alt={favorite.course.title}
-					src={favorite.course.imageUrl || NodeJs}
-					fill
-					className="group-hover:opacity-75 transition-all duration-300"
+				<LoadingImage
+					title={favorite.course.title}
+					imageUrl={favorite.course.imageUrl || ""}
+					className="rounded-none"
 				/>
 			</div>
 			{/* Kurs ismi */}
@@ -49,7 +51,19 @@ const FavoriteCourseCard = ({ favorite, isAuthenticated }: FavoriteCourseCardPro
 			</p>
 			<p></p>
 			<p className="text-[12px] text-black/70">{favorite.course.instructor}</p>
-			<p className="font-bold text-black/80">{formatProductPrice(favorite.course.price || 59)}</p>
+			{/* <p className="font-bold text-black/80 text-end">
+				{formatProductPrice(favorite.course.price || 59)}
+			</p> */}
+			<div className="flex items-center justify-between font-bold text-black/80">
+				<div className="flex items-center gap-x-1 text-slate-500 text-xs font-light">
+					<IconBadge
+						size="sm"
+						icon={BookOpen}
+					/>
+					<span>{favorite.course.chapters?.length} Bölüm</span>
+				</div>
+				<span>{formatProductPrice(favorite.course.price || 59)}</span>
+			</div>
 		</Link>
 	);
 };
