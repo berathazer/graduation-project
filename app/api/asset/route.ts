@@ -10,7 +10,7 @@ export const GET = async () => {
     try {
         const assetID = "EQx4pptimpDP1ff37fZKD7vxwhXFZmKYW9Uqfhn7dLM"
         const testAsset = await Video.Assets.get(assetID)
-        return NextResponse.json(testAsset)
+        return NextResponse.json(testAsset + "s")
     } catch (error) {
         return NextResponse.json({ error: error })
     }

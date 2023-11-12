@@ -12,7 +12,9 @@ export default authMiddleware({
         "/setup-profile",
         "/search:path*",
         "/api/uploadthing:path*",
-        "/basket:path*"
+        "/basket:path*",
+        "/deneme",
+        "/api/profile/setup"
     ],
 });
 
