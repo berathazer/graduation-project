@@ -18,6 +18,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import Cookies from "js-cookie";
+import LoadingImage from "@/components/courses/loading-image";
+import { cn } from "@/lib/utils";
 interface BasketCourseCard {
 	course: Course & {
 		courseFeature: CourseFeature;
@@ -30,7 +32,7 @@ interface BasketCourseCard {
 const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCard) => {
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
-
+	const [isImageLoading, setIsImageLoading] = useState(true);
 	const clickHandler = async () => {
 		try {
 			setIsLoading(true);
@@ -73,12 +75,17 @@ const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCar
 				href={`${urls.courses}/${course.url}`}
 				className="flex  gap-x-3 pr-4"
 			>
-				<div className="relative w-32 h-24 border">
+				<div className="relative w-32 h-24 border overflow-hidden">
 					<Image
 						src={course.imageUrl!}
 						alt={course.title}
 						fill
-						className="object-fill"
+						priority
+						className={cn(
+							"duration-500 ease-in-out object-fill",
+							isImageLoading ? "scale-125 blur-lg" : ""
+						)}
+						onLoadingComplete={() => setIsImageLoading(false)}
 					/>
 				</div>
 				<div className="flex flex-1 flex-col gap-y-1">

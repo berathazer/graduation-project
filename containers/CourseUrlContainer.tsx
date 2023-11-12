@@ -139,14 +139,14 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								</div>
 
 								<div className="ml-4">
-									<h4 className="font-bold">John Doe</h4>
+									<h4 className="font-bold">{course.instructor}</h4>
 									<p className="text-sm text-gray-500">Professional Instructor</p>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<CourseSections />
+					<CourseSections chapters={course.chapters} />
 					<CourseDescription courseFeature={course?.courseFeature} />
 
 					<div className="col-span-2 mt-6">
