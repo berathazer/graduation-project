@@ -4,7 +4,7 @@ import React from "react";
 
 const NavbarSkeleton = () => {
 	return (
-		<div className="w-full flex flex-col gap-y-2">
+		<div className="w-full flex flex-col">
 			<Alert
 				variant={"info"}
 				className="text-center"
@@ -17,7 +17,7 @@ const NavbarSkeleton = () => {
 					{"'"}den başlayan fiyatlarla! İndirimleri görmek için düğmeye tıklayın.
 				</AlertDescription>
 			</Alert>
-			<Skeleton className="w-full h-16" />
+			<Skeleton className="w-full h-16 rounded-none" />
 		</div>
 	);
 };

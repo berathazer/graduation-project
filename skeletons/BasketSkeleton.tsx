@@ -12,15 +12,15 @@ const BasketSkeleton = () => {
 				title="Sepet"
 				navigations={basketNavigation}
 			/>
-			<div className="flex  flex-1 flex-col gap-y-4 ">
-				<div className="flex flex-1 flex-col md:flex-row gap-x-8">
+			<div className="flex  flex-1 flex-col gap-y-4 py-8">
+				<div className="flex flex-1 md:flex-row gap-x-8">
 					<div className="flex flex-1  flex-col gap-y-4">
 						{Array.from({ length: 3 }).map((item, index) => (
 							<BasketCourseCardSkeleton key={index} />
 						))}
 					</div>
 
-					<Skeleton className="w-80 border flex justify-center"></Skeleton>
+					<Skeleton className="w-80 border flex justify-center h-80"></Skeleton>
 				</div>
 			</div>
 		</PageWrapper>

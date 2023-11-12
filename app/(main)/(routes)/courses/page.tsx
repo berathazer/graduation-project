@@ -31,7 +31,7 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 
 	return (
 		<Suspense fallback={<CoursesSkeleton />}>
-			<div className="px-6 pt-6">
+			<div className="pt-6">
 				<PageWrapper>
 					<CourseCategories categories={categories} />
 				</PageWrapper>

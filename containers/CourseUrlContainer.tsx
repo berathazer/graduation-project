@@ -61,19 +61,20 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
 
 	return (
-		<div className="w-full bg-slate-50 ">
+		<div className="w-full bg-slate-50">
 			<div className="container">
 				<div
 					key="1"
 					className="grid gap-y-8 md:grid-cols-2 gap-6 lg:gap-8  max-w-7xl px-4 mx-auto py-16 "
 				>
 					<div className="col-span-2 lg:col-span-1 h-full ">
-						<div className="relative  h-[300px] lg:w-full lg:h-[600px] ">
+						<div className="relative h-[300px] lg:h-[500px]">
 							<Image
 								alt={course?.title || ""}
 								src={course?.imageUrl || ""}
 								fill
-								className="aspect-square object-cover border border-zinc-200 w-full overflow-hidden dark:border-zinc-800 shadow"
+								priority
+								className="object-fill border border-zinc-200 w-full overflow-hidden dark:border-zinc-800 shadow"
 							/>
 						</div>
 					</div>
@@ -88,7 +89,6 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 						</div>
 						<div className="flex gap-x-2">
 							<AddBasketButton
-								isFavorite={currentFavorite != null}
 								favoriteId={currentFavorite?.id || ""}
 								courseId={course.id}
 								basket={basket!}
@@ -122,7 +122,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								</ul>
 							</CardContent>
 						</Card>
-						<div className="hidden lg:block">
+						<div className=" lg:block">
 							<h3 className="font-bold text-lg">Course Instructor</h3>
 							<div className="flex items-center mt-2">
 								<div className="w-10 h-10 relative">
@@ -145,8 +145,10 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 							</div>
 						</div>
 					</div>
+
 					<CourseSections />
 					<CourseDescription courseFeature={course?.courseFeature} />
+
 					<div className="col-span-2 mt-6">
 						<h2 className="font-bold text-2xl">Course Reviews</h2>
 						<div className="mt-2 space-y-4">
@@ -171,7 +173,7 @@ export const CourseUrlContainerSkeleton = () => {
 				className="grid gap-y-8 md:grid-cols-2 gap-6 lg:gap-8  max-w-7xl px-4 mx-auto py-16 "
 			>
 				<div className="col-span-2 lg:col-span-1 h-full ">
-					<Skeleton className="relative h-[300px] lg:w-full lg:h-[600px] animate-pulse" />
+					<Skeleton className="relative h-[300px] lg:w-full lg:h-[600px]  animate-pulse" />
 				</div>
 
 				<div className="col-span-2 lg:col-span-1 grid gap-y-4">

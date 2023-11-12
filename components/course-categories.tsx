@@ -52,7 +52,7 @@ const CourseCategories = ({ categories }: CourseCategoriesProps) => {
 
 export const CourseCategoriesSkeleton = () => {
 	return (
-		<div className="flex flex-wrap gap-2 items-center justify-center">
+		<div className="flex flex-wrap gap-2 items-center justify-center pt-6">
 			{Array.from({ length: 12 }).map((_, index) => (
 				<Skeleton
 					key={index}

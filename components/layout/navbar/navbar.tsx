@@ -10,8 +10,6 @@ import { currentProfile } from "@/lib/auth";
 
 interface NavbarProps {}
 const Navbar = async ({}: NavbarProps) => {
-	/* const profile = await currentProfile();
-	const categories = await db.category.findMany(); */
 	const getProfile = currentProfile();
 	const getCategories = db.category.findMany();
 	const [profile, categories] = await Promise.all([getProfile, getCategories]);

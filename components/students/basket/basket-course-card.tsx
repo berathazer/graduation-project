@@ -35,14 +35,11 @@ const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCar
 		try {
 			setIsLoading(true);
 			if (isAuthenticated) {
-				console.log("basketId:", basketId);
 				//kullanıcı giriş yapmıştır basket tablosundan baskedIdyi silip refresh yapmalıyım.
-
 				await axios.delete(`/api/profile/basket/${basketId}`);
 				toast.success("Sepetten Kaldırıldı.");
 				router.refresh();
 			} else {
-				console.log("courseId:", course.id);
 				const basket = getBasketFromCookies();
 				const newBasket = basket.filter((item: string) => item !== course.id);
 				Cookies.set("basket", JSON.stringify(newBasket));
@@ -76,14 +73,15 @@ const BasketCourseCard = ({ course, isAuthenticated, basketId }: BasketCourseCar
 				href={`${urls.courses}/${course.url}`}
 				className="flex  gap-x-3 pr-4"
 			>
-				<div className="relative w-32 h-20">
+				<div className="relative w-32 h-24 border">
 					<Image
 						src={course.imageUrl!}
 						alt={course.title}
 						fill
+						className="object-fill"
 					/>
 				</div>
-				<div className="flex flex-col gap-y-1">
+				<div className="flex flex-1 flex-col gap-y-1">
 					<p className="font-bold text-sm">{course.title}</p>
 					<p className="text-xs  text-muted-foreground">{course.instructor}</p>
 					<div className="flex gap-x-3">

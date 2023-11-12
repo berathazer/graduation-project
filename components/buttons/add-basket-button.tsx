@@ -62,7 +62,6 @@ const AddBasketButton = ({ className, courseId, basket, favoriteId }: AddBasketB
 			if (!basket.includes(courseId)) {
 				basket.push(courseId);
 				Cookies.set("basket", JSON.stringify(basket));
-				toast.success("Sepete Eklendi.");
 				router.refresh();
 				return;
 			}
@@ -74,6 +73,7 @@ const AddBasketButton = ({ className, courseId, basket, favoriteId }: AddBasketB
 			Cookies.set("basket", JSON.stringify(basket));
 			toast.success("Sepete Eklendi.");
 		}
+		router.refresh();
 	};
 
 	const goToBasket = () => {

@@ -19,6 +19,12 @@ const DenemePage = () => {
 					streamType="on-demand"
 				/>
 			</div>
+			<div>
+				<p className="flex sm:hidden">mobile</p>
+				<p className="hidden sm:flex">sm</p>
+				<p className="hidden lg:flex">lg</p>
+				<p className="hidden md:flex">md</p>
+			</div>
 		</div>
 	);
 };

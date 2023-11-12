@@ -15,7 +15,6 @@ interface SingleCourseCardProps {
 }
 
 const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
-	
 	return (
 		<SingleCourseTooltip
 			course={course}
@@ -31,6 +30,7 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 						alt={course.title}
 						src={course.imageUrl || NodeJs}
 						fill
+						priority
 						className="object-fill"
 					/>
 				</div>

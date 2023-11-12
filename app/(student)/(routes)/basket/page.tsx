@@ -11,7 +11,7 @@ const BasketPage = async () => {
 
 	return (
 		<Suspense fallback={<BasketSkeleton />}>
-			<BasketContainer profileId={profile?.id!}></BasketContainer>
+			<BasketContainer profileId={profile?.id!} />
 		</Suspense>
 	);
 };

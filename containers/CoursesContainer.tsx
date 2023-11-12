@@ -55,7 +55,7 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 	}
 
 	return (
-		<div className="px-6">
+		<div className="">
 			<PageWrapper>
 				{courses.length === 0 && (
 					<div className="w-full text-center font-medium text-2xl text-muted-foreground">

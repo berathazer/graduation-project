@@ -46,3 +46,8 @@ export type CourseWithAll = Course & {
     courseLearningOutcome: CourseLearningOutcome[],
     courseFeature: CourseFeature
 }
+
+export type CourseWithFeatureWithChapters = Course & {
+    courseFeature: CourseFeature
+    chapters: Chapter[],
+}
