@@ -15,7 +15,8 @@ export default authMiddleware({
         "/basket:path*",
         "/deneme",
         "/api/profile/setup"
-    ],
+    ], debug: false,
+    
 });
 
 

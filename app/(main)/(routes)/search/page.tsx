@@ -9,7 +9,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 
 	const courses = await searchCourses(q);
 	return (
-		<div className="p-6">
+		<div className="">
 			SearchParams: {q}
 			<pre>{JSON.stringify(courses, null, 4)}</pre>
 		</div>
