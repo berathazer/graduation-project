@@ -26,13 +26,13 @@ import { Profile } from "@prisma/client";
 import Editor from "@/components/editor";
 import { Checkbox } from "@/components/ui/checkbox";
 const formSchema = z.object({
-	name: z.string().min(3, {
+	name: z.string().min(2, {
 		message: "Kurs Başlığı Zorunludur",
 	}),
-	surname: z.string().min(3, {
+	surname: z.string().min(2, {
 		message: "Kurs Başlığı Zorunludur",
 	}),
-	headline: z.string().min(3, {
+	headline: z.string().min(2, {
 		message: "Kurs Başlığı Zorunludur",
 	}),
 	email: z.string().email({ message: "Geçeriz email formatı" }),
