@@ -8,7 +8,7 @@ const InstructorPage = async () => {
 
 	return (
 		<Suspense fallback={<InstructorSkeleton />}>
-			<InstructorContainer profileId={profile?.id || ""} />
+			<InstructorContainer profile={profile!} />
 		</Suspense>
 	);
 };

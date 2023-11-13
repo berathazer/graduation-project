@@ -2,11 +2,16 @@ import db from "@/lib/db";
 import React from "react";
 import PageWrapper from "./PageWrapper";
 import InstructorForm from "@/components/teachers/instructor/instructor-form";
+import { Profile } from "@prisma/client";
 
-const InstructorContainer = async ({ profileId }: { profileId: string }) => {
+interface InstructorContainerProps {
+	profile: Profile;
+}
+
+const InstructorContainer = async ({ profile }: InstructorContainerProps) => {
 	const instructor = await db.instructor.findFirst({
 		where: {
-			profileId: profileId || "",
+			profileId: profile.id || "",
 		},
 	});
 
@@ -40,7 +45,7 @@ const InstructorContainer = async ({ profileId }: { profileId: string }) => {
 						</div>
 					</div>
 					<div className="col-span-1 flex items-center justify-center">
-						<InstructorForm />
+						<InstructorForm profile={profile} />
 					</div>
 				</div>
 			</PageWrapper>
