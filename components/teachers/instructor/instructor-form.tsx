@@ -25,6 +25,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Profile } from "@prisma/client";
 import Editor from "@/components/editor";
 import { Checkbox } from "@/components/ui/checkbox";
+import axios from "axios";
+
 const formSchema = z.object({
 	name: z.string().min(2, {
 		message: "Kurs Başlığı Zorunludur",
@@ -37,7 +39,12 @@ const formSchema = z.object({
 	}),
 	email: z.string().email({ message: "Geçeriz email formatı" }),
 	biography: z.string().min(255, { message: "Biyografi minimum 255 karakterden oluşmalı" }),
-	termsAccepted: z.boolean().default(false),
+	termsAccepted: z
+		.boolean()
+		.default(false)
+		.refine((value) => value, {
+			message: "Şartlar ve koşulları kabul etmelisiniz",
+		}),
 });
 
 interface InstructorFormProps {
@@ -62,8 +69,20 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 	const { isSubmitting, isValid } = form.formState;
 
 	const onSubmit = async (values: z.infer<typeof formSchema>) => {
+		//profile bağlı yeni bir instructor kaydı oluşturcam ve profildeki rolü öğretmene çekicem
 		try {
-			console.log("values:", values);
+			const formattedValues = {
+				firstName: values.name,
+				lastName: values.surname,
+				headline: values.headline,
+				email: values.email,
+				biography: values.biography,
+			};
+
+			console.log("formattedValues:", formattedValues);
+			await axios.post("/api/profile/instructor", formattedValues);
+			router.push("/teacher");
+			router.refresh();
 		} catch {
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		}
@@ -83,7 +102,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 						<div className="grid w-full items-center gap-4">
 							<div className="flex items-center gap-x-2">
 								<div className="flex flex-1 flex-col space-y-1.5">
-									<Label htmlFor="name">İsim</Label>
+									<Label htmlFor="name">İsim*</Label>
 									<FormField
 										control={form.control}
 										name="name"
@@ -103,7 +122,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 								</div>
 
 								<div className="flex flex-1 flex-col space-y-1.5">
-									<Label htmlFor="name">Soyisim</Label>
+									<Label htmlFor="name">Soyisim*</Label>
 									<FormField
 										control={form.control}
 										name="surname"
@@ -123,7 +142,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 								</div>
 							</div>
 							<div className="flex flex-col space-y-1.5">
-								<Label htmlFor="name">Uzmanlık Alanı</Label>
+								<Label htmlFor="name">Uzmanlık Alanı*</Label>
 								<FormField
 									control={form.control}
 									name="headline"
@@ -142,6 +161,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 									)}
 								/>
 							</div>
+
 							<div className="flex flex-col space-y-1.5">
 								<Label htmlFor="name">Email</Label>
 								<FormField
@@ -163,7 +183,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 							</div>
 
 							<div className="flex flex-col space-y-1.5">
-								<Label htmlFor="name">Biyografi</Label>
+								<Label htmlFor="name">Biyografi*</Label>
 								<FormField
 									control={form.control}
 									name="biography"
