@@ -48,6 +48,7 @@ const CourseCreatePage = () => {
 			if (response.data.success) {
 				form.reset();
 				router.push(`/teacher/courses/${response.data.course.id}`);
+				router.refresh();
 				return toast.success("Kurs Oluşturuldu.");
 			}
 		} catch {
