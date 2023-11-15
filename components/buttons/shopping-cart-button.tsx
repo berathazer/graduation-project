@@ -12,7 +12,6 @@ import { useAuth } from "@clerk/nextjs";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import ShoppingCourseCard from "../shopping-course.card";
 import { Separator } from "../ui/separator";
-import { formatProductPrice } from "@/lib/helpers";
 import TotalBasketPrice from "../students/basket/total-basket-price";
 import { ScrollArea } from "../ui/scroll-area";
 

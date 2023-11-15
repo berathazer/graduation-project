@@ -112,7 +112,7 @@ const TeacherCoursesContainer = async ({ profileId }: { profileId: string }) => 
 						<Link href={"/teacher/create"}>
 							<Button className="">Yeni Kurs Ekle</Button>
 						</Link>
-						<div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+						<div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 							{courses.map((course) => (
 								<CourseCard
 									key={course.id}

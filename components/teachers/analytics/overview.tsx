@@ -1,54 +1,55 @@
 "use client";
 
+import { formatProductPrice } from "@/lib/helpers";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 const data = [
 	{
-		name: "Jan",
+		month: "Oca",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Feb",
+		month: "Şub",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Mar",
+		month: "Mar",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Apr",
+		month: "Nis",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "May",
+		month: "May",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Jun",
+		month: "Haz",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Jul",
+		month: "Tem",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Aug",
+		month: "Ağu",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Sep",
+		month: "Eyl",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Oct",
+		month: "Eki",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Nov",
+		month: "Kas",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 	{
-		name: "Dec",
+		month: "Ara",
 		total: Math.floor(Math.random() * 5000) + 1000,
 	},
 ];
@@ -61,7 +62,7 @@ export function Overview() {
 		>
 			<BarChart data={data}>
 				<XAxis
-					dataKey="name"
+					dataKey="month"
 					stroke="#888888"
 					fontSize={12}
 					tickLine={true}
@@ -72,7 +73,7 @@ export function Overview() {
 					fontSize={12}
 					tickLine={true}
 					axisLine={true}
-					tickFormatter={(value) => `$${value}`}
+					tickFormatter={(value) => `${value}TL`}
 				/>
 				<Bar
 					dataKey="total"

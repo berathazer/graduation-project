@@ -127,7 +127,6 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 		isAuthenticated ? getBasketFromDB : getBasketFromIds,
 	]);
 
-	//console.log("isAuthenticated:", isAuthenticated, "basket:", basket);
 	let routes;
 
 	if (!isTeacher) {
