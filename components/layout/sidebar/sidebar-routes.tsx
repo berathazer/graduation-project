@@ -1,6 +1,6 @@
 "use client";
 
-import { BadgePlus, BarChart, Compass, Layout, List } from "lucide-react";
+import { BadgePlus, BarChart, Compass, Layout, List, UserCog } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -19,6 +19,11 @@ const adminRoutes = [
 ];
 
 const teacherRoutes = [
+	{
+		icon: UserCog,
+		label: "Profil",
+		href: "/teacher",
+	},
 	{
 		icon: List,
 		label: "Kurslarım",

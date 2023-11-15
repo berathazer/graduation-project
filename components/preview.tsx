@@ -23,7 +23,7 @@ const Preview = ({ value, onDoubleClick, className }: PreviewProps) => {
 				theme="bubble"
 				value={value}
 				readOnly={true}
-				className="!text-xl"
+				className="!text-2xl !pb-12"
 			/>
 		</div>
 	);

@@ -36,3 +36,4 @@ export const POST = async (req: NextRequest) => {
         return new NextResponse(JSON.stringify({ success: false, message: "Beklenmeyen Bir Hata Oluştu" }), { status: 500 })
     }
 }
+

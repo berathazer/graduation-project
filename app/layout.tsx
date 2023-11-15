@@ -35,9 +35,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<CookieProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
 					<ControlNavbar>
-						<Suspense fallback={<NavbarSkeleton />}>
+						{/* <Suspense fallback={<NavbarSkeleton />}>
 							<Navbar />
-						</Suspense>
+						</Suspense> */}
+						<Navbar />
 					</ControlNavbar>
 
 					{children}

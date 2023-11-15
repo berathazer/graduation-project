@@ -81,7 +81,7 @@ export default function InstructorForm({ profile }: InstructorFormProps) {
 
 			console.log("formattedValues:", formattedValues);
 			await axios.post("/api/profile/instructor", formattedValues);
-			router.push("/teacher");
+			router.push("/teacher/courses");
 			router.refresh();
 		} catch {
 			toast.error("Beklenmeyen Bir Hata Oluştu");

@@ -38,7 +38,11 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 			},
 			courseFeature: true,
 			courseLearningOutcome: true,
-			profile: true,
+			profile: {
+				include: {
+					instructors: true,
+				},
+			},
 			favorite: {
 				where: {
 					profileId: profileId,
@@ -59,7 +63,8 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	}
 
 	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
-
+	const fullName =
+		course?.profile.instructors[0].firstName + " " + course?.profile.instructors[0].lastName;
 	return (
 		<div className="w-full ">
 			<div className="container">
@@ -77,11 +82,12 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								className="object-fill border border-zinc-200 w-full overflow-hidden dark:border-zinc-800 shadow"
 							/>
 						</div>
+						<CourseSections chapters={course.chapters} />
 					</div>
 
 					<div className="col-span-2 lg:col-span-1 grid gap-4">
 						<h1 className="font-bold text-3xl">{course?.title}</h1>
-						<div className="flex items-center gap-4">
+						<div className="flex items-center ">
 							<CourseRating rating={4.5} />
 						</div>
 						<div className="text-4xl font-bold">
@@ -105,10 +111,10 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 						</div>
 						<p className="mt-4  text-gray-500">{course?.description}</p>
 						<Card className="border-none bg-transparent px-0 shadow-none">
-							<CardHeader className="py-6 px-0">
-								<CardTitle>This course includes:</CardTitle>
+							<CardHeader className="py-2 px-0">
+								<CardTitle>Bu kurs şunları içeriyor:</CardTitle>
 							</CardHeader>
-							<CardContent className="px-2">
+							<CardContent className="px-2 pb-0">
 								<ul className="list-disc list-inside space-y-1 text-sm text-gray-500">
 									<li>10 hours of on-demand video</li>
 									<li>8 articles</li>
@@ -122,13 +128,14 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								</ul>
 							</CardContent>
 						</Card>
-						<div className=" lg:block">
-							<h3 className="font-bold text-lg">Course Instructor</h3>
+
+						<div className="">
+							<h3 className="font-bold text-lg">Kurs Eğitmeni</h3>
 							<div className="flex items-center mt-2">
 								<div className="w-10 h-10 relative">
 									<Image
 										src={course?.profile.imageUrl || ""}
-										alt={course?.profile.name || ""}
+										alt={fullName || ""}
 										fill
 										className="rounded-full"
 										style={{
@@ -139,18 +146,18 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								</div>
 
 								<div className="ml-4">
-									<h4 className="font-bold">{course.instructor}</h4>
-									<p className="text-sm text-gray-500">Professional Instructor</p>
+									<h4 className="font-bold">{fullName}</h4>
+									<p className="text-sm text-gray-500">
+										{course.profile.instructors[0].headline}
+									</p>
 								</div>
 							</div>
 						</div>
+						<CourseDescription courseFeature={course?.courseFeature} />
 					</div>
 
-					<CourseSections chapters={course.chapters} />
-					<CourseDescription courseFeature={course?.courseFeature} />
-
 					<div className="col-span-2 mt-6">
-						<h2 className="font-bold text-2xl">Course Reviews</h2>
+						<h2 className="font-bold text-2xl">Kurs Değerlendirmeleri</h2>
 						<div className="mt-2 space-y-4">
 							<CourseComment />
 							<CourseComment />

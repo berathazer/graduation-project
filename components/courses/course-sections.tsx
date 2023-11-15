@@ -9,7 +9,7 @@ const CourseSections = ({ chapters }: CourseSectionsProps) => {
 	return (
 		<div className="col-span-2 md:col-span-1">
 			CourseSections
-			<pre>{JSON.stringify(chapters, null, 4)}</pre>
+			<pre className="text-xs">{JSON.stringify(chapters, null, 4)}</pre>
 		</div>
 	);
 };

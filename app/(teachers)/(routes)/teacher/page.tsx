@@ -1,7 +1,13 @@
-import { redirect } from "next/navigation";
+import InstructorProfileContainer from "@/containers/InstructorProfileContainer";
+
+import { Suspense } from "react";
 
 const TeachersPage = () => {
-	return redirect("/teacher/courses");
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<InstructorProfileContainer />
+		</Suspense>
+	);
 };
 
 export default TeachersPage;
