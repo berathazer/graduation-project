@@ -6,9 +6,11 @@ import CourseComment from "@/components/courses/course-comment";
 import CourseDescription from "@/components/courses/course-description";
 import CourseRating from "@/components/courses/course-rating";
 import CourseSections from "@/components/courses/course-sections";
+import { Button } from "@/components/ui/button";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { getBasketFromCookies } from "@/lib/basket";
 
@@ -17,6 +19,7 @@ import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface CourseUrlContainerProps {
@@ -128,30 +131,51 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								</ul>
 							</CardContent>
 						</Card>
-
-						<div className="">
+						{/* Instructor */}
+						<div className="flex flex-col">
 							<h3 className="font-bold text-lg">Kurs Eğitmeni</h3>
-							<div className="flex items-center mt-2">
-								<div className="w-10 h-10 relative">
-									<Image
-										src={course?.profile.imageUrl || ""}
-										alt={fullName || ""}
-										fill
-										className="rounded-full"
-										style={{
-											aspectRatio: "40/40",
-											objectFit: "cover",
-										}}
-									/>
-								</div>
 
-								<div className="ml-4">
-									<h4 className="font-bold">{fullName}</h4>
-									<p className="text-sm text-gray-500">
-										{course.profile.instructors[0].headline}
-									</p>
-								</div>
-							</div>
+							<TooltipProvider delayDuration={50}>
+								<Tooltip>
+									<TooltipTrigger asChild>
+										<Link
+											href={`/instructor/${course.profile.instructors[0].id}`}
+											className="w-max h-full"
+										>
+											<Button
+												variant={"ghost"}
+												className="flex items-center h-full"
+											>
+												<div className="w-10 h-10 relative">
+													<Image
+														src={course?.profile.imageUrl || ""}
+														alt={fullName || ""}
+														fill
+														className="rounded-full"
+														style={{
+															aspectRatio: "40/40",
+															objectFit: "cover",
+														}}
+													/>
+												</div>
+
+												<div className="ml-4">
+													<h4 className="font-bold text-start">{fullName}</h4>
+													<p className="text-sm text-gray-500">
+														{course.profile.instructors[0].headline}
+													</p>
+												</div>
+											</Button>
+										</Link>
+									</TooltipTrigger>
+									<TooltipContent
+										side="bottom"
+										className="rounded-md "
+									>
+										<div className="flex items-center p-1 ">Profili Görüntüle</div>
+									</TooltipContent>
+								</Tooltip>
+							</TooltipProvider>
 						</div>
 						<CourseDescription courseFeature={course?.courseFeature} />
 					</div>
