@@ -61,7 +61,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
 
 	return (
-		<div className="w-full bg-slate-50">
+		<div className="w-full ">
 			<div className="container">
 				<div
 					key="1"
