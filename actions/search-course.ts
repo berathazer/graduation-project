@@ -1,22 +1,39 @@
 import db from "@/lib/db";
 
 export const searchCourses = async (keyword: string) => {
+
     const courses = await db.course.findMany({
+
         where: {
             isPublished: true,
             OR: [
                 {
                     title: {
-                        contains: keyword,
-                    },
+                        search: keyword
+                    }
+                }
+                , {
+                    description: {
+                        search: keyword
+                    }
                 },
                 {
-                    description: {
-                        contains: keyword,
-                    },
-                },
-            ],
+                    instructor: {
+                        search: keyword
+                    }
+                }
+            ]
         },
+
+        include: {
+            profile: {
+                include: {
+                    instructors: true
+                }
+            }
+        }
     });
+
+    
     return courses;
 }
