@@ -24,7 +24,7 @@ export default function MainBrandCard({ className, ...props }: CardProps) {
 			<CardFooter className="flex gap-x-4 items-center flex-col lg:flex-row gap-y-2 ">
 				<Link
 					href={"/sign-in"}
-					className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  md:text-xs lg:text-base h-9 md:h-11  px-3 bg-primary-foreground border text-primary hover:bg-primary/10 w-full"
+					className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50  md:text-xs lg:text-base h-9 md:h-11  px-3 bg-white border text-primary hover:bg-primary-foreground/10 w-full"
 				>
 					Öğrenmeye Başlayın
 				</Link>

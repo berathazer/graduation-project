@@ -13,7 +13,7 @@ export const moveBasketFromCookies = async (profileId: string) => {
 
         const courses: string[] = JSON.parse(isExist)
 
-        
+
         const existingBasketCourses = await db.basket.findMany({
             where: {
                 profileId: profileId,
@@ -29,9 +29,7 @@ export const moveBasketFromCookies = async (profileId: string) => {
                 )
         );
 
-
-
-        const createBasket = db.$transaction([
+        await db.$transaction([
             ...newBasketCourses.map((courseId) =>
                 db.basket.create({
                     data: {
@@ -39,18 +37,15 @@ export const moveBasketFromCookies = async (profileId: string) => {
                         courseId: courseId,
                     },
                 })
-            ),
+            ), db.favorite.deleteMany({
+                where: {
+                    profileId: profileId,
+                    courseId: { in: courses },
+
+                },
+            })
+
         ]);
-
-        const deleteFavorites = db.favorite.deleteMany({
-            where: {
-                profileId: profileId,
-                courseId: { in: courses },
-
-            },
-        })
-
-        await Promise.all([createBasket, deleteFavorites])
 
         console.log("transaction completed");
 
