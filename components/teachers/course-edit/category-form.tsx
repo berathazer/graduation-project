@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
+import { Check, Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -58,7 +58,10 @@ export const CategoryForm = ({ initialData, courseId, options }: CategoryFormPro
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kurs Kategorisi*
+				<span className="flex items-center gap-x-2">
+					Kurs Kategorisi
+					{initialData?.categoryId ? <Check className="w-5 h-5 text-green-600" /> : "*"}
+				</span>
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"

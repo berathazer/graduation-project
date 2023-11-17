@@ -9,7 +9,10 @@ export const currentProfile = async () => {
     }
 
     const profile = await db.profile.findUnique({
-        where: { userId }
+        where: { userId },
+        include: {
+            instructor: true
+        }
     })
 
     return profile

@@ -26,19 +26,19 @@ enum Difficulty {
 }
 
 model Profile {
-  id          String       @id @default(uuid())
-  userId      String       @unique
-  name        String
-  imageUrl    String       @db.Text
-  email       String       @db.Text
-  role        MemberRole   @default(STUDENT)
-  favorites   Favorite[]
-  basket      Basket[]
-  course      Course[]
-  reviews     Review[]
-  instructors Instructor[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id         String      @id @default(uuid())
+  userId     String      @unique
+  name       String
+  imageUrl   String      @db.Text
+  email      String      @db.Text
+  role       MemberRole  @default(STUDENT)
+  favorites  Favorite[]
+  basket     Basket[]
+  course     Course[]
+  reviews    Review[]
+  instructor Instructor?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
 }
 
 model Instructor {
@@ -49,8 +49,10 @@ model Instructor {
   email     String @unique
   biography String @db.Text
 
-  profileId String
+  profileId String  @unique
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  courses Course[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -104,6 +106,9 @@ model Course {
   profileId String
   profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
 
+  instructorId     String
+  courseInstructor Instructor @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
   courseFeature         CourseFeature?
   courseLearningOutcome CourseLearningOutcome[]
   attachments           Attachment[]
@@ -118,6 +123,7 @@ model Course {
 
   @@index([categoryId])
   @@index([profileId])
+  @@index([instructorId])
   @@fulltext([title])
   @@fulltext([title, description, instructor])
 }

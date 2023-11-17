@@ -15,7 +15,7 @@ const InstructorProfileContainer = async () => {
 				</p>
 			</div>
 			<EditProfileForm
-				instructor={profile?.instructors[0]!}
+				instructor={profile?.instructor!}
 				profileId={profile?.id || ""}
 			/>
 		</div>

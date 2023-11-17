@@ -33,6 +33,7 @@ export const POST = async (req: NextRequest) => {
             data: {
                 title: title,
                 profileId: profile.id,
+                instructorId: profile.instructor?.id || "",
                 instructor: profile.name,
                 url: formattedUrl
             }
@@ -40,7 +41,7 @@ export const POST = async (req: NextRequest) => {
 
 
         const shareLink = `${process.env.BASE_URL}/courses/${formattedUrl}`
-        
+
         const courseFeature = await db.courseFeature.create({
             data: {
                 courseId: course.id,

@@ -11,7 +11,7 @@ export const currentProfileWithInstructor = async () => {
     const profile = await db.profile.findUnique({
         where: { userId },
         include: {
-            instructors: true
+            instructor: true
         }
     })
 

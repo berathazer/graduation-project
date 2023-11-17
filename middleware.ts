@@ -14,9 +14,10 @@ export default authMiddleware({
         "/api/uploadthing:path*",
         "/basket:path*",
         "/deneme",
-        "/api/profile/setup"
+        "/api/profile/setup",
+        "/instructor/:path*"
     ], debug: false,
-    
+
 });
 
 

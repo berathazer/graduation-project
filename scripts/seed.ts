@@ -86,61 +86,6 @@ async function seedDatabase() {
     }); 
     */
 
-    const category = await db.category.findFirst();
-    if (!category) {
-      return console.log("Seed: Category not found!");
-    }
-    // Kurs oluşturma
-    const course = await db.course.create({
-      data: {
-        title: "Yeni Kurs",
-        profileId: user.id,
-        categoryId: category.id,
-        instructor: user.name,
-        url: "yeni-kurs"
-
-      }
-    });
-
-    // Kurs oluşturma
-    const course2 = await db.course.create({
-      data: {
-        title: "Brand New Course",
-        profileId: user.id,
-        categoryId: category.id,
-        instructor: "Burcu Gül",
-        url: "brand-new-course"
-      }
-    });
-
-    // Favori oluşturma
-    await db.favorite.createMany({
-      data: [
-        {
-          courseId: course.id,
-          profileId: user.id
-        },
-        {
-          courseId: course2.id,
-          profileId: user.id,
-        }
-      ]
-    });
-
-    // Sepet oluşturma
-    await db.basket.createMany({
-      data: [
-        {
-          courseId: course.id,
-          profileId: user.id,
-          totalPrice: 100,
-        }, {
-          courseId: course2.id,
-          profileId: user.id,
-          totalPrice: 120,
-        }
-      ]
-    });
 
     // Diğer tablolar için mock veri oluşturmayı buraya ekleyin
 

@@ -25,14 +25,15 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 		>
 			<Link
 				href={`/courses/${course.url}`}
-				className="w-full  p-2 rounded-lg border flex flex-col gap-y-2 min-h-[288px]"
+				className="w-full  p-2 rounded-lg border flex flex-col gap-y-2 min-h-[358px]"
 			>
 				<LoadingImage
 					title={course.title}
 					imageUrl={course.imageUrl || ""}
+					className="h-[199px] flex-grow-0 flex-shrink-0 flex-none"
 				/>
 
-				<div className="flex flex-col gap-y-2 px-1 py1">
+				<div className="flex flex-col gap-y-2 px-1 py1 flex-1">
 					<p className="font-bold flex flex-col">
 						{course.title.length > maxTitleLength
 							? course.title.slice(0, maxTitleLength) + "..."
@@ -41,7 +42,7 @@ const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
 					</p>
 
 					<p className="text-[12px] text-black/70">{course.instructor}</p>
-					<div className="flex items-center justify-between font-bold text-black/80">
+					<div className="flex mt-auto justify-between font-bold text-black/80">
 						<div className="flex items-center gap-x-1 text-slate-500 text-xs font-light">
 							<IconBadge
 								size="sm"

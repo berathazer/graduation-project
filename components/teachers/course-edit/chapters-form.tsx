@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Loader2, PlusCircle } from "lucide-react";
+import { Check, Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -89,7 +89,14 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 				</div>
 			)}
 			<div className="font-medium flex items-center justify-between">
-				Kurs Bölümleri*
+				<span className="flex items-center gap-x-2">
+					Kurs Bölümleri
+					{initialData?.chapters.filter((c) => c.isPublished === true).length! > 0 ? (
+						<Check className="w-5 h-5 text-green-600" />
+					) : (
+						"*"
+					)}
+				</span>
 				<Button
 					onClick={toggleCreating}
 					variant="ghost"

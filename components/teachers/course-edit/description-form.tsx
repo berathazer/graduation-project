@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
+import { Check, Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -56,7 +56,10 @@ export const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps)
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kurs Açıklaması*
+				<span className="flex items-center gap-x-2">
+					Kurs Açıklaması
+					{initialData?.description ? <Check className="w-5 h-5 text-green-600" /> : "*"}
+				</span>
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"

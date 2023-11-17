@@ -43,7 +43,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 			courseLearningOutcome: true,
 			profile: {
 				include: {
-					instructors: true,
+					instructor: true,
 				},
 			},
 			favorite: {
@@ -66,8 +66,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	}
 
 	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
-	const fullName =
-		course?.profile.instructors[0].firstName + " " + course?.profile.instructors[0].lastName;
+	const fullName = course?.profile.instructor?.firstName + " " + course?.profile.instructor?.lastName;
 	return (
 		<div className="w-full ">
 			<div className="container">
@@ -139,7 +138,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 								<Tooltip>
 									<TooltipTrigger asChild>
 										<Link
-											href={`/instructor/${course.profile.instructors[0].id}`}
+											href={`/instructor/${course.profile.instructor?.id}`}
 											className="w-max h-full"
 										>
 											<Button
@@ -162,7 +161,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 												<div className="ml-4">
 													<h4 className="font-bold text-start">{fullName}</h4>
 													<p className="text-sm text-gray-500">
-														{course.profile.instructors[0].headline}
+														{course.profile.instructor?.headline}
 													</p>
 												</div>
 											</Button>

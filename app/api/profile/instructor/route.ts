@@ -12,13 +12,18 @@ export const POST = async (req: NextRequest) => {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const createInstructor = db.instructor.create({
+        const createInstructor = await db.instructor.create({
             data: {
-                ...values, profileId: profile.id
+                firstName: values.firstName,
+                lastName: values.lastName,
+                headline: values.headline,
+                email: values.email,
+                biography: values.biography,
+                profileId: profile.id
             }
         })
 
-        const updateProfile = db.profile.update({
+        const updateProfile = await db.profile.update({
             where: {
                 id: profile.id
             }, data: {
@@ -26,7 +31,7 @@ export const POST = async (req: NextRequest) => {
             }
         })
 
-        await Promise.all([createInstructor, updateProfile])
+        //await Promise.all([createInstructor, updateProfile])
 
         return NextResponse.json({ success: true, message: "Instructor Başarıyla Oluşturuldu." }, { status: 200 })
 

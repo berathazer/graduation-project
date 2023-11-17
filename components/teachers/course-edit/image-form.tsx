@@ -2,7 +2,7 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Pencil, PlusCircle, ImageIcon } from "lucide-react";
+import { Pencil, PlusCircle, ImageIcon, Check } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -45,7 +45,10 @@ export const ImageForm = ({ initialData, courseId }: ImageFormProps) => {
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kurs Resmi*
+				<span className="flex items-center gap-x-2">
+					Kurs Resmi
+					{initialData?.imageUrl ? <Check className="w-5 h-5 text-green-600" /> : "*"}
+				</span>
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"

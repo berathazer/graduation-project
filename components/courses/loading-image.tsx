@@ -16,7 +16,7 @@ const LoadingImage = ({
 	return (
 		<div
 			className={cn(
-				"w-full rounded-md  flex-1 h-44 min-h-[176px] bg-slate-50 border relative overflow-hidden",
+				"w-full rounded-md flex-1 bg-slate-50 border relative overflow-hidden",
 				className
 			)}
 		>

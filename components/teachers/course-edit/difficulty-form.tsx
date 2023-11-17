@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { CourseFeature, Difficulty } from "@prisma/client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Pencil } from "lucide-react";
+import { Check, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -62,7 +62,11 @@ export function DifficultyForm({ courseId, featureId, initialData }: DiffcultyFo
 	return (
 		<div className="mt-6 border bg-slate-100 rounded-md p-4">
 			<div className="font-medium flex items-center justify-between">
-				Kursun Zorluğu*
+				<span className="flex items-center gap-x-2">
+					Kursun Zorluğu
+					{initialData?.difficulty ? <Check className="w-5 h-5 text-green-600" /> : "*"}
+				</span>
+
 				<Button
 					onClick={toggleEdit}
 					variant="ghost"

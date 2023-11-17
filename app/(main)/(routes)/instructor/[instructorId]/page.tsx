@@ -6,6 +6,10 @@ const InstructorIdPage = async ({ params }: { params: { instructorId: string } }
 		where: {
 			id: params.instructorId,
 		},
+		include: {
+			profile: true,
+			courses: true,
+		},
 	});
 
 	return (

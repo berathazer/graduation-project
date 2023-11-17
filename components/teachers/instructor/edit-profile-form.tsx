@@ -41,7 +41,7 @@ const editProfileFormSchema = z.object({
 		.min(2, {
 			message: "Başlık en az 2 karakter olmalıdır.",
 		})
-		.max(30, {
+		.max(100, {
 			message: "Başlık 30 karakterden uzun olmamalıdır.",
 		}),
 
