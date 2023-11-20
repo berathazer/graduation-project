@@ -62,3 +62,15 @@ export function convertSecondsToMMSS(seconds: number) {
 
     return `${minutesString}:${secondsString}`;
 }
+
+export function formatJoinDate(date: Date): string {
+    const months = [
+        "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+        "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+    ];
+
+    const monthIndex = date.getMonth();
+    const year = date.getFullYear();
+
+    return `Katılım: ${months[monthIndex]} ${year}`;
+}

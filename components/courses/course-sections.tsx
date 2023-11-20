@@ -1,7 +1,9 @@
 import { strokeWidth } from "@/lib/constant";
 import { convertChapterDuration, convertSecondsToMMSS } from "@/lib/helpers";
-import { Video } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { PlaySquare, Video } from "lucide-react";
 import React from "react";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface CourseSectionsProps {
 	chapters: {
@@ -22,25 +24,31 @@ const CourseSections = async ({ chapters }: CourseSectionsProps) => {
 				<p className="text-sm text-muted-foreground">
 					101 sections • 636 lectures • 57h 59m total length
 				</p>
-				<ul className="border w-full bg-slate-100 flex flex-col">
+				<ScrollArea className="border-[1px] w-full bg-slate-100 flex flex-col max-h-[489px]">
 					{chapters.map((chapter, index) => (
 						<li
 							key={index}
-							className="flex items-center py-3 px-4 gap-x-2"
+							className={cn(
+								"flex items-center py-3 px-4 gap-x-2",
+								chapters.length - 1 !== index && "border-b-[1px] border-slate-300"
+							)}
 						>
 							<span>
-								<Video
-									className="w-4 h-4"
+								<PlaySquare
+									className="w-6 h-6 text-muted-foreground"
 									strokeWidth={strokeWidth}
 								/>
 							</span>
-							<p className="ml-2 flex-1  flex items-center font-bold">{chapter.title}</p>
+							<p className="ml-2 flex-1  flex items-center font-semibold gap-x-2">
+								<span>{`${index + 1}-)`}</span>
+								<span>{chapter.title}</span>
+							</p>
 							<span className="text-xs text-muted-foreground font-medium">
 								{convertSecondsToMMSS(chapter.duration)}
 							</span>
 						</li>
 					))}
-				</ul>
+				</ScrollArea>
 			</div>
 		</div>
 	);

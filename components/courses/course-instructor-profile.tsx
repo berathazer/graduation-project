@@ -1,11 +1,13 @@
 import React from "react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import Image from "next/image";
 
 import { Skeleton } from "../ui/skeleton";
-import { Instructor } from "@prisma/client";
+
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { CalendarDays } from "lucide-react";
+import { formatJoinDate } from "@/lib/helpers";
+import { cn } from "@/lib/utils";
 
 interface CourseInstructorProfileProps {
 	courseInstructor: {
@@ -13,47 +15,51 @@ interface CourseInstructorProfileProps {
 		firstName: string;
 		lastName: string;
 		headline: string;
+		createdAt: Date;
 	} | null;
 	imageUrl: string;
+	className?: string;
 }
 
-const CourseInstructorProfile = ({ courseInstructor, imageUrl }: CourseInstructorProfileProps) => {
+const CourseInstructorProfile = ({
+	courseInstructor,
+	imageUrl,
+	className,
+}: CourseInstructorProfileProps) => {
 	const fullName = courseInstructor?.firstName + " " + courseInstructor?.lastName;
 	return (
-		<div className="flex flex-col">
+		<div className={cn("flex flex-col", className)}>
 			<TooltipProvider delayDuration={50}>
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Link
 							href={`/instructor/${courseInstructor?.id}`}
-							className="w-full"
+							className="w-80 h-full p-4 rounded-lg border hover:bg-muted transition-colors "
 						>
-							<Button
-								variant={"ghost"}
-								className="flex items-center justify-start h-full w-full px-1 py-3"
-							>
-								<div className="w-10 h-10 relative">
-									<Image
-										src={imageUrl || ""}
-										alt={fullName || ""}
-										fill
-										className="rounded-full"
-										style={{
-											aspectRatio: "40/40",
-											objectFit: "cover",
-										}}
-									/>
+							<div className="flex ">
+								<div className="flex justify-between space-x-4">
+									<Avatar>
+										<AvatarImage src={imageUrl || ""} />
+										<AvatarFallback>B</AvatarFallback>
+									</Avatar>
+									<div className="space-y-1">
+										<h4 className="text-sm font-bold">{fullName}</h4>
+										<p className="text-sm font-medium">
+											{courseInstructor?.headline}
+										</p>
+										<div className="flex items-center pt-2">
+											<CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
+											<span className="text-xs text-muted-foreground">
+												{formatJoinDate(courseInstructor?.createdAt!)}
+											</span>
+										</div>
+									</div>
 								</div>
-
-								<div className="ml-4">
-									<h4 className="font-bold text-start">{fullName}</h4>
-									<p className="text-sm text-gray-500">{courseInstructor?.headline}</p>
-								</div>
-							</Button>
+							</div>
 						</Link>
 					</TooltipTrigger>
 					<TooltipContent
-						side="bottom"
+						side="right"
 						className="rounded-md "
 					>
 						<div className="flex items-center p-1 ">Profili Görüntüle</div>

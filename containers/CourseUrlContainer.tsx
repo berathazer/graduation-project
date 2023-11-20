@@ -18,7 +18,7 @@ import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
 
 import Image from "next/image";
-import React, { Suspense } from "react";
+import React from "react";
 
 interface CourseUrlContainerProps {
 	profileId: string;
@@ -45,7 +45,10 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 					title: true,
 					description: true,
 				},
-				where: {},
+				where: { isPublished: true },
+				orderBy: {
+					position: "asc",
+				},
 			},
 			courseFeature: {
 				select: {
@@ -72,6 +75,7 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 							firstName: true,
 							lastName: true,
 							headline: true,
+							createdAt: true,
 						},
 					},
 					imageUrl: true,
@@ -99,29 +103,21 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 
 	return (
 		<div className="w-full ">
-			<div className="container">
-				<div
-					key="1"
-					className="grid gap-y-8 md:grid-cols-2 gap-6 lg:gap-8  max-w-7xl px-4 mx-auto py-16 "
-				>
-					<div className="col-span-2 lg:col-span-1 h-full flex flex-col gap-y-4">
-						<div className="relative h-[300px] lg:h-[500px]">
-							<Image
-								alt={course?.title || ""}
-								src={course?.imageUrl || ""}
-								fill
-								priority
-								className="object-fill  w-full overflow-hidden dark:border-zinc-800 shadow rounded-md border-2 border-slate-50"
-							/>
-						</div>
-						<CourseInstructorProfile
-							courseInstructor={course.profile.instructor}
-							imageUrl={course.profile.imageUrl}
+			<div
+				key="1"
+				className="grid gap-y-8 md:grid-cols-2 gap-4 lg:gap-4  max-w-7xl px-4 mx-auto py-16 "
+			>
+				<div className="col-span-2  h-full flex flex-col gap-y-4 md:flex-row  md:gap-x-6">
+					<div className="relative h-[300px] lg:h-[500px] md:flex-1 ">
+						<Image
+							alt={course?.title || ""}
+							src={course?.imageUrl || ""}
+							fill
+							priority
+							className="object-fill  w-full overflow-hidden dark:border-zinc-800 shadow rounded-md border-2 border-slate-50"
 						/>
-						<CourseSections chapters={course.chapters} />
 					</div>
-
-					<div className="col-span-2 lg:col-span-1 flex flex-col gap-y-4">
+					<div className="flex flex-col gap-y-4 flex-1">
 						<h1 className="font-bold text-3xl">{course?.title}</h1>
 						<div className="flex items-center ">
 							<CourseRating rating={4.5} />
@@ -146,35 +142,54 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 							/>
 						</div>
 						<p className="mt-4  text-gray-500">{course?.description}</p>
-						<Card className="border-none bg-transparent px-0 shadow-none">
-							<CardHeader className="py-2 px-0">
-								<CardTitle>Bu kurs şunları içeriyor:</CardTitle>
-							</CardHeader>
-							<CardContent className="px-2 pb-0">
-								<ul className="list-disc list-inside space-y-1 text-sm text-gray-500">
-									<li>10 saat isteğe bağlı video</li>
-									<li>42 indirilebilir kaynak</li>
-									<li>Ömür boyu tam erişim</li>
+						<div className="flex w-full items-center gap-x-4 ">
+							<Card className="border-none bg-transparent px-0 shadow-none">
+								<CardHeader className="py-2 px-0">
+									<CardTitle>Bu kurs şunları içeriyor:</CardTitle>
+								</CardHeader>
+								<CardContent className="px-2 pb-0">
+									<ul className="list-disc list-inside space-y-1 text-sm text-gray-500">
+										<li>10 saat isteğe bağlı video</li>
+										<li>42 indirilebilir kaynak</li>
+										<li>Ömür boyu tam erişim</li>
 
-									<li>Dersler hakkında kişiselleştirilmiş geri bildirim</li>
-								</ul>
-							</CardContent>
-						</Card>
-
-						<CourseDescription description={course.courseFeature?.description!} />
-					</div>
-
-					<div className="col-span-2 mt-6">
-						<h2 className="font-bold text-2xl">Kurs Değerlendirmeleri</h2>
-						<div className="mt-2 space-y-4">
-							<CourseComment />
-							<CourseComment />
-							<CourseComment />
+										<li>Dersler hakkında kişiselleştirilmiş geri bildirim</li>
+									</ul>
+								</CardContent>
+							</Card>
+							<CourseInstructorProfile
+								courseInstructor={course.profile.instructor}
+								imageUrl={course.profile.imageUrl}
+								className="flex md:hidden h-full"
+							/>
 						</div>
 					</div>
-
-					<div className="col-span-2 mt-6">Random Courses Slider</div>
 				</div>
+				<div className="col-span-2 hidden md:flex">
+					<CourseInstructorProfile
+						courseInstructor={course.profile.instructor}
+						imageUrl={course.profile.imageUrl}
+					/>
+				</div>
+				<div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+					<div className="col-span-2 md:col-span-1">
+						<CourseSections chapters={course.chapters} />
+					</div>
+					<div className="col-span-2 md:col-span-1">
+						<CourseDescription description={course.courseFeature?.description!} />
+					</div>
+				</div>
+
+				<div className="col-span-2 mt-6">
+					<h2 className="font-bold text-2xl">Kurs Değerlendirmeleri</h2>
+					<div className="mt-2 space-y-4">
+						<CourseComment />
+						<CourseComment />
+						<CourseComment />
+					</div>
+				</div>
+
+				<div className="col-span-2 mt-6">Random Courses Slider</div>
 			</div>
 		</div>
 	);
@@ -216,7 +231,7 @@ export const CourseUrlContainerSkeleton = () => {
 					{/* Kart İçeriği Skeleton */}
 					<Card className="border-none bg-transparent px-0 shadow-none">
 						<CardHeader className="py-6 px-0">
-							<CardTitle>This course includes:</CardTitle>
+							<CardTitle>Bu kurs şunları içeriyor:</CardTitle>
 						</CardHeader>
 						<CardContent className="px-2">
 							<ul className="list-disc list-inside space-y-1 text-sm text-gray-500">
@@ -230,21 +245,6 @@ export const CourseUrlContainerSkeleton = () => {
 							</ul>
 						</CardContent>
 					</Card>
-
-					{/* Instructor Bilgileri Skeleton */}
-					<div className="hidden lg:block">
-						<h3 className="font-bold text-lg">Course Instructor</h3>
-						<div className="flex items-center mt-2">
-							<Skeleton className=" w-10 h-10 rounded-full" />
-
-							<div className="ml-4">
-								{/* İsim Skeleton */}
-								<Skeleton className="h-4 w-20 mb-1" />
-								{/* Ünvan Skeleton */}
-								<Skeleton className="h-3 w-16" />
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
