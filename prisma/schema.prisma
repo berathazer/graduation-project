@@ -26,19 +26,23 @@ enum Difficulty {
 }
 
 model Profile {
-  id         String      @id @default(uuid())
-  userId     String      @unique
-  name       String
-  imageUrl   String      @db.Text
-  email      String      @db.Text
-  role       MemberRole  @default(STUDENT)
-  favorites  Favorite[]
-  basket     Basket[]
-  course     Course[]
-  reviews    Review[]
-  instructor Instructor?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id             String           @id @default(uuid())
+  userId         String           @unique
+  name           String
+  imageUrl       String           @db.Text
+  email          String           @db.Text
+  role           MemberRole       @default(STUDENT)
+  favorites      Favorite[]
+  basket         Basket[]
+  course         Course[]
+  reviews        Review[]
+  instructor     Instructor?
+  userProgress   UserProgress[]
+  stripeCustomer StripeCustomer[]
+  purchase       Purchase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Instructor {
@@ -241,9 +245,9 @@ model MuxData {
 
 //kursun tamamlanma oranının modeli
 model UserProgress {
-  id     String @id @default(uuid())
-  userId String
-
+  id        String  @id @default(uuid())
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
@@ -252,30 +256,35 @@ model UserProgress {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, chapterId])
+  @@unique([profileId, chapterId])
   @@index([chapterId])
 }
 
 //Siparis modeli
 model Purchase {
-  id       String @id @default(uuid())
-  userId   String
-  price    Int
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  id        String  @id @default(uuid())
+  profileId String
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  price     Int
+  courseId  String
+  course    Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([profileId, courseId])
   @@index([courseId])
 }
 
 //Bu modeli daha sonra ayrıntılı bi şekilde tamamlayacağım 
 model StripeCustomer {
-  id               String @id @default(uuid())
-  userId           String @unique
-  stripeCustomerId String @unique
+  id               String  @id @default(uuid())
+  profileId        String
+  profile          Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  stripeCustomerId String  @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([profileId])
 }

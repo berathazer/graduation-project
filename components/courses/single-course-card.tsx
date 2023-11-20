@@ -9,7 +9,7 @@ import LoadingImage from "./loading-image";
 import { IconBadge } from "../icon-badge";
 import { BookOpen } from "lucide-react";
 
-const maxTitleLength = 50;
+const maxTitleLength = 48;
 
 interface SingleCourseCardProps {
 	course: CourseWithCategoryWithOutcomeWithFeature;

@@ -1,11 +1,20 @@
-import { Chapter } from "@prisma/client";
+import db from "@/lib/db";
+
 import React from "react";
 
 interface CourseSectionsProps {
-	chapters: Chapter[];
+	courseId: string;
 }
 
-const CourseSections = ({ chapters }: CourseSectionsProps) => {
+const CourseSections = async ({ courseId }: CourseSectionsProps) => {
+	const chapters = await db.chapter.findMany({
+		where: {
+			courseId,
+		},
+		include: {
+			muxData: true,
+		},
+	});
 	return (
 		<div className="col-span-2 md:col-span-1">
 			CourseSections
@@ -14,4 +23,7 @@ const CourseSections = ({ chapters }: CourseSectionsProps) => {
 	);
 };
 
+export const CourseSectionsSkeleton = () => {
+	return <div>Loading...</div>;
+};
 export default CourseSections;

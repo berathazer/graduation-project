@@ -28,7 +28,7 @@ export const searchCourses = async (keyword: string) => {
         include: {
             profile: {
                 include: {
-                    instructors: true
+                    instructor: true
                 }
             }
         }

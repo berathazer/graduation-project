@@ -24,7 +24,7 @@ const FavoriteCourseCard = ({ favorite }: FavoriteCourseCardProps) => {
 	return (
 		<Link
 			href={`/courses/${favorite.course.url}`}
-			className="w-full flex flex-col gap-y-2 h-[288px] group relative"
+			className="w-full flex flex-col gap-y-2 min-h-[318px] group relative"
 		>
 			{/* Favorite Button */}
 			<AddFavoriteButton
@@ -35,13 +35,13 @@ const FavoriteCourseCard = ({ favorite }: FavoriteCourseCardProps) => {
 				className="absolute top-2 right-2 h-8 w-8 rounded-full p-1  z-[9999]"
 			/>
 			{/* Resim */}
-			<div className="w-full flex-1 max-h-44 bg-black relative object-fill">
-				<LoadingImage
-					title={favorite.course.title}
-					imageUrl={favorite.course.imageUrl || ""}
-					className="rounded-none"
-				/>
-			</div>
+
+			<LoadingImage
+				title={favorite.course.title}
+				imageUrl={favorite.course.imageUrl || ""}
+				className="rounded-none object-fill w-full flex-1 h-44 bg-slate-50 relative"
+			/>
+
 			{/* Kurs ismi */}
 			<p className="font-bold flex flex-col">
 				{favorite.course.title.length > maxTitleLength
