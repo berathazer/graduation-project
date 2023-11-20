@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 
 import { ChaptersList } from "./chapters-list";
 import { CourseWithCategoryWithChapters } from "@/types/global.types";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChaptersFormProps {
 	initialData: CourseWithCategoryWithChapters | null;
@@ -82,13 +83,13 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 	};
 
 	return (
-		<div className="relative mt-6 border bg-slate-100 rounded-md p-4">
+		<div className="relative mt-6 border bg-slate-100 rounded-md py-4">
 			{isUpdating && (
-				<div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-m flex items-center justify-center">
+				<div className="absolute z-[999] h-full w-full bg-slate-500/20 top-0 right-0 rounded-m flex items-center justify-center">
 					<Loader2 className="animate-spin h-6 w-6 text-sky-700" />
 				</div>
 			)}
-			<div className="font-medium flex items-center justify-between">
+			<div className="px-4 font-medium flex items-center justify-between">
 				<span className="flex items-center gap-x-2">
 					Kurs Bölümleri
 					{initialData?.chapters.filter((c) => c.isPublished === true).length! > 0 ? (
@@ -111,6 +112,7 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 					)}
 				</Button>
 			</div>
+
 			{isCreating && (
 				<Form {...form}>
 					<form
@@ -143,9 +145,9 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 				</Form>
 			)}
 			{!isCreating && (
-				<div
+				<ScrollArea
 					className={cn(
-						"text-sm mt-2",
+						"text-sm mt-2 px-4 h-[400px]",
 						!initialData?.chapters.length && "text-slate-500 italic"
 					)}
 				>
@@ -155,10 +157,12 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 						onReorder={onReorder}
 						items={initialData?.chapters || []}
 					/>
-				</div>
+				</ScrollArea>
 			)}
 			{!isCreating && (
-				<p className="text-xs text-muted-foreground mt-4">Bölümleri sürükleyerek sıralayın.</p>
+				<p className="text-xs text-muted-foreground mt-4 px-4">
+					Bölümleri sürükleyerek sıralayın.
+				</p>
 			)}
 		</div>
 	);

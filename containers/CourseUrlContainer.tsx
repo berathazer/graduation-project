@@ -3,12 +3,10 @@ import { getBasket } from "@/actions/basket-action";
 import AddBasketButton from "@/components/buttons/add-basket-button";
 import AddFavoriteButton from "@/components/buttons/add-favorite-button";
 import CourseComment from "@/components/courses/course-comment";
-import CourseDescription, { CourseDescriptionSkeleton } from "@/components/courses/course-description";
-import CourseInstructorProfile, {
-	CourseInstructorProfileSkeleton,
-} from "@/components/courses/course-instructor-profile";
+import CourseDescription from "@/components/courses/course-description";
+import CourseInstructorProfile from "@/components/courses/course-instructor-profile";
 import CourseRating from "@/components/courses/course-rating";
-import CourseSections, { CourseSectionsSkeleton } from "@/components/courses/course-sections";
+import CourseSections from "@/components/courses/course-sections";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,16 +31,57 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 			url: courseUrl,
 		},
 		include: {
-			category: true,
-			courseFeature: true,
-			courseLearningOutcome: true,
-			profile: true,
+			category: {
+				select: {
+					name: true,
+					url: true,
+				},
+			},
+			chapters: {
+				select: {
+					courseId: true,
+					isFree: true,
+					duration: true,
+					title: true,
+					description: true,
+				},
+				where: {},
+			},
+			courseFeature: {
+				select: {
+					difficulty: true,
+					description: true,
+					lifetimeAccess: true,
+					resourceCount: true,
+					shareLink: true,
+				},
+			},
+			courseLearningOutcome: {
+				select: {
+					outcomeText: true,
+				},
+				orderBy: {
+					order: "asc",
+				},
+			},
+			profile: {
+				select: {
+					instructor: {
+						select: {
+							id: true,
+							firstName: true,
+							lastName: true,
+							headline: true,
+						},
+					},
+					imageUrl: true,
+				},
+			},
 			favorite: {
 				where: {
 					profileId: profileId,
 				},
 			},
-			basket: true,
 		},
 	});
 
@@ -65,22 +104,24 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 					key="1"
 					className="grid gap-y-8 md:grid-cols-2 gap-6 lg:gap-8  max-w-7xl px-4 mx-auto py-16 "
 				>
-					<div className="col-span-2 lg:col-span-1 h-full ">
+					<div className="col-span-2 lg:col-span-1 h-full flex flex-col gap-y-4">
 						<div className="relative h-[300px] lg:h-[500px]">
 							<Image
 								alt={course?.title || ""}
 								src={course?.imageUrl || ""}
 								fill
 								priority
-								className="object-fill border border-zinc-200 w-full overflow-hidden dark:border-zinc-800 shadow"
+								className="object-fill  w-full overflow-hidden dark:border-zinc-800 shadow rounded-md border-2 border-slate-50"
 							/>
 						</div>
-						<Suspense fallback={<CourseSectionsSkeleton />}>
-							<CourseSections courseId={course.id} />
-						</Suspense>
+						<CourseInstructorProfile
+							courseInstructor={course.profile.instructor}
+							imageUrl={course.profile.imageUrl}
+						/>
+						<CourseSections chapters={course.chapters} />
 					</div>
 
-					<div className="col-span-2 lg:col-span-1 grid gap-4">
+					<div className="col-span-2 lg:col-span-1 flex flex-col gap-y-4">
 						<h1 className="font-bold text-3xl">{course?.title}</h1>
 						<div className="flex items-center ">
 							<CourseRating rating={4.5} />
@@ -111,25 +152,16 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 							</CardHeader>
 							<CardContent className="px-2 pb-0">
 								<ul className="list-disc list-inside space-y-1 text-sm text-gray-500">
-									<li>10 hours of on-demand video</li>
-									<li>8 articles</li>
-									<li>42 downloadable resources</li>
-									<li>Full lifetime access</li>
-									<li>Certificate of completion</li>
-									<li>
-										Direct interaction with the instructor through live chat sessions
-									</li>
-									<li>Personalized feedback on assignments</li>
+									<li>10 saat isteğe bağlı video</li>
+									<li>42 indirilebilir kaynak</li>
+									<li>Ömür boyu tam erişim</li>
+
+									<li>Dersler hakkında kişiselleştirilmiş geri bildirim</li>
 								</ul>
 							</CardContent>
 						</Card>
-						{/* Instructor */}
-						<Suspense fallback={<CourseInstructorProfileSkeleton />}>
-							<CourseInstructorProfile profileId={course.profileId} />
-						</Suspense>
-						<Suspense fallback={<CourseDescriptionSkeleton />}>
-							<CourseDescription courseId={course.id} />
-						</Suspense>
+
+						<CourseDescription description={course.courseFeature?.description!} />
 					</div>
 
 					<div className="col-span-2 mt-6">

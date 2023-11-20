@@ -3,40 +3,38 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import db from "@/lib/db";
+
 import { Skeleton } from "../ui/skeleton";
+import { Instructor } from "@prisma/client";
 
 interface CourseInstructorProfileProps {
-	profileId: string;
+	courseInstructor: {
+		id: string;
+		firstName: string;
+		lastName: string;
+		headline: string;
+	} | null;
+	imageUrl: string;
 }
-const CourseInstructorProfile = async ({ profileId }: CourseInstructorProfileProps) => {
-	const courseInstructor = await db.instructor.findFirst({
-		where: {
-			profileId,
-		},
-		include: {
-			profile: true,
-		},
-	});
 
+const CourseInstructorProfile = ({ courseInstructor, imageUrl }: CourseInstructorProfileProps) => {
 	const fullName = courseInstructor?.firstName + " " + courseInstructor?.lastName;
 	return (
 		<div className="flex flex-col">
-			<h3 className="font-bold text-lg">Kurs Eğitmeni</h3>
 			<TooltipProvider delayDuration={50}>
 				<Tooltip>
 					<TooltipTrigger asChild>
 						<Link
 							href={`/instructor/${courseInstructor?.id}`}
-							className="w-max h-full"
+							className="w-full"
 						>
 							<Button
 								variant={"ghost"}
-								className="flex items-center h-full"
+								className="flex items-center justify-start h-full w-full px-1 py-3"
 							>
 								<div className="w-10 h-10 relative">
 									<Image
-										src={courseInstructor?.profile.imageUrl || ""}
+										src={imageUrl || ""}
 										alt={fullName || ""}
 										fill
 										className="rounded-full"

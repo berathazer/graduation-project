@@ -31,3 +31,34 @@ export const formatProductPrice = (price: number) => {
 
 
 
+export const convertChapterDuration = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+
+    let timeString = '';
+
+    if (hours > 0) {
+        timeString += hours + ' saat ';
+    }
+
+    if (minutes > 0) {
+        timeString += minutes + ' dakika ';
+    }
+
+    if (remainingSeconds > 0 || (hours === 0 && minutes === 0)) {
+        timeString += remainingSeconds + ' saniye';
+    }
+
+    return timeString.trim();
+}
+
+export function convertSecondsToMMSS(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    const minutesString = String(minutes).padStart(2, '0');
+    const secondsString = String(remainingSeconds).padStart(2, '0');
+
+    return `${minutesString}:${secondsString}`;
+}

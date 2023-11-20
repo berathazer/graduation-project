@@ -6,20 +6,15 @@ import db from "@/lib/db";
 import { Skeleton } from "../ui/skeleton";
 
 interface CourseDescriptionProps {
-	courseId: string;
+	description: string;
 }
-const CourseDescription = async ({ courseId }: CourseDescriptionProps) => {
-	const courseFeature = await db.courseFeature.findFirst({
-		where: {
-			courseId,
-		},
-	});
+const CourseDescription = async ({ description }: CourseDescriptionProps) => {
 	return (
-		<div className="col-span-2 md:col-span-1 mt-4">
-			<ScrollArea className="w-full h-[500px]">
-				<h2 className="font-bold text-2xl text-center ">Kurs Açıklaması</h2>
+		<div className="col-span-2 md:col-span-1 self-end justify-self-end mt-auto">
+			<h2 className="font-bold text-2xl text-center pb-4">Kurs Açıklaması</h2>
+			<ScrollArea className="w-fullh-[500px] lg:h-[484px] drop-shadow-lg">
 				<Preview
-					value={courseFeature?.description || ""}
+					value={description || ""}
 					className="text-lg font-medium"
 				/>
 
