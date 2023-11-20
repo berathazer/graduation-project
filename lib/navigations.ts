@@ -52,3 +52,15 @@ export const myCoursesNavigation = [
         url: "/my-courses",
     },
 ]
+
+
+export const searchNavigations = [
+    {
+        name: "Anasayfa",
+        url: "/",
+    },
+    {
+        name: "Arama",
+        url: "/search",
+    },
+]

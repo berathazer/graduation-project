@@ -5,8 +5,9 @@ interface CourseRatingProps {
 	rating?: number;
 	size?: number;
 	color?: string;
+	valueShow?: boolean;
 }
-const CourseRating = ({ rating, size, color }: CourseRatingProps) => {
+const CourseRating = ({ rating, size, color, valueShow }: CourseRatingProps) => {
 	const [star, setStar] = useState(5);
 
 	const onChange = (nextValue: number) => {
@@ -17,7 +18,7 @@ const CourseRating = ({ rating, size, color }: CourseRatingProps) => {
 		<ReactStars
 			onChange={onChange}
 			value={rating}
-			valueShow
+			valueShow={valueShow}
 			isHalf
 			size={size || 20}
 			activeColor={color || "black"}
