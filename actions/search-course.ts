@@ -30,10 +30,15 @@ export const searchCourses = async (keyword: string) => {
                 include: {
                     instructor: true
                 }
+            },
+            _count: {
+                select: {
+                    chapters: true
+                }
             }
         }
     });
 
-    
+
     return courses;
 }

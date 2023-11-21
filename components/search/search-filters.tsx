@@ -1,5 +1,4 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { RadioGroup } from "../ui/radio-group";
 
 import StarFilter from "./star-filter";
 import LevelFilter from "./level-filter";
@@ -36,8 +35,11 @@ export function SearchFilters() {
 			defaultValue={["item-1", "item-2", "item-3"]}
 		>
 			{/* Oylamaya Göre */}
-			<AccordionItem value="item-1">
-				<AccordionTrigger className="text-lg font-medium">Oy Oranı</AccordionTrigger>
+			<AccordionItem
+				value="item-1"
+				className="flex flex-col "
+			>
+				<AccordionTrigger className="text-lg font-medium ">Oy Oranı</AccordionTrigger>
 				<AccordionContent>
 					<StarFilter filters={startFilters} />
 				</AccordionContent>
