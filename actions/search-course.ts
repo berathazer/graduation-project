@@ -1,7 +1,18 @@
 import db from "@/lib/db";
 
-export const searchCourses = async (keyword: string) => {
+export const searchCourses = async (searchParams: {
+    q: string;
+    rating?: string;
+    sort?: string;
+    level?: string | string[];
+    duration?: string | string[];
+}) => {
 
+
+    const keyword = searchParams.q;
+    const { rating, sort, level, duration } = searchParams;
+
+    console.log("searchParams: ", searchParams);
     const courses = await db.course.findMany({
 
         where: {
@@ -37,7 +48,9 @@ export const searchCourses = async (keyword: string) => {
                 }
             },
             courseLearningOutcome: true
-        }
+        },
+
+
     });
 
 

@@ -11,15 +11,24 @@ import { strokeWidth } from "@/lib/constant";
 import { searchNavigations } from "@/lib/navigations";
 import { Dot, SearchX } from "lucide-react";
 import React from "react";
+import { redirect } from "next/navigation";
 
 interface SearchPageProps {
-	searchParams: { [key: string]: string | string[] };
+	searchParams: {
+		q: string;
+		rating?: string;
+		sort?: string;
+		level?: string | string[];
+		duration?: string | string[];
+	};
 }
 const SearchPage = async ({ searchParams }: SearchPageProps) => {
 	const { q } = searchParams;
-	console.log("searchParams: ", searchParams);
 
-	const courses = await searchCourses(q as string);
+	if (!q) {
+		redirect("/");
+	}
+	const courses = await searchCourses(searchParams);
 
 	return (
 		<PageWrapper>
