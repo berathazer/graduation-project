@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function RecentSales() {
 	return (
@@ -73,6 +74,21 @@ export function RecentSales() {
 				</div>
 				<div className="ml-auto font-medium">+$39.00</div>
 			</div>
+		</div>
+	);
+}
+
+export function RecentSalesSkeleton() {
+	return (
+		<div className="space-y-8 w-full">
+			{[1, 2, 3, 4, 5].map((index) => (
+				<div
+					key={index}
+					className="flex items-center w-full"
+				>
+					<Skeleton className="h-10 w-full" />
+				</div>
+			))}
 		</div>
 	);
 }

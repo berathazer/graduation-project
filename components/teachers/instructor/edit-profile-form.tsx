@@ -13,6 +13,7 @@ import { Instructor } from "@prisma/client";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const editProfileFormSchema = z.object({
 	firstName: z
@@ -176,4 +177,20 @@ const EditProfileForm = ({ instructor, profileId }: EditProfileFormProps) => {
 	);
 };
 
+export const EditProfileFormSkeleton = () => {
+	return (
+		<form className="space-y-8">
+			<Skeleton className="w-full h-10" />
+			<Skeleton className="w-full h-10" />
+			<Skeleton className="w-full h-10" />
+			<Skeleton className="w-full h-10" />
+			<Skeleton className="w-full h-10" />
+			<Skeleton className="w-full h-10" />
+
+			<Skeleton className="w-full h-32" />
+
+			<Skeleton className="w-32 h-10" />
+		</form>
+	);
+};
 export default EditProfileForm;
