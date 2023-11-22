@@ -21,6 +21,18 @@ import { Profile } from "@prisma/client";
 import { cookies } from "next/headers";
 import { Skeleton } from "@/components/ui/skeleton";
 
+const admin_routes = [
+	{
+		url: "/admin",
+		name: "Öğretmen Modu",
+		tooltip: true,
+		component: (
+			<Link href={"/admin"}>
+				<Button size={"sm"}>Admin Modu</Button>
+			</Link>
+		),
+	},
+];
 const teacher_routes = [
 	{
 		url: "/courses",
@@ -89,6 +101,7 @@ interface NavbarRoutesProps {
 const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 	const { userId } = auth();
 	const isTeacher = profile?.role === "TEACHER";
+	const isAdmin = profile?.role === "ADMIN";
 	const isAuthenticated = profile != null && userId != null;
 
 	const basketCookie = cookies().get("basket")?.value;
@@ -145,19 +158,34 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 				id="navbarRoutes"
 				className={cn(" hidden lg:flex items-center gap-x-6 mr-6 text-sm ", userId && "mr-8")}
 			>
-				{routes.map((route, index) => {
-					if (!route.tooltip) {
-						return (
-							<Link
-								href={route.url}
-								key={index}
-							>
-								{route.name}
-							</Link>
-						);
-					}
-					return <div key={index}>{route.component}</div>;
-				})}
+				{!isAdmin &&
+					routes.map((route, index) => {
+						if (!route.tooltip) {
+							return (
+								<Link
+									href={route.url}
+									key={index}
+								>
+									{route.name}
+								</Link>
+							);
+						}
+						return <div key={index}>{route.component}</div>;
+					})}
+				{isAdmin &&
+					admin_routes.map((route, index) => {
+						if (!route.tooltip) {
+							return (
+								<Link
+									href={route.url}
+									key={index}
+								>
+									{route.name}
+								</Link>
+							);
+						}
+						return <div key={index}>{route.component}</div>;
+					})}
 			</div>
 
 			<div className="flex items-center gap-x-3">

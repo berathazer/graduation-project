@@ -1,20 +1,29 @@
 "use client";
 
-import { BadgePlus, BarChart, Compass, Layout, List, UserCog } from "lucide-react";
+import {
+	BadgePlus,
+	BarChart,
+	Compass,
+	Layout,
+	List,
+	MenuSquare,
+	ShieldCheck,
+	UserCog,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
 
 const adminRoutes = [
 	{
-		icon: Layout,
-		label: "Dashboard",
-		href: "/",
+		icon: ShieldCheck,
+		label: "Admin",
+		href: "/admin",
 	},
 	{
-		icon: Compass,
-		label: "Browse",
-		href: "/search",
+		icon: MenuSquare,
+		label: "Kategoriler",
+		href: "/admin/categories",
 	},
 ];
 
