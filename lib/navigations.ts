@@ -64,3 +64,15 @@ export const searchNavigations = [
         url: "/search",
     },
 ]
+
+
+export const instructorNavigations = [
+    {
+        name: "Anasayfa",
+        url: "/",
+    },
+    {
+        name: "Eğitmen",
+        url: "/instructor",
+    },
+]
