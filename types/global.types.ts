@@ -52,3 +52,13 @@ export type CourseWithFeatureWithChapters = Course & {
     courseFeature: CourseFeature
     chapters: Chapter[],
 }
+
+
+
+export const SortingTypes = {
+    newest: "newest" as const,
+    "highest-voted": "highest-voted" as const,
+    "most-reviewed": "most-reviewed" as const,
+};
+
+

@@ -2,17 +2,23 @@ import React from "react";
 
 import CourseRating from "../courses/course-rating";
 import { formatProductPrice } from "@/lib/helpers";
-import { TagIcon } from "lucide-react";
+import { Check, TagIcon } from "lucide-react";
 import { strokeWidth } from "@/lib/constant";
-import { Course } from "@prisma/client";
+import { Course, CourseLearningOutcome, Instructor, Profile } from "@prisma/client";
 import LoadingImage from "../courses/loading-image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import CourseInstructorProfile from "../courses/course-instructor-profile";
+import InstructorCard from "../teachers/instructor/instructor-card";
 
 interface SearchCourseCardProps {
 	course: Course & {
 		_count: {
 			chapters: number;
+		};
+		courseLearningOutcome: CourseLearningOutcome[];
+		profile: Profile & {
+			instructor: Instructor | null;
 		};
 	};
 }
@@ -58,8 +64,33 @@ const SearchCourseCard = ({ course }: SearchCourseCardProps) => {
 						</div>
 					</Link>
 				</TooltipTrigger>
-				<TooltipContent>
-					<div className="w-full h-20 bg-slate-50 border">A</div>
+				<TooltipContent side="top">
+					<div className="flex flex-col justify-center px-2 w-[300px] gap-y-3 py-4">
+						{course.courseLearningOutcome.length > 0 && (
+							<>
+								<div className="text-lg font-medium">Neler Öğreneceksiniz</div>
+
+								<ul className="flex flex-col gap-y-2">
+									{course.courseLearningOutcome.slice(0, 3).map((outcome, key) => (
+										<li
+											key={key}
+											className="flex items-start gap-x-4"
+										>
+											<Check
+												strokeWidth={strokeWidth}
+												className="w-5 h-5 text-green-500 relative top-1"
+											/>
+											<span className="flex-1">{outcome.outcomeText}</span>
+										</li>
+									))}
+								</ul>
+							</>
+						)}
+						<InstructorCard
+							imageUrl={course.profile.imageUrl}
+							instructor={course.profile.instructor}
+						/>
+					</div>
 				</TooltipContent>
 			</Tooltip>
 		</TooltipProvider>

@@ -35,7 +35,8 @@ export const searchCourses = async (keyword: string) => {
                 select: {
                     chapters: true
                 }
-            }
+            },
+            courseLearningOutcome: true
         }
     });
 
