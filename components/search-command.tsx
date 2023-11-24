@@ -47,6 +47,10 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 			setOpen(false);
 		}
 	};
+
+	const parentCategories = categories.filter(c => c.parentId === null);
+
+
 	return (
 		<>
 			<p
@@ -69,7 +73,7 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 				<CommandList>
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup heading="Kategoriler">
-						{categories.map((category) => (
+						{parentCategories.map((category) => (
 							<CommandItem key={category.id}>
 								<Grip
 									strokeWidth={"1.1px"}

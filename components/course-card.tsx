@@ -37,12 +37,12 @@ export const CourseCard = ({
 	const [isLoading, setIsLoading] = useState(true);
 	return (
 		<Link href={`/teacher/courses/${id}`}>
-			<div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
-				<div className="relative w-full aspect-video rounded-md border bg-slate-50 overflow-hidden">
+			<div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full flex flex-col">
+				<div className="relative w-full aspect-video rounded-md border bg-slate-50 overflow-hidden ">
 					<Image
 						fill
 						className={cn(
-							"duration-700 ease-in-out object-fill",
+							"duration-700 ease-in-out object-fill ",
 							isLoading ? "scale-150 blur-xl" : ""
 						)}
 						onLoad={() => setIsLoading(false)}
@@ -50,7 +50,7 @@ export const CourseCard = ({
 						src={imageUrl || CourseImage}
 					/>
 				</div>
-				<div className="flex flex-col pt-2 ">
+				<div className="flex flex-col pt-2 flex-1 ">
 					<div className="text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">
 						{title}
 					</div>
@@ -78,7 +78,7 @@ export const CourseCard = ({
 							{formatPrice(price)}
 						</p>
 					)} */}
-					<div className="flex items-center justify-between ">
+					<div className="flex items-center justify-between mt-auto ">
 						<p className="text-md md:text-sm font-medium text-slate-700">
 							{formatProductPrice(price || 0)}
 						</p>

@@ -147,8 +147,11 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 			{!isCreating && (
 				<ScrollArea
 					className={cn(
-						"text-sm mt-2 px-4 h-[400px]",
-						!initialData?.chapters.length && "text-slate-500 italic"
+						"text-sm mt-2 px-4  ",
+						!initialData?.chapters.length && "text-slate-500 italic",
+						initialData?.chapters.length && initialData?.chapters.length > 4
+							? "h-[300px]"
+							: "h-max"
 					)}
 				>
 					{!initialData?.chapters.length && "Hiç Bölüm Yok"}
