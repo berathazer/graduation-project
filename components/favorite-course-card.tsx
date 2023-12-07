@@ -1,9 +1,7 @@
 import { formatProductPrice } from "@/lib/helpers";
 import { Category, Chapter, Course, Favorite } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import NodeJs from "public/courses/node-js-course.png";
 import AddFavoriteButton from "./buttons/add-favorite-button";
 import { Skeleton } from "./ui/skeleton";
 import LoadingImage from "./courses/loading-image";

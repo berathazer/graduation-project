@@ -31,14 +31,30 @@ export const POST = async (req: NextRequest
             return NextResponse.json({ success: false, message: "Unauthorized." }, { status: 401 });
         }
 
+        const existingChapter = await db.chapter.findFirst({
+            where: {
+                courseId: params.courseId,
+                title
+            }, select: {
+                id: true
+            }
+        })
+
+        if (existingChapter) {
+            return NextResponse.json({ success: false, message: "Bu isme ait bir bölüm zaten kayıtlı." }, { status: 401 });
+        }
 
         const lastChapter = await db.chapter.findFirst({
             where: {
                 courseId: params.courseId
             }, orderBy: {
                 position: "desc"
+            },
+            select: {
+                position: true,
             }
         })
+
 
         const newPosition = lastChapter ? lastChapter.position + 1 : 1;
 

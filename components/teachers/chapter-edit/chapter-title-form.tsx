@@ -48,7 +48,10 @@ export const ChapterTitleForm = ({ initialData, courseId, chapterId }: ChapterTi
 			toast.success("Bölüm Güncellendi");
 			toggleEdit();
 			router.refresh();
-		} catch {
+		} catch (error: any) {
+			if (error.response.data.message) {
+				return toast.error(error.response.data.message);
+			}
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		}
 	};

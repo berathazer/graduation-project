@@ -55,9 +55,10 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 			toggleCreating();
 			form.reset();
 			router.refresh();
-		} catch (error) {
-			console.error("Error:", error);
-
+		} catch (error: any) {
+			if (error.response.data.message) {
+				return toast.error(error.response.data.message);
+			}
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		}
 	};
@@ -117,7 +118,7 @@ export const ChaptersForm = ({ initialData, courseId }: ChaptersFormProps) => {
 				<Form {...form}>
 					<form
 						onSubmit={form.handleSubmit(onSubmit)}
-						className="space-y-4 mt-4"
+						className="space-y-4 mt-4 p-4"
 					>
 						<FormField
 							control={form.control}

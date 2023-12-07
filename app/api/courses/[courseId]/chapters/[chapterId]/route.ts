@@ -44,7 +44,16 @@ export const PATCH = async (
             return NextResponse.json({ success: false, message: "Owner Unauthorized" });
         }
 
+        const existingChapter = await db.chapter.findFirst({
+            where: {
+                courseId: params.courseId,
+                title: values?.title || ""
+            }
+        })
 
+        if (existingChapter && existingChapter.id !== params.chapterId) {
+            return NextResponse.json({ success: false, message: "Böyle bir isme ait bölüm mevcut." }, { status: 403 });
+        }
 
         const chapter = await db.chapter.update({
             where: {
