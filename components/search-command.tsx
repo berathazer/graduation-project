@@ -16,6 +16,7 @@ import { useSearchStore } from "@/hooks/use-search-command";
 import { Category } from "@prisma/client";
 import { strokeWidth } from "@/lib/constant";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface SearchCommandProps {
 	categories: Category[];
@@ -48,8 +49,7 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 		}
 	};
 
-	const parentCategories = categories.filter(c => c.parentId === null);
-
+	const parentCategories = categories.filter((c) => c.parentId === null);
 
 	return (
 		<>
@@ -74,13 +74,18 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup heading="Kategoriler">
 						{parentCategories.map((category) => (
-							<CommandItem key={category.id}>
-								<Grip
-									strokeWidth={"1.1px"}
-									className="mr-2 h-4 w-4"
-								/>
-								<span>{category.name}</span>
-							</CommandItem>
+							<Link
+								key={category.id}
+								href={`/courses?categoryId=${category.id}`}
+							>
+								<CommandItem>
+									<Grip
+										strokeWidth={"1.1px"}
+										className="mr-2 h-4 w-4"
+									/>
+									<span>{category.name}</span>
+								</CommandItem>
+							</Link>
 						))}
 					</CommandGroup>
 					<CommandSeparator />
