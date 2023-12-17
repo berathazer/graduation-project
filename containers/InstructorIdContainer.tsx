@@ -16,6 +16,9 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 		include: {
 			profile: true,
 			courses: {
+				where: {
+					isPublished: true,
+				},
 				include: {
 					category: true,
 					courseLearningOutcome: {
@@ -48,9 +51,9 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 				title={"Eğitmen"}
 				navigations={instructorNavigations}
 			/>
-			<div className="grid grid-cols-4 lg:px-12 lg:container gap-x-4">
+			<div className="grid grid-cols-4 lg:px-12 lg:container gap-x-4 pb-12">
 				{/* Left Side */}
-				<div className="col-span-3 flex flex-col">
+				<div className="col-span-4 md:col-span-3 flex flex-col">
 					<div className="flex flex-col">
 						<p
 							className="text-xs text-muted-foreground uppercase
@@ -84,14 +87,14 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 					</Suspense>
 
 					{/* Kurslarım */}
-					<div className="grid grid-cols-2 pt-6 gap-x-4">
+					<div className="grid grid-cols-2 pt-6 gap-4">
 						<p className="font-bold col-span-2 flex items-center gap-x-1 pb-6">
 							<span>Kurslarım</span>
 							<span>{`(${instructor?.courses.length})`}</span>
 						</p>
 						{instructor?.courses.map((course) => (
 							<div
-								className="grid-cols-1"
+								className="col-span-2 md:col-span-1"
 								key={course.id}
 							>
 								<SingleCourseCard
@@ -103,7 +106,7 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 					</div>
 				</div>
 				{/* Right Side */}
-				<div className="col-span-1 h-80 ">
+				<div className="col-span-1 h-80 hidden md:flex">
 					<Avatar className="w-40 h-40">
 						<AvatarImage src={instructor?.profile.imageUrl}></AvatarImage>
 						<AvatarFallback>{fullName[0]}</AvatarFallback>

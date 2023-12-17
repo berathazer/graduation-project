@@ -7,7 +7,7 @@ interface ControlNavbarProps {
 }
 const ControlNavbar = ({ children }: ControlNavbarProps) => {
 	const pathname = usePathname();
-	if (pathname.startsWith("/teacher") || pathname.startsWith("/admin")) return null;
+	if (pathname.startsWith("/teacher") || pathname.startsWith("/admin") || pathname.startsWith("/learning")) return null;
 
 	return children;
 };
