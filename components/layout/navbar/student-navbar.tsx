@@ -12,7 +12,7 @@ const StudentNavbar = () => {
 					variant={"ghost"}
 					className="text-xs"
 				>
-					<LogOut /> Çıkış Yaps
+					<LogOut /> Çıkış Yap
 				</Button>
 			</Link>
 			<UserButton afterSignOutUrl="/" />

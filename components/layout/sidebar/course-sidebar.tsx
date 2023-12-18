@@ -6,6 +6,7 @@ import { CourseProgress } from "@/components/course-progress";
 
 import { CourseSidebarItem } from "./course-sidebar-item";
 import { currentProfile } from "@/lib/auth";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CourseSidebarProps {
 	course: Course & {
@@ -33,7 +34,7 @@ export const CourseSidebar = async ({ course, progressCount }: CourseSidebarProp
 
 	return (
 		<div className="h-full border-r flex flex-col overflow-y-auto shadow-sm">
-			<div className="p-8 flex flex-col border-b">
+			<div className="p-4 flex flex-col border-b">
 				<h1 className="font-semibold">{course.title}</h1>
 				{purchase && (
 					<div className="mt-10">
@@ -44,7 +45,7 @@ export const CourseSidebar = async ({ course, progressCount }: CourseSidebarProp
 					</div>
 				)}
 			</div>
-			<div className="flex flex-col w-full">
+			<ScrollArea className="">
 				{course.chapters.map((chapter) => (
 					<CourseSidebarItem
 						key={chapter.id}
@@ -55,7 +56,7 @@ export const CourseSidebar = async ({ course, progressCount }: CourseSidebarProp
 						isLocked={!chapter.isFree && !purchase}
 					/>
 				))}
-			</div>
+			</ScrollArea>
 		</div>
 	);
 };

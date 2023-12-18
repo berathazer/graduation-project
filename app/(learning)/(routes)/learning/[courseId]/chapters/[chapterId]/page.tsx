@@ -10,6 +10,9 @@ import Preview from "@/components/preview";
 import { CourseEnrollButton } from "./_components/course-enroll-button";
 import { CourseProgressButton } from "./_components/course-progress-button"; */
 import { currentProfile } from "@/lib/auth";
+import { VideoPlayer } from "@/components/video-player";
+import { CourseEnrollButton } from "@/components/learning/course-enroll-button";
+import { CourseProgressButton } from "@/components/learning/course-progress-button";
 
 interface LearningChapterIdPageProps {
 	params: { courseId: string; chapterId: string };
@@ -21,23 +24,25 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 		return redirect("/");
 	}
 
-	console.log("params:", params);
 	const { chapter, course, muxData, attachments, nextChapter, userProgress, purchase } =
 		await getChapter({
 			profileId: profile.id,
 			chapterId: params.chapterId,
 			courseId: params.courseId,
 		});
+	console.log("chapter:", chapter, muxData);
 
 	/* if (!chapter || !course) {
 		return redirect("/");
-	}
- */
-	const isLocked = !chapter?.isFree && !purchase;
-	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+	} */
 
+	const isLocked = !chapter?.isFree && !purchase;
+	
+	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
+	console.log("course:", course);
+	
 	return (
-		<div>
+		<div className="">
 			{userProgress?.isCompleted && (
 				<Banner
 					variant="success"
@@ -50,22 +55,25 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 					label="You need to purchase this course to watch this chapter."
 				/>
 			)}
-			<div className="flex flex-col max-w-4xl mx-auto pb-20">
-				<div className="p-4">
-					{/* <VideoPlayer
+			<div className="flex flex-col mx-auto pb-20 p-4 ">
+				<div
+					id="videoplayer"
+					className=""
+				>
+					<VideoPlayer
 						chapterId={params.chapterId}
-						title={chapter.title}
+						title={chapter?.title}
 						courseId={params.courseId}
 						nextChapterId={nextChapter?.id}
 						playbackId={muxData?.playbackId!}
 						isLocked={isLocked}
 						completeOnEnd={completeOnEnd}
-					/> */}
+					/>
 				</div>
-				<div>
-					<div className="p-4 flex flex-col md:flex-row items-center justify-between">
+				<div className="flex flex-col gap-y-4 mt-6">
+					<div className="p-4 flex flex-col md:flex-row items-center justify-between border rounded-md">
 						<h2 className="text-2xl font-semibold mb-2">{chapter?.title}</h2>
-						{/* {purchase ? (
+						{purchase ? (
 							<CourseProgressButton
 								chapterId={params.chapterId}
 								courseId={params.courseId}
@@ -75,11 +83,11 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 						) : (
 							<CourseEnrollButton
 								courseId={params.courseId}
-								price={course.price!}
+								price={course?.price!}
 							/>
-						)} */}
+						)}
 					</div>
-					<Separator />
+					
 					<div>
 						<Preview value={chapter?.description!} />
 					</div>

@@ -27,7 +27,7 @@ const CourseLayout = async ({
 		include: {
 			chapters: {
 				where: {
-
+					isPublished:true
 				},
 				include: {
 					userProgress: {
@@ -48,7 +48,6 @@ const CourseLayout = async ({
 	}
 
 	const progressCount = await getProgress(profile.id, course.id);
-	console.log(course.chapters);
 
 	return (
 		<div className="h-full">

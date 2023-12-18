@@ -19,6 +19,7 @@ const buttonVariants = cva(
 				showMore: "hover:bg-purple-50 hover:text-purple-700",
 				favorite: "border border-input bg-red-400 text-white ",
 				linkDelete: "hover:bg-rose-50 hover:text-rose-700",
+				success: "bg-emerald-600 text-white hover:bg-emerald-600/80"
 			},
 			size: {
 				default: "h-10 px-4 py-2",

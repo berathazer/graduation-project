@@ -13,6 +13,7 @@ import { ConfettiProvider } from "@/components/providers/confetti-provider";
 import { trTR } from "@clerk/localizations";
 
 import CookieProvider from "@/components/providers/cookie-provider";
+import PageLoadingProvider from "@/components/providers/page-loading-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,10 +32,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<body className={inter.className}>
 					<Toaster />
 					<ConfettiProvider />
+					<PageLoadingProvider />
+
 					<CookieProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
 					<ControlNavbar>
-						
 						<Navbar />
 					</ControlNavbar>
 

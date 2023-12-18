@@ -41,7 +41,7 @@ export const getChapter = async ({
       }
     })
 
-    console.log(chapter, course);
+
 
 
     if (!chapter || !course) {
@@ -61,6 +61,8 @@ export const getChapter = async ({
     }
 
     if (chapter.isFree || purchase) {
+      console.log("girdi");
+      
       muxData = await db.muxData.findUnique({
         where: {
           chapterId: chapterId,
