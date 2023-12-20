@@ -14,14 +14,16 @@ const maxTitleLength = 48;
 interface SingleCourseCardProps {
 	course: CourseWithCategoryWithOutcomeWithFeature;
 	profileId: string;
+	isPurchased: boolean;
 }
 
-const SingleCourseCard = ({ course, profileId }: SingleCourseCardProps) => {
+const SingleCourseCard = ({ course, profileId, isPurchased }: SingleCourseCardProps) => {
 	const chaptersLength = course.chapters.length;
 	return (
 		<SingleCourseTooltip
 			course={course}
 			profileId={profileId}
+			isPurchased={isPurchased}
 		>
 			<Link
 				href={`/courses/${course.url}`}

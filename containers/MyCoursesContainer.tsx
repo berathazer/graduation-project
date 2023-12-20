@@ -6,16 +6,26 @@ import { Tv } from "lucide-react";
 import { strokeWidth } from "@/lib/constant";
 import Link from "next/link";
 import { urls } from "@/lib/urls";
+import db from "@/lib/db";
+import MyCourseCard from "@/components/students/my-courses/my-course-card";
 
-const MyCoursesContainer = () => {
-	const myCourses = [];
+const MyCoursesContainer = async ({ profileId }: { profileId?: string }) => {
+	const purchases = await db.purchase.findMany({
+		where: {
+			profileId: profileId || "",
+		},
+		include: {
+			course: true,
+		},
+	});
+
 	return (
 		<PageWrapper>
 			<NavigationBreadcrumb
 				title="Kurslarım"
 				navigations={myCoursesNavigation}
 			/>
-			{myCourses.length === 0 && (
+			{purchases.length === 0 && (
 				<div className="flex w-full flex-col gap-y-4 items-center justify-center py-8 ">
 					<div className="p-6 rounded-full flex items-center justify-center bg-slate-50">
 						<Tv
@@ -38,6 +48,14 @@ const MyCoursesContainer = () => {
 					</div>
 				</div>
 			)}
+			<div className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+				{purchases.map((p) => (
+					<MyCourseCard
+						key={p.courseId}
+						course={p.course}
+					/>
+				))}
+			</div>
 		</PageWrapper>
 	);
 };

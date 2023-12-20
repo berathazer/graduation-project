@@ -1,8 +1,15 @@
 import MyCoursesContainer from "@/containers/MyCoursesContainer";
-import React from "react";
+import { currentProfile } from "@/lib/auth";
+import MyCoursesSkeleton from "@/skeletons/MyCoursesSkeleton";
+import React, { Suspense } from "react";
 
-const MyCoursesPage = () => {
-	return <MyCoursesContainer />;
+const MyCoursesPage = async () => {
+	const profile = await currentProfile();
+	return (
+		<Suspense fallback={<MyCoursesSkeleton />}>
+			<MyCoursesContainer profileId={profile?.id} />
+		</Suspense>
+	);
 };
 
 export default MyCoursesPage;

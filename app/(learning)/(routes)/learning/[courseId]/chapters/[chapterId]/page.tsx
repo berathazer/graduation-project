@@ -32,15 +32,15 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 		});
 	console.log("chapter:", chapter, muxData);
 
-	/* if (!chapter || !course) {
+	if (!chapter || !course) {
 		return redirect("/");
-	} */
+	}
 
 	const isLocked = !chapter?.isFree && !purchase;
-	
+
 	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
 	console.log("course:", course);
-	
+
 	return (
 		<div className="">
 			{userProgress?.isCompleted && (
@@ -55,7 +55,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 					label="You need to purchase this course to watch this chapter."
 				/>
 			)}
-			<div className="flex flex-col mx-auto pb-20 p-4 ">
+			<div className="flex flex-col mx-auto p-4 ">
 				<div
 					id="videoplayer"
 					className=""
@@ -70,7 +70,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 						completeOnEnd={completeOnEnd}
 					/>
 				</div>
-				<div className="flex flex-col gap-y-4 mt-6">
+				<div className="flex flex-col gap-y-4 mt-6 px-0 lg:px-12 xl:px-20">
 					<div className="p-4 flex flex-col md:flex-row items-center justify-between border rounded-md">
 						<h2 className="text-2xl font-semibold mb-2">{chapter?.title}</h2>
 						{purchase ? (
@@ -87,7 +87,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 							/>
 						)}
 					</div>
-					
+
 					<div>
 						<Preview value={chapter?.description!} />
 					</div>

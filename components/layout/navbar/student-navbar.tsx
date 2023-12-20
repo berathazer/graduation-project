@@ -7,7 +7,7 @@ import Link from "next/link";
 const StudentNavbar = () => {
 	return (
 		<div className="  h-full w-full flex items-center justify-end bg-white  gap-x-4 ">
-			<Link href={"/"}>
+			<Link href={"/my-courses"}>
 				<Button
 					variant={"ghost"}
 					className="text-xs"

@@ -12,7 +12,8 @@ export default authMiddleware({
         "/basket:path*",
         "/deneme",
         "/api/profile/setup",
-        "/instructor/:path*"
+        "/instructor/:path*",
+        "/api/webhook"
     ], debug: false,
 
 });

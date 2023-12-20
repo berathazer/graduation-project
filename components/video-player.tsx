@@ -35,8 +35,6 @@ export const VideoPlayer = ({
 
 	const onEnd = async () => {
 		try {
-      
-      
 			if (completeOnEnd) {
 				await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
 					isCompleted: true,
@@ -59,9 +57,9 @@ export const VideoPlayer = ({
 	};
 
 	return (
-		<div className="relative aspect-video  rounded-lg">
-			{!isReady && !isLocked && (
-				<div className="absolute inset-0 flex items-center justify-center bg-slate-800 rounded-lg">
+		<div className="relative aspect-video  rounded-lg px-0 lg:px-12 xl:px-20">
+			{!isLocked && !isReady && (
+				<div className="absolute left-0 right-0 md:left-20 md:right-20 bottom-0 md:bottom-20  max-h-[570px] md:max-h-none top-0 flex items-center justify-center bg-slate-800 rounded-lg ">
 					<Loader2 className="h-8 w-8 animate-spin text-secondary" />
 				</div>
 			)}
@@ -72,7 +70,7 @@ export const VideoPlayer = ({
 				</div>
 			)}
 			{!isLocked && (
-				<div className="rounded-lg w-full h-full bg-slate-500 overflow-hidden p-0">
+				<div className="rounded-lg h-max overflow-hidden bg-black p-0">
 					<MuxPlayer
 						title={title}
 						className={cn(!isReady && "hidden ")}

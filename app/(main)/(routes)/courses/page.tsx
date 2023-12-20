@@ -25,6 +25,8 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 	});
 	const getProfile = currentProfile();
 
+	
+
 	const [categories, profile] = await Promise.all([getCategories, getProfile]);
 
 	const [category] = categories.filter((c) => c.id === categoryId);

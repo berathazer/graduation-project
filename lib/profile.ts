@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export const initialProfile = async () => {
 
     const user = await currentUser();
-    
+
     if (!user) {
         return redirect("/");
     }
@@ -31,3 +31,16 @@ export const initialProfile = async () => {
 
     return newProfile
 };
+
+
+export const getPurchasedCoursesIds = async (profileId: string) => {
+    return db.purchase.findMany({
+        where: {
+            profileId: profileId || ""
+        }, select: {
+            courseId: true
+        }
+
+    })
+
+}

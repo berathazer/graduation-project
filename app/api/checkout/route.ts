@@ -1,9 +1,10 @@
 import { currentProfile } from "@/lib/auth";
 import db from "@/lib/db";
+import { stripe } from "@/lib/stripe";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
-export const GET = async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
 
     const profile = await currentProfile()
     if (!profile) {
@@ -28,7 +29,14 @@ export const GET = async (req: NextRequest) => {
     }
 
     const courseIds = basket.map(b => b.courseId)
-    console.log(courseIds);
+
+
+    const metadataCourses = basket.map(b => ({
+        profileId: profile.id,
+        courseId: b.courseId,
+        price: b.course.price
+    }))
+
 
     const purchase = await db.purchase.findFirst({
         where: {
@@ -55,9 +63,46 @@ export const GET = async (req: NextRequest) => {
         }
     }))
 
-    
 
-    return new NextResponse(JSON.stringify(line_items), { status: 200 })
+    let stripeCustomer = await db.stripeCustomer.findFirst({
+        where: {
+            profileId: profile.id
+        },
+        select: {
+            stripeCustomerId: true
+        }
+    })
+
+    if (!stripeCustomer) {
+        const customer = await stripe.customers.create({
+            email: profile.email,
+        })
+
+        stripeCustomer = await db.stripeCustomer.create({
+            data: {
+                profileId: profile.id,
+                stripeCustomerId: customer.id
+            }
+        })
+    }
+
+
+    const session = await stripe.checkout.sessions.create({
+        customer: stripeCustomer.stripeCustomerId,
+        line_items,
+        mode: "payment",
+        success_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/success`,
+        cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/checkout/error`,
+        metadata: {
+            courses: JSON.stringify(metadataCourses),
+            profileId: profile.id
+        }
+    })
+
+    //stripe işini hallettikten sonra webhooka metadatayı gönderiyor webhookta metadatadan bilgileri alıp 
+    //satın alım işlemlerini dbye kaydetmemiz gerekiyor.
+
+    return NextResponse.json({ url: session.url });
 
 
 } 

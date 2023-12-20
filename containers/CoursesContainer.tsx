@@ -7,6 +7,7 @@ import SingleCourseCard from "@/components/courses/single-course-card";
 
 import PageWrapper from "@/containers/PageWrapper";
 import { Category } from "@prisma/client";
+import { getPurchasedCoursesIds } from "@/lib/profile";
 
 interface CoursesContainerProps {
 	categoryId?: string;
@@ -56,6 +57,9 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 		});
 	}
 
+	const purchased = await getPurchasedCoursesIds(profileId!);
+	const purchasedCourses = purchased.map((p) => p.courseId);
+
 	return (
 		<PageWrapper>
 			{courses.length === 0 && (
@@ -75,6 +79,7 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 								profileId={profileId || ""}
 								key={i}
 								course={course}
+								isPurchased={purchasedCourses.includes(course.id)}
 							/>
 						))}
 					</div>

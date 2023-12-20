@@ -7,6 +7,7 @@ import CourseDescription from "@/components/courses/course-description";
 import CourseInstructorProfile from "@/components/courses/course-instructor-profile";
 import CourseRating from "@/components/courses/course-rating";
 import CourseSections from "@/components/courses/course-sections";
+import { Button } from "@/components/ui/button";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,8 +17,10 @@ import { getBasketFromCookies } from "@/lib/basket";
 import db from "@/lib/db";
 import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
+import { getPurchasedCoursesIds } from "@/lib/profile";
 
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 interface CourseUrlContainerProps {
@@ -26,7 +29,7 @@ interface CourseUrlContainerProps {
 }
 const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerProps) => {
 	const isAuthenticated = profileId != "";
-	const course = await db.course.findUnique({
+	const getCourse = db.course.findUnique({
 		where: {
 			url: courseUrl,
 		},
@@ -89,10 +92,13 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 		},
 	});
 
+	const [course, purchased] = await Promise.all([getCourse, getPurchasedCoursesIds(profileId)]);
+
 	if (!course) {
 		return <div>Kurs Bulunamadı</div>;
 	}
 	let basket: any[] | undefined = [];
+
 	if (isAuthenticated) {
 		basket = await getBasket(profileId);
 	} else {
@@ -100,6 +106,9 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	}
 
 	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
+
+	const purchasedCourses = purchased.map((p) => p.courseId);
+	const isPurchased = purchasedCourses.includes(course.id);
 
 	return (
 		<div className="w-full ">
@@ -126,20 +135,28 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 							{formatProductPrice(course?.price || 0)}
 						</div>
 						<div className="flex gap-x-2">
-							<AddBasketButton
-								favoriteId={currentFavorite?.id || ""}
-								courseId={course.id}
-								basket={basket!}
-								className="rounded-sm flex-1"
-							/>
-							<AddFavoriteButton
-								courseId={course?.id as string}
-								basket={basket!}
-								isFavorite={currentFavorite != null}
-								favoriteId={findFavoriteId(course!.favorite, course.id)?.id}
-								className="px-3"
-								variant={"outline"}
-							/>
+							{!isPurchased && (
+								<>
+									{" "}
+									<AddBasketButton
+										favoriteId={currentFavorite?.id || ""}
+										courseId={course.id}
+										basket={basket!}
+										className="rounded-sm flex-1"
+									/>
+									<AddFavoriteButton
+										courseId={course?.id as string}
+										basket={basket!}
+										isFavorite={currentFavorite != null}
+										favoriteId={findFavoriteId(course!.favorite, course.id)?.id}
+										className="px-3"
+										variant={"outline"}
+									/>
+								</>
+							)}
+							{isPurchased && <Link href={"/my-courses"} className="w-full">
+								<Button className="w-full">Kursa Git</Button>
+							</Link>}
 						</div>
 						<p className="mt-4  text-gray-500">{course?.description}</p>
 						<div className="flex w-full items-center gap-x-4 ">

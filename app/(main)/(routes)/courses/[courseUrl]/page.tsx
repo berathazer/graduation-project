@@ -11,6 +11,7 @@ interface CourseIdPageProps {
 }
 const CourseIdPage = async ({ params }: CourseIdPageProps) => {
 	const profile = await currentProfile();
+
 	return (
 		<Suspense fallback={<CourseUrlSkeleton />}>
 			<CourseUrlContainer

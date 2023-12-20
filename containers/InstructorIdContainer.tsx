@@ -5,11 +5,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import PageWrapper from "@/containers/PageWrapper";
 import db from "@/lib/db";
 import { instructorNavigations } from "@/lib/navigations";
+import { getPurchasedCoursesIds } from "@/lib/profile";
 
 import React, { Suspense } from "react";
 
-const InstructorIdContainer = async ({ instructorId }: { instructorId: string }) => {
-	const instructor = await db.instructor.findUnique({
+const InstructorIdContainer = async ({
+	instructorId,
+	profileId,
+}: {
+	instructorId: string;
+	profileId?: string;
+}) => {
+	const getInstructor = db.instructor.findUnique({
 		where: {
 			id: instructorId,
 		},
@@ -41,10 +48,18 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 		},
 	});
 
+	const [instructor, purchases] = await Promise.all([
+		getInstructor,
+		getPurchasedCoursesIds(profileId!),
+	]);
+
 	const totalReviews = instructor?.courses.reduce((acc, course) => acc + course._count.reviews, 0);
 	const totalPurchases = instructor?.courses.reduce((acc, course) => acc + course._count.purchase, 0);
 
 	const fullName = instructor?.firstName + " " + instructor?.lastName;
+
+	const purchaseCourseIds = purchases.map((p) => p.courseId);
+
 	return (
 		<PageWrapper>
 			<NavigationBreadcrumb
@@ -98,6 +113,7 @@ const InstructorIdContainer = async ({ instructorId }: { instructorId: string })
 								key={course.id}
 							>
 								<SingleCourseCard
+									isPurchased={purchaseCourseIds.includes(course.id)}
 									profileId={instructor.profileId || ""}
 									course={course}
 								/>

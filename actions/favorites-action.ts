@@ -1,16 +1,16 @@
 import db from "@/lib/db"
 
-export const getFavorites = async (profileId: string) => {
+export const getFavorites = (profileId: string) => {
     if (!profileId) {
         return []
     }
     try {
-        const favorites = await db.favorite.findMany({
+        return db.favorite.findMany({
             where: {
                 profileId: profileId,
             },
         });
-        return favorites
+
     } catch (error) {
 
     }
