@@ -10,59 +10,60 @@ import { Button } from "@/components/ui/button";
 import { useConfettiStore } from "@/hooks/use-confetti";
 
 interface CourseProgressButtonProps {
-  chapterId: string;
-  courseId: string;
-  isCompleted?: boolean;
-  nextChapterId?: string;
-};
+	chapterId: string;
+	courseId: string;
+	isCompleted?: boolean;
+	nextChapterId?: string;
+}
 
 export const CourseProgressButton = ({
-  chapterId,
-  courseId,
-  isCompleted,
-  nextChapterId
+	chapterId,
+	courseId,
+	isCompleted,
+	nextChapterId,
 }: CourseProgressButtonProps) => {
-  const router = useRouter();
-  const confetti = useConfettiStore();
-  const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
+	const confetti = useConfettiStore();
+	const [isLoading, setIsLoading] = useState(false);
 
-  const onClick = async () => {
-    try {
-      setIsLoading(true);
+	const onClick = async () => {
+		try {
+			setIsLoading(true);
 
-      await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
-        isCompleted: !isCompleted
-      });
+			await axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+				isCompleted: !isCompleted,
+			});
 
-      if (!isCompleted && !nextChapterId) {
-        confetti.onOpen();
-      }
+			if (!isCompleted && !nextChapterId) {
+				confetti.onOpen();
+			}
 
-      if (!isCompleted && nextChapterId) {
-        router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
-      }
+			if (!isCompleted && nextChapterId) {
+				router.push(`/learning/${courseId}/chapters/${nextChapterId}`);
+			}
 
-      toast.success("Progress updated");
-      router.refresh();
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+			toast.success("İlerleme Kaydedildi.");
 
-  const Icon = isCompleted ? XCircle : CheckCircle
+			router.refresh();
+		} catch {
+			toast.error("Beklenmeyen bir hata oluştu.");
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
-  return (
-    <Button
-      onClick={onClick}
-      disabled={isLoading}
-      type="button"
-      variant={isCompleted ? "outline" : "success"}
-      className="w-full md:w-auto"
-    >
-      {isCompleted ? "Tamamlanmadı" : "Tamamlandı olarak işaretle"}
-      <Icon className="h-4 w-4 ml-2" />
-    </Button>
-  )
-}
+	const Icon = isCompleted ? XCircle : CheckCircle;
+
+	return (
+		<Button
+			onClick={onClick}
+			disabled={isLoading}
+			type="button"
+			variant={isCompleted ? "outline" : "success"}
+			className="w-full md:w-auto"
+		>
+			{isCompleted ? "Tamamlanmadı" : "Tamamlandı olarak işaretle"}
+			<Icon className="h-4 w-4 ml-2" />
+		</Button>
+	);
+};

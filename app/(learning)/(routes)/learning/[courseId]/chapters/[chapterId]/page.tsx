@@ -6,9 +6,6 @@ import { Banner } from "@/components/banner";
 import { Separator } from "@/components/ui/separator";
 import Preview from "@/components/preview";
 
-/* import { VideoPlayer } from "./_components/video-player";
-import { CourseEnrollButton } from "./_components/course-enroll-button";
-import { CourseProgressButton } from "./_components/course-progress-button"; */
 import { currentProfile } from "@/lib/auth";
 import { VideoPlayer } from "@/components/video-player";
 import { CourseEnrollButton } from "@/components/learning/course-enroll-button";
@@ -30,7 +27,6 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 			chapterId: params.chapterId,
 			courseId: params.courseId,
 		});
-	console.log("chapter:", chapter, muxData);
 
 	if (!chapter || !course) {
 		return redirect("/");
@@ -39,20 +35,19 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 	const isLocked = !chapter?.isFree && !purchase;
 
 	const completeOnEnd = !!purchase && !userProgress?.isCompleted;
-	console.log("course:", course);
 
 	return (
 		<div className="">
 			{userProgress?.isCompleted && (
 				<Banner
 					variant="success"
-					label="You already completed this chapter."
+					label="Bu bölümü daha önce izlediniz."
 				/>
 			)}
 			{isLocked && (
 				<Banner
 					variant="warning"
-					label="You need to purchase this course to watch this chapter."
+					label="Bu bölümü izlemek için bu kursu satın almanız gerekmektedir."
 				/>
 			)}
 			<div className="flex flex-col mx-auto p-4 ">
@@ -94,13 +89,14 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 					{!!attachments.length && (
 						<>
 							<Separator />
-							<div className="p-4">
+							<div className="py-4 flex flex-col gap-y-4">
+								<p className="text-muted-foreground text-2xl">Kurs Belgeleri</p>
 								{attachments.map((attachment) => (
 									<a
 										href={attachment.url}
 										target="_blank"
 										key={attachment.id}
-										className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+										className="flex items-center gap-x-4 p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
 									>
 										<File />
 										<p className="line-clamp-1">{attachment.name}</p>

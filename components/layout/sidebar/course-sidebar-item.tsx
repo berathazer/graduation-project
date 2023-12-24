@@ -1,9 +1,10 @@
 "use client";
 
 import { CheckCircle, Lock, PlayCircle } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface CourseSidebarItemProps {
 	label: string;
@@ -21,19 +22,14 @@ export const CourseSidebarItem = ({
 	isLocked,
 }: CourseSidebarItemProps) => {
 	const pathname = usePathname();
-	const router = useRouter();
 
 	const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
 	const isActive = pathname?.includes(id);
 
-	const onClick = () => {
-		router.push(`/learning/${courseId}/chapters/${id}`);
-	};
-
 	return (
-		<button
-			onClick={onClick}
-			type="button"
+		<Link
+			/* onClick={onClick} */
+			href={`/learning/${courseId}/chapters/${id}`}
 			className={cn(
 				"flex w-full h-full flex-1 items-center gap-x-2 text-slate-500 text-sm font-[500] pl-6 transition-all hover:text-slate-600 hover:bg-slate-300/20",
 				isActive && "text-slate-700 bg-slate-200/20 hover:bg-slate-200/20 hover:text-slate-700",
@@ -59,6 +55,6 @@ export const CourseSidebarItem = ({
 					isCompleted && "border-emerald-700"
 				)}
 			/>
-		</button>
+		</Link>
 	);
 };

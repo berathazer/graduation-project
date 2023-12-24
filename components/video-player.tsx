@@ -44,15 +44,15 @@ export const VideoPlayer = ({
 					confetti.onOpen();
 				}
 
-				toast.success("Progress updated");
+				toast.success("İlerleme Kaydedildi.");
 				router.refresh();
 
 				if (nextChapterId) {
-					router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
+					router.push(`/learning/${courseId}/chapters/${nextChapterId}`);
 				}
 			}
 		} catch {
-			toast.error("Something went wrong");
+			toast.error("Beklenmeyen bir hata oluştu.");
 		}
 	};
 

@@ -13,8 +13,7 @@ export const getChapter = async ({
   chapterId,
 }: GetChapterProps) => {
   try {
-    console.log("parse:",courseId,chapterId);
-    
+
     const purchase = await db.purchase.findUnique({
       where: {
         profileId_courseId: {
@@ -61,7 +60,7 @@ export const getChapter = async ({
     }
 
     if (chapter.isFree || purchase) {
-      console.log("girdi");
+
       
       muxData = await db.muxData.findUnique({
         where: {

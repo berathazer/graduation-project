@@ -34,7 +34,7 @@ export const CourseProgress = ({
         colorByVariant[variant || "default"],
         sizeByVariant[size || "default"],
       )}>
-        {Math.round(value)}% Complete
+        {Math.round(value)}% Tamamlandı
       </p>
     </div>
   )

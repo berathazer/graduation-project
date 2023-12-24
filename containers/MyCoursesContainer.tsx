@@ -53,6 +53,7 @@ const MyCoursesContainer = async ({ profileId }: { profileId?: string }) => {
 					<MyCourseCard
 						key={p.courseId}
 						course={p.course}
+						profileId={profileId}
 					/>
 				))}
 			</div>

@@ -1,3 +1,5 @@
+import { getProgress } from "@/actions/get-progress";
+import { CourseProgress } from "@/components/course-progress";
 import LoadingImage from "@/components/courses/loading-image";
 import { Separator } from "@/components/ui/separator";
 import { strokeWidth } from "@/lib/constant";
@@ -8,8 +10,11 @@ import React from "react";
 
 interface MyCourseCardProps {
 	course: Course;
+	profileId?: string;
 }
-const MyCourseCard = ({ course }: MyCourseCardProps) => {
+const MyCourseCard = async ({ course, profileId }: MyCourseCardProps) => {
+	const progressCount = await getProgress(profileId || "", course.id);
+
 	return (
 		<div className="h-full flex flex-col gap-y-2">
 			<div className="relative group">
@@ -37,7 +42,7 @@ const MyCourseCard = ({ course }: MyCourseCardProps) => {
 				<span className="text-muted-foreground">{course.instructor}</span>
 			</div>
 			<div className="mt-auto">
-				<Separator className="h-4" />
+				<CourseProgress value={progressCount}  />
 			</div>
 		</div>
 	);

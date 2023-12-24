@@ -6,13 +6,13 @@ export const getTotalProfileEarning = async (profileId: string) => {
     try {
         const profileEarnings = await db.purchase.findMany({
             where: {
-                profileId: profileId
+                course: {
+                    profileId: profileId
+                }
             },
 
             select: { price: true }
         });
-
-        console.log("profileEarnings: ", profileEarnings);
 
         const totalEarnings = profileEarnings.reduce((acc, purchase) => acc + purchase.price, 0);
         return totalEarnings;
@@ -26,13 +26,12 @@ export const getTotalProfileEarning = async (profileId: string) => {
 
 export const getTotalSubscription = async (profileId: string) => {
     try {
-        const totalSubscribers = await db.purchase.count({
+        return db.purchase.count({
             where: {
                 profileId: profileId || ""
             },
         });
 
-        return totalSubscribers
 
     } catch (error) {
         console.log("getTotalProfileEarning_Error");
@@ -40,3 +39,29 @@ export const getTotalSubscription = async (profileId: string) => {
     }
 }
 
+
+export const getLastPurchases = async (profileId: string) => {
+    try {
+        return db.purchase.findMany({
+            where: {
+                course: {
+                    profileId
+                }
+            }, select: {
+                price: true,
+                profile: {
+                    select: {
+                        email: true,
+                        name: true,
+                        imageUrl: true
+                    }
+                }
+            }, orderBy: {
+                createdAt: "asc"
+            }
+        })
+
+    } catch (error) {
+        console.log("getLastPurchases_Error");
+    }
+}

@@ -11,46 +11,55 @@ import { RecentSales } from "@/components/teachers/analytics/recent-sales";
 import { DollarSign, ShoppingCart, Users } from "lucide-react";
 import AnalysisCard from "@/components/teachers/analytics/analysis-card";
 
-import { currentProfile } from "@/lib/auth";
-import { getTotalProfileEarning, getTotalSubscription } from "@/actions/analytic-action";
+import {
+	getLastPurchases,
+	getTotalProfileEarning,
+	getTotalSubscription,
+} from "@/actions/analytic-action";
+import { formatProductPrice } from "@/lib/helpers";
 
 export const metadata: Metadata = {
 	title: "Teacher Analysis",
 	description: "Example dashboard app built using the components.",
 };
 
-const analytics = [
-	{
-		title: "Toplam Gelir",
-		Icon: DollarSign,
-		body: "45,231.89 TL",
-		sub_title: "Geçen aya göre +%20,1",
-	},
-	{
-		title: "Abonelikler",
-		Icon: Users,
-		body: "+2350",
-		sub_title: "Geçen aya göre +180,1%",
-	},
-	{
-		title: "Satışlar",
-		Icon: ShoppingCart,
-		body: "+12,234",
-		sub_title: "Geçen aya göre +%19",
-	},
-	{
-		title: "Aktif Kullanıcı",
-		Icon: DollarSign,
-		body: "+573",
-		sub_title: "Son bir saatten beri +201",
-	},
-];
-
 export default async function AnalyticsContainer({ profileId }: { profileId: string }) {
 	const getRevenues = getTotalProfileEarning(profileId);
 	const getSubscribers = getTotalSubscription(profileId);
+	const getLastFivePurchases = getLastPurchases(profileId);
 
-	const [totalRevenue, totalSubscribers] = await Promise.all([getRevenues, getSubscribers]);
+	const [totalRevenue, totalSubscribers, lastPurchases] = await Promise.all([
+		getRevenues,
+		getSubscribers,
+		getLastFivePurchases,
+	]);
+
+	const analytics = [
+		{
+			title: "Toplam Gelir",
+			Icon: DollarSign,
+			body: formatProductPrice(totalRevenue || 0),
+			sub_title: "Geçen aya göre +%20,1",
+		},
+		{
+			title: "Abonelikler",
+			Icon: Users,
+			body: `+${totalSubscribers}`,
+			sub_title: "Geçen aya göre +180,1%",
+		},
+		{
+			title: "Satışlar",
+			Icon: ShoppingCart,
+			body: "+12,234",
+			sub_title: "Geçen aya göre +%19",
+		},
+		{
+			title: "Aktif Kullanıcı",
+			Icon: DollarSign,
+			body: "+573",
+			sub_title: "Son bir saatten beri +201",
+		},
+	];
 
 	return (
 		<>
@@ -90,7 +99,7 @@ export default async function AnalyticsContainer({ profileId }: { profileId: str
 								<CardDescription>Bu ay 265 satış yaptınız.</CardDescription>
 							</CardHeader>
 							<CardContent className="w-full">
-								<RecentSales />
+								<RecentSales purchases={lastPurchases} />
 							</CardContent>
 						</Card>
 					</div>
