@@ -19,6 +19,9 @@ const CourseRating = ({ rating, size, color, valueShow }: CourseRatingProps) => 
 			onChange={onChange}
 			value={rating}
 			valueShow={valueShow}
+			style={{
+				cursor: "pointer",
+			}}
 			isHalf
 			size={size || 20}
 			activeColor={color || "black"}

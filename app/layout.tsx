@@ -1,5 +1,5 @@
 import { ClerkProvider } from "@clerk/nextjs";
-import "./globals.css";
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/navbar/navbar";
@@ -14,6 +14,10 @@ import { trTR } from "@clerk/localizations";
 
 import CookieProvider from "@/components/providers/cookie-provider";
 import PageLoadingProvider from "@/components/providers/page-loading-provider";
+
+import "./globals.css";
+import '@smastrom/react-rating/style.css'
+
 
 const inter = Inter({ subsets: ["latin"] });
 

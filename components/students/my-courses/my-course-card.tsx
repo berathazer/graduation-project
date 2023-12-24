@@ -1,8 +1,9 @@
 import { getProgress } from "@/actions/get-progress";
+import { getReview } from "@/actions/review-action";
 import { CourseProgress } from "@/components/course-progress";
 import LoadingImage from "@/components/courses/loading-image";
-import { Separator } from "@/components/ui/separator";
-import { strokeWidth } from "@/lib/constant";
+import RateDialog from "@/components/rate-dialog";
+
 import { Course } from "@prisma/client";
 import { Play } from "lucide-react";
 import Link from "next/link";
@@ -13,7 +14,10 @@ interface MyCourseCardProps {
 	profileId?: string;
 }
 const MyCourseCard = async ({ course, profileId }: MyCourseCardProps) => {
-	const progressCount = await getProgress(profileId || "", course.id);
+	const [progressCount, review] = await Promise.all([
+		getProgress(profileId || "", course.id),
+		getReview(profileId || "", course.id),
+	]);
 
 	return (
 		<div className="h-full flex flex-col gap-y-2">
@@ -42,8 +46,13 @@ const MyCourseCard = async ({ course, profileId }: MyCourseCardProps) => {
 				<span className="text-muted-foreground">{course.instructor}</span>
 			</div>
 			<div className="mt-auto">
-				<CourseProgress value={progressCount}  />
+				<CourseProgress value={progressCount} />
 			</div>
+			<RateDialog
+				initialData={review}
+				courseId={course.id}
+				profileId={profileId}
+			/>
 		</div>
 	);
 };

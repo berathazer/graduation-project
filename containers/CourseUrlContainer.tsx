@@ -18,6 +18,7 @@ import db from "@/lib/db";
 import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
 import { getPurchasedCoursesIds } from "@/lib/profile";
+import { Rating } from "@smastrom/react-rating";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -89,6 +90,11 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 					profileId: profileId,
 				},
 			},
+			reviews: {
+				select: {
+					rating: true,
+				},
+			},
 		},
 	});
 
@@ -110,6 +116,10 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	const purchasedCourses = purchased.map((p) => p.courseId);
 	const isPurchased = purchasedCourses.includes(course.id);
 
+	const totalRating = course.reviews.reduce((sum, vote) => sum + vote.rating, 0);
+
+	const averageRating = totalRating / course.reviews.length;
+
 	return (
 		<div className="w-full ">
 			<div
@@ -128,8 +138,14 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 					</div>
 					<div className="flex flex-col gap-y-4 flex-1">
 						<h1 className="font-bold text-3xl">{course?.title}</h1>
-						<div className="flex items-center ">
-							<CourseRating rating={4.5} />
+						<div className="flex items-center gap-x-2">
+							<Rating
+								value={!totalRating ? 0 : averageRating}
+								readOnly
+								orientation="horizontal"
+								style={{ maxWidth: 120 }}
+							/>
+							<span className="text-muted-foreground">{averageRating} oy oranı</span>
 						</div>
 						<div className="text-4xl font-bold">
 							{formatProductPrice(course?.price || 0)}
@@ -154,9 +170,14 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 									/>
 								</>
 							)}
-							{isPurchased && <Link href={"/my-courses"} className="w-full">
-								<Button className="w-full">Kursa Git</Button>
-							</Link>}
+							{isPurchased && (
+								<Link
+									href={"/my-courses"}
+									className="w-full"
+								>
+									<Button className="w-full">Kursa Git</Button>
+								</Link>
+							)}
 						</div>
 						<p className="mt-4  text-gray-500">{course?.description}</p>
 						<div className="flex w-full items-center gap-x-4 ">
