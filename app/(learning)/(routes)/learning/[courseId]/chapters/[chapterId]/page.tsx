@@ -10,6 +10,8 @@ import { currentProfile } from "@/lib/auth";
 import { VideoPlayer } from "@/components/video-player";
 import { CourseEnrollButton } from "@/components/learning/course-enroll-button";
 import { CourseProgressButton } from "@/components/learning/course-progress-button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface LearningChapterIdPageProps {
 	params: { courseId: string; chapterId: string };
@@ -53,7 +55,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 			<div className="flex flex-col mx-auto p-4 ">
 				<div
 					id="videoplayer"
-					className=""
+					className="flex flex-col gap-y-4"
 				>
 					<VideoPlayer
 						chapterId={params.chapterId}
@@ -65,6 +67,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 						completeOnEnd={completeOnEnd}
 					/>
 				</div>
+
 				<div className="flex flex-col gap-y-4 mt-6 px-0 lg:px-12 xl:px-20">
 					<div className="p-4 flex flex-col md:flex-row items-center justify-between border rounded-md">
 						<h2 className="text-2xl font-semibold mb-2">{chapter?.title}</h2>

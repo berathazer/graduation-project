@@ -43,7 +43,10 @@ const Navbar = async ({}: NavbarProps) => {
 			<nav className="w-full h-[72px] dark:bg-slate-950 flex items-center shadow-sm border-b px-4 md:px-8 transition-colors">
 				<NavbarLogo />
 				<CategoriesTooltip categories={categories} />
-				<MobileSidebar categories={categories} />
+				<MobileSidebar
+					categories={categories}
+					role={profile?.role}
+				/>
 				<NavbarSearch categories={categories} />
 				<NavbarRoutes profile={profile} />
 			</nav>

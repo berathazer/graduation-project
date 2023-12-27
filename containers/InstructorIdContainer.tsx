@@ -37,6 +37,11 @@ const InstructorIdContainer = async ({
 					courseFeature: true,
 					favorite: true,
 					basket: true,
+					reviews: {
+						select: {
+							rating: true,
+						},
+					},
 					_count: {
 						select: {
 							reviews: true,

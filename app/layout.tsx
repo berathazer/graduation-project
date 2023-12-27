@@ -16,8 +16,9 @@ import CookieProvider from "@/components/providers/cookie-provider";
 import PageLoadingProvider from "@/components/providers/page-loading-provider";
 
 import "./globals.css";
-import '@smastrom/react-rating/style.css'
-
+import "@smastrom/react-rating/style.css";
+import { Suspense } from "react";
+import SetupProfileLoader from "@/skeletons/SetupProfileLoader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,7 +42,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<CookieProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}
 					<ControlNavbar>
-						<Navbar />
+						<Suspense fallback={<SetupProfileLoader />}>
+							<Navbar />
+						</Suspense>
 					</ControlNavbar>
 
 					{children}

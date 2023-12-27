@@ -62,7 +62,6 @@ const RateDialog = ({ courseId, profileId, initialData }: RateDialogProps) => {
 			//dialogu manuel kapatma
 			document.getElementById("closeDialog")?.click();
 
-
 			router.refresh();
 		} catch (error) {
 			toast.error("Beklenmeyen Bir Hata Oluştu.");
@@ -83,7 +82,7 @@ const RateDialog = ({ courseId, profileId, initialData }: RateDialogProps) => {
 								readOnly
 							/>
 
-							<span>Oyunuz</span>
+							<span>Değerlendirmeniz</span>
 						</>
 					) : (
 						<>
@@ -98,13 +97,13 @@ const RateDialog = ({ courseId, profileId, initialData }: RateDialogProps) => {
 					)}
 				</div>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="">
 				<DialogHeader>
 					<DialogTitle className="text-center text-2xl">
 						Bu kursu nasıl değerlendirirsiniz?
 					</DialogTitle>
 				</DialogHeader>
-				<div className="py-4">
+				<div className="py-4 mx-4">
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}

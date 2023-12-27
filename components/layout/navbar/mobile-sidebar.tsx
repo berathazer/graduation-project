@@ -1,17 +1,24 @@
+import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetFooter, SheetTrigger } from "@/components/ui/sheet";
 import { strokeWidth } from "@/lib/constant";
 import db from "@/lib/db";
 import { formatCategoryNameToUrl } from "@/lib/helpers";
-import { Category } from "@prisma/client";
+import { Category, MemberRole } from "@prisma/client";
 import { ChevronRight, Menu } from "lucide-react";
 
 import Link from "next/link";
 
 interface MobileSidebarProps {
 	categories: Category[];
+	role: MemberRole | undefined;
 }
-export default async function MobileSidebar({ categories }: MobileSidebarProps) {
+export default async function MobileSidebar({ categories, role }: MobileSidebarProps) {
 	const parentCategories = categories.filter((c) => c.parentId === null);
+
+	const isTeacher = role === MemberRole.TEACHER;
+	const isAdmin = role === MemberRole.ADMIN;
+
+
 	return (
 		<Sheet>
 			<SheetTrigger className="md:hidden pr-4 hover:opacity-75 transition">
@@ -50,6 +57,23 @@ export default async function MobileSidebar({ categories }: MobileSidebarProps) 
 							</Link>
 						</div>
 					))}
+					{isTeacher && (
+						<Link
+							href={"/teacher/courses"}
+							className="px-4 mt-8"
+						>
+							<Button className="w-full">Öğretmen Modu</Button>
+						</Link>
+					)}
+
+					{isAdmin && (
+						<Link
+							href={"/admin"}
+							className="px-4 mt-8"
+						>
+							<Button className="w-full">Admin Paneli</Button>
+						</Link>
+					)}
 				</div>
 				<SheetFooter>
 					{/* <SheetClose asChild>
