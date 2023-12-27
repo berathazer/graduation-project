@@ -74,3 +74,12 @@ export function formatJoinDate(date: Date): string {
 
     return `Katılım: ${months[monthIndex]} ${year}`;
 }
+
+
+export const formatReviewDate = (date: Date): string => {
+    const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' };
+    const formattedDate = new Intl.DateTimeFormat('tr-TR', options).format(date);
+    return formattedDate;
+};
+
+

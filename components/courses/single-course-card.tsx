@@ -8,6 +8,7 @@ import { Skeleton } from "../ui/skeleton";
 import LoadingImage from "./loading-image";
 import { IconBadge } from "../icon-badge";
 import { BookOpen } from "lucide-react";
+import { Rating } from "@smastrom/react-rating";
 
 const maxTitleLength = 48;
 
@@ -19,6 +20,12 @@ interface SingleCourseCardProps {
 
 const SingleCourseCard = ({ course, profileId, isPurchased }: SingleCourseCardProps) => {
 	const chaptersLength = course.chapters.length;
+
+	const totalRating = course.reviews.reduce((sum, vote) => sum + vote.rating, 0);
+
+	const averageRating = totalRating / course.reviews.length;
+	const ratingValue = !totalRating ? 0 : averageRating;
+
 	return (
 		<SingleCourseTooltip
 			course={course}
@@ -43,7 +50,14 @@ const SingleCourseCard = ({ course, profileId, isPurchased }: SingleCourseCardPr
 						<span className="text-muted-foreground text-xs">{`(${course.category?.name})`}</span>
 					</p>
 
-					<p className="text-[12px] text-black/70">{course.instructor}</p>
+					<div className="flex items-center justify-between ">
+						<span className="text-[12px] text-black/70">{course.instructor}</span>
+						<Rating
+							readOnly
+							value={ratingValue}
+							style={{ maxWidth: 80 }}
+						/>
+					</div>
 					<div className="flex mt-auto justify-between font-bold text-black/80">
 						<div className="flex items-center gap-x-1 text-slate-500 text-xs font-light">
 							<IconBadge
@@ -59,6 +73,7 @@ const SingleCourseCard = ({ course, profileId, isPurchased }: SingleCourseCardPr
 		</SingleCourseTooltip>
 	);
 };
+
 export const SingleCourseCardSkeleton = () => {
 	return (
 		<div className="w-full flex flex-col gap-y-2 h-[288px]">

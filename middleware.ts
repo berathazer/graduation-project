@@ -14,7 +14,8 @@ export default authMiddleware({
         "/api/profile/setup",
         "/instructor/:path*",
         "/api/webhook"
-    ], debug: false,
+    ],
+    
 
 });
 

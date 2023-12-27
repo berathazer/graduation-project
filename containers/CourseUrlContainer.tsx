@@ -18,18 +18,22 @@ import db from "@/lib/db";
 import { findFavoriteId } from "@/lib/favorites";
 import { formatProductPrice } from "@/lib/helpers";
 import { getPurchasedCoursesIds } from "@/lib/profile";
+import { Favorite, Purchase } from "@prisma/client";
 import { Rating } from "@smastrom/react-rating";
 
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import React from "react";
 
 interface CourseUrlContainerProps {
 	profileId: string;
 	courseUrl: string;
 }
+
 const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerProps) => {
 	const isAuthenticated = profileId != "";
+
 	const getCourse = db.course.findUnique({
 		where: {
 			url: courseUrl,
@@ -93,6 +97,14 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 			reviews: {
 				select: {
 					rating: true,
+					comment: true,
+					createdAt: true,
+					user: {
+						select: {
+							imageUrl: true,
+							name: true,
+						},
+					},
 				},
 			},
 		},
@@ -101,8 +113,9 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 	const [course, purchased] = await Promise.all([getCourse, getPurchasedCoursesIds(profileId)]);
 
 	if (!course) {
-		return <div>Kurs Bulunamadı</div>;
+		return redirect("/courses");
 	}
+
 	let basket: any[] | undefined = [];
 
 	if (isAuthenticated) {
@@ -111,21 +124,20 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 		basket = getBasketFromCookies();
 	}
 
-	const currentFavorite = course.favorite.find((f) => f.courseId === course.id);
+	const currentFavorite = course.favorite.find((f: Favorite) => f.courseId === course.id);
 
 	const purchasedCourses = purchased.map((p) => p.courseId);
+
 	const isPurchased = purchasedCourses.includes(course.id);
 
 	const totalRating = course.reviews.reduce((sum, vote) => sum + vote.rating, 0);
 
 	const averageRating = totalRating / course.reviews.length;
+	const ratingValue = !totalRating ? 0 : averageRating;
 
 	return (
 		<div className="w-full ">
-			<div
-				key="1"
-				className="grid gap-y-8 md:grid-cols-2 gap-4 lg:gap-4  max-w-7xl px-4 mx-auto py-16 "
-			>
+			<div className="grid gap-y-8 md:grid-cols-2 gap-4 lg:gap-4  max-w-7xl px-4 mx-auto py-16 ">
 				<div className="col-span-2  h-full flex flex-col gap-y-4 md:flex-row  md:gap-x-6">
 					<div className="relative h-[300px] lg:h-[500px] md:flex-1 ">
 						<Image
@@ -140,12 +152,17 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 						<h1 className="font-bold text-3xl">{course?.title}</h1>
 						<div className="flex items-center gap-x-2">
 							<Rating
-								value={!totalRating ? 0 : averageRating}
+								value={ratingValue}
 								readOnly
+								className="text-red-50"
 								orientation="horizontal"
 								style={{ maxWidth: 120 }}
 							/>
-							<span className="text-muted-foreground">{averageRating} oy oranı</span>
+							{!ratingValue ? (
+								<span className="text-muted-foreground">Hiç oylanmamış</span>
+							) : (
+								<span className="text-muted-foreground">{ratingValue} oy oranı</span>
+							)}
 						</div>
 						<div className="text-4xl font-bold">
 							{formatProductPrice(course?.price || 0)}
@@ -217,15 +234,23 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 						<CourseDescription description={course.courseFeature?.description!} />
 					</div>
 				</div>
-
-				<div className="col-span-2 mt-6">
-					<h2 className="font-bold text-2xl">Kurs Değerlendirmeleri</h2>
-					<div className="mt-2 space-y-4">
-						<CourseComment />
-						<CourseComment />
-						<CourseComment />
+				{!!course.reviews.length && (
+					<div className="col-span-2 mt-6">
+						<h2 className="font-bold text-2xl">Kurs Değerlendirmeleri</h2>
+						<div className="mt-2 space-y-4">
+							{course.reviews.map((review, index) => (
+								<CourseComment
+									key={index}
+									comment={review.comment!}
+									imageUrl={review.user.imageUrl}
+									name={review.user.name}
+									rating={review.rating}
+									createdAt={review.createdAt}
+								/>
+							))}
+						</div>
 					</div>
-				</div>
+				)}
 
 				<div className="col-span-2 mt-6">Random Courses Slider</div>
 			</div>

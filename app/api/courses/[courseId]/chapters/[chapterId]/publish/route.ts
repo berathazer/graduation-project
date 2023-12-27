@@ -51,6 +51,7 @@ export const PATCH = async (req: NextRequest, { params }: {
         if (!chapter || !muxData || !chapter.title || !chapter.description || !chapter.videoUrl) {
             return NextResponse.json({ success: false, message: "Eksik veriler mevcut." }, { status: 404 })
         }
+
         //asset yeni oluştuğu için statusu preparing oluyor o yüzden kursu yayınla butonuna basıldığında bu işlemi yapmak daha doğru olucak
 
         const asset = await Video.Assets.get(muxData.assetId);

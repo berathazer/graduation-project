@@ -14,9 +14,8 @@ const CourseDescription = async ({ description }: CourseDescriptionProps) => {
 			<ScrollArea className="w-full h-[489px]  border">
 				<Preview
 					value={description || ""}
-					className="text-lg font-medium"
+					className="font-medium p-4 pb-12 "
 				/>
-
 				<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-white dark:from-zinc-900" />
 			</ScrollArea>
 		</div>

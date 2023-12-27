@@ -34,6 +34,11 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 				courseFeature: true,
 				favorite: true,
 				basket: true,
+				reviews: {
+					select: {
+						rating: true,
+					},
+				},
 			},
 		});
 	} else {
@@ -53,6 +58,11 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 				courseFeature: true,
 				favorite: true,
 				basket: true,
+				reviews: {
+					select: {
+						rating: true,
+					},
+				},
 			},
 		});
 	}

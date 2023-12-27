@@ -16,6 +16,9 @@ export type CourseWithCategoryWithOutcomeWithFeature = Course & {
     chapters: Chapter[]
     favorite: Favorite[],
     basket: Basket[]
+    reviews: {
+        rating: number
+    }[]
 
 }
 
