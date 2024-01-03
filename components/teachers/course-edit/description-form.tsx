@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { CourseWithCategory } from "@/types/global.types";
+import GenerateDescriptionButton from "./generate-description-button";
 
 interface DescriptionFormProps {
 	initialData: CourseWithCategory | null;
@@ -51,6 +52,10 @@ export const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps)
 		} catch {
 			toast.error("Beklenmeyen Bir Hata Oluştu");
 		}
+	};
+
+	const handleDescriptionUpdate = (description: string) => {
+		form.setValue("description", description);
 	};
 
 	return (
@@ -101,13 +106,15 @@ export const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps)
 								</FormItem>
 							)}
 						/>
-						<div className="flex items-center gap-x-2">
+						<div className="flex items-center justify-between gap-x-2">
 							<Button
 								disabled={!isValid || isSubmitting}
 								type="submit"
 							>
 								Kaydet
 							</Button>
+
+							<GenerateDescriptionButton setDescription={handleDescriptionUpdate} />
 						</div>
 					</form>
 				</Form>

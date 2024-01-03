@@ -13,9 +13,10 @@ export default authMiddleware({
         "/deneme",
         "/api/profile/setup",
         "/instructor/:path*",
-        "/api/webhook"
+        "/api/webhook",
+        "/api/openai/description"
     ],
-    
+
 
 });
 

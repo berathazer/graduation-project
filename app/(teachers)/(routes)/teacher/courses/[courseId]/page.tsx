@@ -29,9 +29,12 @@ const SingleCoursePage = async ({ params }: { params: { courseId: string } }) =>
 		},
 	}); */
 
-	const categories = await db.category.findMany();
+	const getCategories = db.category.findMany();
 
-	const profile = await currentProfile();
+	const getProfile = currentProfile();
+
+	const [categories, profile] = await Promise.all([getCategories, getProfile]);
+
 	const course = await db.course.findUnique({
 		where: {
 			id: params.courseId,
