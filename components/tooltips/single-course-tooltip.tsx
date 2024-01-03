@@ -13,6 +13,8 @@ import { isPromise } from "util/types";
 import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { Button } from "../ui/button";
+import { ScrollArea } from "../ui/scroll-area";
+import { formatReviewDate } from "@/lib/helpers";
 
 interface SingleCourseTooltipProps {
 	children: React.ReactNode;
@@ -41,10 +43,12 @@ export const SingleCourseTooltip = async ({
 						<div className="flex flex-col justify-center px-2 w-[300px] gap-y-3 py-4">
 							<div className="text-lg font-medium">{course.title}</div>
 							<div className="font-medium text-sm text-muted-foreground flex items-center justify-between">
-								<span>Created {course.createdAt.toLocaleDateString()}</span>
+								<span>{formatReviewDate(course.createdAt)}</span>
 								<Badge>{course.courseFeature?.difficulty}</Badge>
 							</div>
-							<div>{course.description}</div>
+
+							<div className="line-clamp-6 pb-6">{course.description}</div>
+
 							<ul className="flex flex-col gap-y-2">
 								{course.courseLearningOutcome.slice(0, 3).map((outcome, key) => (
 									<li
@@ -84,10 +88,12 @@ export const SingleCourseTooltip = async ({
 							<Alert variant="default">
 								<BadgeInfo className="w-4 h-4" />
 								<AlertTitle>Bu kursu zaten satın aldınız.</AlertTitle>
-						
 							</Alert>
 
-							<Link href={"/my-courses"} className="w-full">
+							<Link
+								href={"/my-courses"}
+								className="w-full"
+							>
 								<Button className="w-full">Kurslarıma Git</Button>
 							</Link>
 						</div>

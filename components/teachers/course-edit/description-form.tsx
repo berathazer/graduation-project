@@ -97,6 +97,7 @@ export const DescriptionForm = ({ initialData, courseId }: DescriptionFormProps)
 								<FormItem>
 									<FormControl>
 										<Textarea
+											rows={10}
 											disabled={isSubmitting}
 											placeholder="e.g. 'This course is about...'"
 											{...field}

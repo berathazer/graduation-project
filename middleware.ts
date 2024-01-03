@@ -14,7 +14,6 @@ export default authMiddleware({
         "/api/profile/setup",
         "/instructor/:path*",
         "/api/webhook",
-        "/api/openai/description"
     ],
 
 

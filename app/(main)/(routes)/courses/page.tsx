@@ -25,8 +25,6 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 	});
 	const getProfile = currentProfile();
 
-	
-
 	const [categories, profile] = await Promise.all([getCategories, getProfile]);
 
 	const [category] = categories.filter((c) => c.id === categoryId);
@@ -35,7 +33,10 @@ const CoursesPage = async ({ searchParams }: CoursesPageProps) => {
 		<Suspense fallback={<CoursesSkeleton />}>
 			<div>
 				<PageWrapper>
-					<CourseCategories categories={categories} />
+					<CourseCategories
+						categories={categories}
+						categoryId={categoryId}
+					/>
 				</PageWrapper>
 			</div>
 			<CoursesContainer

@@ -1,17 +1,17 @@
 import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
 import React from "react";
 import { Skeleton } from "./ui/skeleton";
 import Link from "next/link";
 
 interface CourseCategoriesProps {
 	categories: Category[];
-	searchParams?: { [key: string]: string | string[] | undefined };
+
+	categoryId: string;
 }
 
-const CourseCategories = ({ categories, searchParams }: CourseCategoriesProps) => {
-	const categoryId = searchParams?.categoryId;
+const CourseCategories = ({ categories, categoryId }: CourseCategoriesProps) => {
+	console.log("categoryId: " + categoryId);
 
 	return (
 		<div className="flex flex-wrap gap-2 items-center justify-center">

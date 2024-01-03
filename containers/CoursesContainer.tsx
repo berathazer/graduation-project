@@ -30,7 +30,11 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 						order: "asc",
 					},
 				},
-				chapters: true,
+				chapters: {
+					where: {
+						isPublished: true,
+					},
+				},
 				courseFeature: true,
 				favorite: true,
 				basket: true,
@@ -54,7 +58,11 @@ const CoursesContainer = async ({ categoryId, category, profileId }: CoursesCont
 						order: "asc",
 					},
 				},
-				chapters: true,
+				chapters: {
+					where: {
+						isPublished: true,
+					},
+				},
 				courseFeature: true,
 				favorite: true,
 				basket: true,
