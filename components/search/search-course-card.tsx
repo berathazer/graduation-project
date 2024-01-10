@@ -8,7 +8,6 @@ import { Course, CourseLearningOutcome, Instructor, Profile } from "@prisma/clie
 import LoadingImage from "../courses/loading-image";
 import Link from "next/link";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import CourseInstructorProfile from "../courses/course-instructor-profile";
 import InstructorCard from "../teachers/instructor/instructor-card";
 
 interface SearchCourseCardProps {
@@ -20,9 +19,17 @@ interface SearchCourseCardProps {
 		profile: Profile & {
 			instructor: Instructor | null;
 		};
+		reviews: {
+			rating: number;
+		}[];
 	};
 }
 const SearchCourseCard = ({ course }: SearchCourseCardProps) => {
+	const totalRating = course.reviews.reduce((sum, vote) => sum + vote.rating, 0);
+
+	const averageRating = totalRating / course.reviews.length;
+	const ratingValue = !totalRating ? 0 : averageRating;
+	
 	return (
 		<TooltipProvider delayDuration={1}>
 			<Tooltip>
@@ -39,11 +46,11 @@ const SearchCourseCard = ({ course }: SearchCourseCardProps) => {
 
 						<div className="flex flex-col flex-1 relative bottom-1 gap-y-1 ">
 							<p className="font-bold text-sm">{course.title}</p>
-							<p className="text-sm font-medium">{course.description}</p>
+							<p className="text-sm font-medium line-clamp-4">{course.description}</p>
 							<span className="text-xs text-muted-foreground">{`(${course.instructor})`}</span>
 							<CourseRating
 								color="orange"
-								rating={4}
+								rating={ratingValue}
 								size={16}
 								valueShow
 							/>
@@ -55,7 +62,7 @@ const SearchCourseCard = ({ course }: SearchCourseCardProps) => {
 						</div>
 						<div className="text-black/80 font-bold relative bottom-1">
 							<span className="flex items-center gap-x-2">
-								{formatProductPrice(1299)}{" "}
+								{formatProductPrice(course.price!)}
 								<TagIcon
 									strokeWidth={strokeWidth}
 									className="w-5 h-5 text-teal-500"
