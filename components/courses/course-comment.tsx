@@ -18,7 +18,7 @@ export default function CourseComment({
 	createdAt,
 }: CourseCommentProps) {
 	return (
-		<div className="mx-auto px-4 md:px-6 grid bg-white dark:bg-gray-800 rounded-lg shadow-md">
+		<div className="mx-auto px-4 md:px-6 grid bg-white dark:bg-gray-800 rounded-lg shadow-md w-full">
 			<div className="flex gap-4 py-6 px-0">
 				<Avatar className="w-14 h-14 border  bg-gray-300 dark:bg-gray-700 rounded-full">
 					<AvatarImage

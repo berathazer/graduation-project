@@ -3,7 +3,6 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
-
 });
 
 const prompt = "Açıklama maksimum 400 kelimeden oluşsun, açıklama türkçe olsun, ve cevap olarak sadece kursun açıklamasını geriye döndür."

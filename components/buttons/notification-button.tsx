@@ -5,7 +5,10 @@ import React from "react";
 
 const NotificationButton = () => {
 	return (
-		<Link href={"/notifications"}>
+		<Link
+			href={"/notifications"}
+			className=" hidden lg:flex"
+		>
 			<BellIcon
 				strokeWidth={strokeWidth}
 				className="w-5 h-5 font-bold cursor-pointer hover:opacity-75 transition"

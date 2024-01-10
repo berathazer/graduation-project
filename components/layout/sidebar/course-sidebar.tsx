@@ -1,12 +1,14 @@
-import { Chapter, Course, UserProgress } from "@prisma/client";
+import { Chapter, Course, Review, UserProgress } from "@prisma/client";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { CourseProgress } from "@/components/course-progress";
 
-import { CourseSidebarItem } from "./course-sidebar-item";
 import { currentProfile } from "@/lib/auth";
+import CourseTabmenu from "./course-tabmenu";
+import { ChapterWithProgress } from "@/types/global.types";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { CourseSidebarItem } from "./course-sidebar-item";
 
 interface CourseSidebarProps {
 	course: Course & {
@@ -37,7 +39,7 @@ export const CourseSidebar = async ({ course, progressCount }: CourseSidebarProp
 			<div className="p-4 flex flex-col border-b">
 				<h1 className="font-semibold">{course.title}</h1>
 				{purchase && (
-					<div className="mt-10">
+					<div className="mt-4">
 						<CourseProgress
 							variant="success"
 							value={progressCount}

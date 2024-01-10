@@ -12,6 +12,7 @@ import { CourseEnrollButton } from "@/components/learning/course-enroll-button";
 import { CourseProgressButton } from "@/components/learning/course-progress-button";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import CourseTabmenu from "@/components/layout/sidebar/course-tabmenu";
 
 interface LearningChapterIdPageProps {
 	params: { courseId: string; chapterId: string };
@@ -52,7 +53,7 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 					label="Bu bölümü izlemek için bu kursu satın almanız gerekmektedir."
 				/>
 			)}
-			<div className="flex flex-col mx-auto p-4 ">
+			<div className="flex flex-col mx-auto p-4 pb-20">
 				<div
 					id="videoplayer"
 					className="flex flex-col gap-y-4"
@@ -70,44 +71,35 @@ const LearningChapterIdPage = async ({ params }: LearningChapterIdPageProps) => 
 
 				<div className="flex flex-col gap-y-4 mt-6 px-0 lg:px-12 xl:px-20">
 					<div className="p-4 flex flex-col md:flex-row items-center justify-between border rounded-md">
-						<h2 className="text-2xl font-semibold mb-2">{chapter?.title}</h2>
-						{purchase ? (
-							<CourseProgressButton
-								chapterId={params.chapterId}
-								courseId={params.courseId}
-								nextChapterId={nextChapter?.id}
-								isCompleted={!!userProgress?.isCompleted}
-							/>
-						) : (
-							<CourseEnrollButton
-								courseId={params.courseId}
-								price={course?.price!}
-							/>
-						)}
-					</div>
-
-					<div>
-						<Preview value={chapter?.description!} />
-					</div>
-					{!!attachments.length && (
-						<>
-							<Separator />
-							<div className="py-4 flex flex-col gap-y-4">
-								<p className="text-muted-foreground text-2xl">Kurs Belgeleri</p>
-								{attachments.map((attachment) => (
-									<a
-										href={attachment.url}
-										target="_blank"
-										key={attachment.id}
-										className="flex items-center gap-x-4 p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
-									>
-										<File />
-										<p className="line-clamp-1">{attachment.name}</p>
-									</a>
-								))}
+						<CourseTabmenu
+							chapter={chapter}
+							reviews={course.reviews}
+							courseId={course.id}
+							attachments={attachments}
+						>
+							<div className="mt-6">
+								<div className="flex items-center justify-between">
+									<h2 className="text-2xl font-semibold mb-2">{chapter?.title}</h2>
+									{purchase ? (
+										<CourseProgressButton
+											chapterId={params.chapterId}
+											courseId={params.courseId}
+											nextChapterId={nextChapter?.id}
+											isCompleted={!!userProgress?.isCompleted}
+										/>
+									) : (
+										<CourseEnrollButton
+											courseId={params.courseId}
+											price={course?.price!}
+										/>
+									)}
+								</div>
+								<div className="flex flex-col gap-y-2 mt-4">
+									<Preview value={chapter?.description!} />
+								</div>
 							</div>
-						</>
-					)}
+						</CourseTabmenu>
+					</div>
 				</div>
 			</div>
 		</div>

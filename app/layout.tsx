@@ -19,6 +19,7 @@ import "./globals.css";
 import "@smastrom/react-rating/style.css";
 import { Suspense } from "react";
 import SetupProfileLoader from "@/skeletons/SetupProfileLoader";
+import UnsavedChangesWarning from "@/components/unsaved-changes-warning";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 					<Toaster />
 					<ConfettiProvider />
 					<PageLoadingProvider />
+					{/* <UnsavedChangesWarning /> */}
 
 					<CookieProvider />
 					{/* Öğretmen panelinde navbarı iptal etmek için bu componenti kullanıyorum */}

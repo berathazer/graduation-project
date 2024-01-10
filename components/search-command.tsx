@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/command";
 import { useSearchStore } from "@/hooks/use-search-command";
 import { Category } from "@prisma/client";
-import { strokeWidth } from "@/lib/constant";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -66,12 +65,12 @@ export default function SearchCommand({ categories }: SearchCommandProps) {
 				onOpenChange={setOpen}
 			>
 				<CommandInput
-					placeholder="Type a command or search..."
+					placeholder="Bir komut yazın veya arama yapın..."
 					ref={inputRef}
 					onKeyDown={handleKeyDown}
 				/>
 				<CommandList>
-					<CommandEmpty>No results found.</CommandEmpty>
+					<CommandEmpty>Hiç Sonuç Bulunamadı.</CommandEmpty>
 					<CommandGroup heading="Kategoriler">
 						{parentCategories.map((category) => (
 							<Link

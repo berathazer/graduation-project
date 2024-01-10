@@ -20,8 +20,9 @@ import { Profile } from "@prisma/client";
 
 import { cookies } from "next/headers";
 import { Skeleton } from "@/components/ui/skeleton";
+import MyCoursesButton from "@/components/buttons/my-courses-button";
 
-const admin_routes = [
+export const admin_routes = [
 	{
 		url: "/admin",
 		name: "Öğretmen Modu",
@@ -33,7 +34,7 @@ const admin_routes = [
 		),
 	},
 ];
-const teacher_routes = [
+export const teacher_routes = [
 	{
 		url: "/courses",
 		name: "Tüm Kurslar",
@@ -58,7 +59,7 @@ const teacher_routes = [
 	},
 ];
 
-const student_routes = [
+export const student_routes = [
 	{
 		url: "/instructor",
 		name: "Eğitmen Ol",
@@ -79,7 +80,7 @@ const student_routes = [
 	},
 ];
 
-const public_routes = [
+export const public_routes = [
 	{
 		url: "/instructor",
 		name: "Eğitmen Ol",
@@ -195,6 +196,7 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 				{/* Mobil Arama Butonu */}
 				<MobileSearchButton />
 
+				{userId && <MyCoursesButton />}
 				{userId && <NotificationButton />}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}
 				<SignedIn>

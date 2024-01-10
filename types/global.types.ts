@@ -1,4 +1,4 @@
-import { Attachment, Basket, Category, Chapter, Course, CourseFeature, CourseLearningOutcome, Favorite } from "@prisma/client";
+import { Attachment, Basket, Category, Chapter, Course, CourseFeature, CourseLearningOutcome, Favorite, Profile, Review, UserProgress } from "@prisma/client";
 
 export type CourseWithCategory = Course & {
     category: Category | null
@@ -55,6 +55,16 @@ export type CourseWithFeatureWithChapters = Course & {
     courseFeature: CourseFeature
     chapters: Chapter[],
 }
+
+
+export type ChapterWithProgress = (Chapter & {
+    userProgress: UserProgress[]
+})[]
+
+
+export type ReviewWithProfile = (Review & {
+    user: Profile;
+})[];
 
 
 

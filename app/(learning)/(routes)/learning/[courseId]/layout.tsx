@@ -27,7 +27,7 @@ const CourseLayout = async ({
 		include: {
 			chapters: {
 				where: {
-					isPublished:true
+					isPublished: true,
 				},
 				include: {
 					userProgress: {
@@ -38,6 +38,11 @@ const CourseLayout = async ({
 				},
 				orderBy: {
 					position: "asc",
+				},
+			},
+			reviews: {
+				include: {
+					user: true,
 				},
 			},
 		},
