@@ -6,15 +6,15 @@ import { usePathname } from "next/navigation";
 import { SidebarItem } from "./sidebar-item";
 
 const adminRoutes = [
-	{
+	/* {
 		icon: ShieldCheck,
 		label: "Admin",
 		href: "/admin",
-	},
+	}, */
 	{
 		icon: MenuSquare,
 		label: "Kategoriler",
-		href: "/admin/categories",
+		href: "/admin",
 	},
 ];
 

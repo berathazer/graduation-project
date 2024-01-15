@@ -7,24 +7,32 @@ import SearchCommand from "../../search-command";
 
 import { Category } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface NavbarSearchProps {
 	categories: Category[];
 }
 const NavbarSearch = ({ categories }: NavbarSearchProps) => {
+	const [input, setInput] = React.useState("");
 	const inputRef = React.useRef<HTMLInputElement | null>(null);
-	const router = useRouter();
+
 	const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		const search = inputRef.current?.value;
 		if (e.key === "Enter" && search !== "") {
-			router.push(`/search?q=${search}`);
+			document.getElementById("searchLink")?.click();
 			inputRef.current!.value = "";
 		}
 	};
+
 	return (
 		<div className="ml-auto md:ml-6  items-center border rounded-md pr-2 hidden lg:flex">
+			<Link
+				href={`/search?q=${input}`}
+				id="searchLink"
+			></Link>
 			<Input
 				onKeyDown={handleKeyDown}
+				onChange={(e) => setInput(e.target.value)}
 				ref={inputRef}
 				type="text"
 				placeholder="Kursları arayın..."

@@ -1,7 +1,13 @@
-import React from "react";
+import AdminContainer from "@/containers/AdminContainer";
+import AdminCategoriesSkeleton from "@/skeletons/AdminCategoriesSkeleton";
+import { Suspense } from "react";
 
 const AdminPage = () => {
-	return <div>AdminPage</div>;
+	return (
+		<Suspense fallback={<AdminCategoriesSkeleton />}>
+			<AdminContainer />
+		</Suspense>
+	);
 };
 
 export default AdminPage;

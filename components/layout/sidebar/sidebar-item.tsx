@@ -15,7 +15,7 @@ interface SidebarItemProps {
 export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
 	const pathname = usePathname();
 
-	const isActive = pathname === href;
+	const isActive = pathname.includes(href);
 
 	return (
 		<Link

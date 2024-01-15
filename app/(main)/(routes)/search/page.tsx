@@ -58,6 +58,7 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 						))}
 					</div>
 				)}
+				
 				{courses.length === 0 && (
 					<div className="flex w-full flex-col gap-y-4 items-center  col-span-4 lg:col-span-3 py-8">
 						<div className="p-6 rounded-full flex items-center justify-center bg-slate-50">

@@ -4,6 +4,7 @@ import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { Label } from "../ui/label";
 import CourseRating from "../courses/course-rating";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 interface StartFilterProps {
 	filters: { id: string; rating: number; courseCount: number; filter: string; value: string }[];
@@ -12,11 +13,12 @@ interface StartFilterProps {
 const StarFilter = ({ filters }: StartFilterProps) => {
 	const router = useRouter();
 	const searchParam = useSearchParams().get("rating");
+
 	const handleRadioClick = (value: string) => {
 		const currentSearchParams = new URLSearchParams(window.location.search);
 		currentSearchParams.set("rating", value);
 
-		router.push(`/search?${currentSearchParams.toString()}`);
+		document.getElementById("starFilter")?.click();
 	};
 
 	return (
@@ -32,6 +34,10 @@ const StarFilter = ({ filters }: StartFilterProps) => {
 							id={filter.id}
 							onClick={() => handleRadioClick(filter.value)}
 						/>
+						<Link
+							href={`/search}`}
+							id="starFilter"
+						></Link>
 						<Label
 							htmlFor={filter.id}
 							className="flex items-center relative bottom-[1px] gap-x-4"
