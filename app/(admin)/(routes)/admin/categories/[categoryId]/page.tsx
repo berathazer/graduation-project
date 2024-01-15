@@ -56,7 +56,7 @@ const AdminCategoryIdPage = async ({ params }: AdminCategoryIdPageProps) => {
 				</div>
 
 				<div className="col-span-1">
-					{" "}
+				
 					<CategoryImageForm
 						categoryId={category.id}
 						initialData={category.imageUrl}

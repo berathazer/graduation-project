@@ -8,6 +8,7 @@ import CategoryImage from "public/categories/category-software.jpg";
 const PopularCategories = async () => {
 	const categories = await db.category.findMany({
 		where: { parentId: { equals: null } },
+	
 	});
 
 	return (
@@ -26,7 +27,7 @@ const PopularCategories = async () => {
 						<div className="w-full h-[300px] relative">
 							<Image
 								alt={category.name}
-								src={CategoryImage}
+								src={category.imageUrl || CategoryImage}
 								fill
 								className="object-fill"
 							/>

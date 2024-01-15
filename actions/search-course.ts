@@ -8,9 +8,7 @@ export const searchCourses = async (searchParams: {
     duration?: string | string[];
 }) => {
     const keyword = searchParams.q;
-    const { rating, sort, level, duration } = searchParams;
-
-    console.log("searchParams: ", searchParams);
+    const { rating, level } = searchParams;
 
     const whereClause: any = {
         isPublished: true,
@@ -23,12 +21,10 @@ export const searchCourses = async (searchParams: {
 
     if (level) {
         if (Array.isArray(level)) {
-            // Handle array case
             whereClause.courseFeature = {
                 difficulty: { in: level },
             };
         } else {
-            // Handle string case
             whereClause.courseFeature = {
                 difficulty: level,
             };
@@ -59,5 +55,27 @@ export const searchCourses = async (searchParams: {
 
     });
 
-    return courses;
+    const ratingCourses = courses.map(course => {
+        let ratingValue = 0;
+        if (course.reviews.length > 0) {
+            const totalRating = course?.reviews.reduce((sum, vote) => sum + vote.rating, 0);
+            const averageRating = totalRating / course.reviews.length;
+            ratingValue = !totalRating ? 0 : averageRating;
+        }
+
+        if (!rating) {
+            return course
+        }
+
+        const rate = parseInt(rating.split("_")[1])
+        if (ratingValue >= rate) {
+            return course
+        }
+
+    })
+
+
+    const filteredRatingCourses = ratingCourses.filter(r => r !== undefined);
+
+    return filteredRatingCourses
 };

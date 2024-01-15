@@ -19,17 +19,19 @@ interface SearchCourseCardProps {
 		profile: Profile & {
 			instructor: Instructor | null;
 		};
-		reviews: {
+		reviews?: {
 			rating: number;
 		}[];
 	};
 }
 const SearchCourseCard = ({ course }: SearchCourseCardProps) => {
-	const totalRating = course.reviews.reduce((sum, vote) => sum + vote.rating, 0);
+	let ratingValue = 0;
+	if (!!course?.reviews) {
+		const totalRating = course.reviews?.reduce((sum, vote) => sum + vote.rating, 0);
+		const averageRating = totalRating / course.reviews?.length;
+		ratingValue = !totalRating ? 0 : averageRating;
+	}
 
-	const averageRating = totalRating / course.reviews.length;
-	const ratingValue = !totalRating ? 0 : averageRating;
-	
 	return (
 		<TooltipProvider delayDuration={1}>
 			<Tooltip>

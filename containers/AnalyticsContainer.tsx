@@ -13,6 +13,7 @@ import AnalysisCard from "@/components/teachers/analytics/analysis-card";
 
 import {
 	getLastPurchases,
+	getMonthlyIncome,
 	getTotalProfileEarning,
 	getTotalSubscription,
 } from "@/actions/analytic-action";
@@ -27,11 +28,12 @@ export default async function AnalyticsContainer({ profileId }: { profileId: str
 	const getRevenues = getTotalProfileEarning(profileId);
 	const getSubscribers = getTotalSubscription(profileId);
 	const getLastFivePurchases = getLastPurchases(profileId);
-
-	const [totalRevenue, totalSubscribers, lastPurchases] = await Promise.all([
+	const getMonthlyIncomes = getMonthlyIncome(profileId);
+	const [totalRevenue, totalSubscribers, lastPurchases, monthlyIncome] = await Promise.all([
 		getRevenues,
 		getSubscribers,
 		getLastFivePurchases,
+		getMonthlyIncomes,
 	]);
 
 	const analytics = [
@@ -90,13 +92,12 @@ export default async function AnalyticsContainer({ profileId }: { profileId: str
 								<CardTitle>Genel Bakış</CardTitle>
 							</CardHeader>
 							<CardContent className="pl-2">
-								<Overview />
+								<Overview data={monthlyIncome} />
 							</CardContent>
 						</Card>
 						<Card className="col-span-3">
 							<CardHeader>
 								<CardTitle>Yakın Zamandaki Satışlar</CardTitle>
-								<CardDescription>Bu ay 265 satış yaptınız.</CardDescription>
 							</CardHeader>
 							<CardContent className="w-full">
 								<RecentSales purchases={lastPurchases} />

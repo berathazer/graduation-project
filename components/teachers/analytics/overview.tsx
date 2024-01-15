@@ -1,60 +1,14 @@
 "use client";
 
-import { formatProductPrice } from "@/lib/helpers";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
-const data = [
-	{
-		month: "Oca",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Şub",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Mar",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Nis",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "May",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Haz",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Tem",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Ağu",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Eyl",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Eki",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Kas",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-	{
-		month: "Ara",
-		total: Math.floor(Math.random() * 5000) + 1000,
-	},
-];
-
-export function Overview() {
+interface OverviewProps {
+	data: {
+		month: string;
+		total: number;
+	}[];
+}
+export function Overview({ data }: OverviewProps) {
 	return (
 		<ResponsiveContainer
 			width="100%"

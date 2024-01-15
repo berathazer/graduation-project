@@ -40,11 +40,11 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 				<>
 					<div className="col-span-4 flex gap-x-2 ">
 						<MobileFilter />
-						<SortFilter />
+						{/* <SortFilter /> */}
 					</div>
 
 					<div className="hidden lg:flex col-span-1 px-4  flex-col gap-y-4">
-						<SearchFilters />
+						<SearchFilters q={q} />
 					</div>
 				</>
 
@@ -52,13 +52,13 @@ const SearchPage = async ({ searchParams }: SearchPageProps) => {
 					<div className="col-span-4 lg:col-span-3  flex flex-col gap-y-6 pt-4">
 						{courses.map((course) => (
 							<SearchCourseCard
-								key={course.id}
-								course={course}
+								key={course?.id}
+								course={course!}
 							/>
 						))}
 					</div>
 				)}
-				
+
 				{courses.length === 0 && (
 					<div className="flex w-full flex-col gap-y-4 items-center  col-span-4 lg:col-span-3 py-8">
 						<div className="p-6 rounded-full flex items-center justify-center bg-slate-50">

@@ -1,8 +1,11 @@
+"use client";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 import StarFilter from "./star-filter";
 import LevelFilter from "./level-filter";
-import VideoTimeFilter from "./video-time-filter";
+import { Button } from "../ui/button";
+
+import { useRouter } from "next/navigation";
 
 const startFilters = [
 	{
@@ -27,12 +30,18 @@ const startFilters = [
 		value: "gt_2",
 	},
 ];
-export function SearchFilters() {
+export function SearchFilters({ q }: { q: string }) {
+	const router = useRouter();
+	const clearFilter = () => {
+		router.replace(`/search?q=${q}`);
+		router.refresh();
+	};
+
 	return (
 		<Accordion
 			type="multiple"
 			className="w-full"
-			defaultValue={["item-1", "item-2", "item-3"]}
+			defaultValue={["item-1", "item-2"]}
 		>
 			{/* Oylamaya Göre */}
 			<AccordionItem
@@ -46,7 +55,10 @@ export function SearchFilters() {
 			</AccordionItem>
 
 			{/* Kurs Seviyesine Göre */}
-			<AccordionItem value="item-2">
+			<AccordionItem
+				value="item-2"
+				className="border-none"
+			>
 				<AccordionTrigger>Kurs Seviyesi</AccordionTrigger>
 				<AccordionContent>
 					<LevelFilter />
@@ -54,7 +66,7 @@ export function SearchFilters() {
 			</AccordionItem>
 
 			{/* Video Uzunluğuna Göre */}
-			<AccordionItem
+			{/* 	<AccordionItem
 				value="item-3"
 				className="border-none"
 			>
@@ -62,7 +74,20 @@ export function SearchFilters() {
 				<AccordionContent>
 					<VideoTimeFilter />
 				</AccordionContent>
-			</AccordionItem>
+			</AccordionItem> */}
+			{/* 		<Link
+				className="w-full"
+				href={`/search?q=${q}`}
+			>
+				<Button className="w-full">Filtreleri Temizle</Button>
+			</Link> */}
+
+			<Button
+				className="w-full"
+				onClick={clearFilter}
+			>
+				Filtreleri Temizle
+			</Button>
 		</Accordion>
 	);
 }

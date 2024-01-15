@@ -252,7 +252,6 @@ const CourseUrlContainer = async ({ profileId, courseUrl }: CourseUrlContainerPr
 					</div>
 				)}
 
-				<div className="col-span-2 mt-6">Random Courses Slider</div>
 			</div>
 		</div>
 	);
