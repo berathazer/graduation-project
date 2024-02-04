@@ -10,8 +10,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^4.30.3",
     "@clerk/localizations": "^1.26.8",
-    "@clerk/nextjs": "^4.25.4",
+    "@clerk/nextjs": "^4.29.3",
     "@hello-pangea/dnd": "^16.3.0",
     "@hookform/resolvers": "^3.3.2",
     "@mux/mux-node": "^7.3.2",

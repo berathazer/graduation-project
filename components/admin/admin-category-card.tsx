@@ -21,8 +21,8 @@ const AdminCategoryCard = ({ category }: AdminCategoryCardProps) => {
 						className="rounded-md"
 					/>
 				</div>
-				<p>{category.name}</p>
-				<p>{formatReviewDate(category.createdAt)}</p>
+				<p className="font-medium">{category.name}</p>
+				<p className="text-muted-foreground text-xs">{formatReviewDate(category.createdAt)}</p>
 			</div>
 		</Link>
 	);

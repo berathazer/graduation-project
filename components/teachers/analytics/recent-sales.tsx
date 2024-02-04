@@ -17,7 +17,6 @@ interface RecentSalesProps {
 }
 
 export function RecentSales({ purchases }: RecentSalesProps) {
-	console.log(purchases);
 
 	return (
 		<div className="space-y-8">

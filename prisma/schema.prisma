@@ -289,3 +289,5 @@ model StripeCustomer {
 
   @@index([profileId])
 }
+
+

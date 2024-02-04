@@ -197,7 +197,7 @@ const NavbarRoutes = async ({ profile }: NavbarRoutesProps) => {
 				<MobileSearchButton />
 
 				{userId && <MyCoursesButton />}
-				{userId && <NotificationButton />}
+				{/* {userId && <NotificationButton />} */}
 				{/* Aktif kullanıcı bilgilerini gösteren buton */}
 				<SignedIn>
 					<Suspense fallback={<Skeleton className="w-8 h-8 rounded-full" />}>
